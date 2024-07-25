@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A8F841C5-C50D-4E45-8C89-1277D710F6AB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Project_Management_System.My.MyApplication</StartupObject>
+    <RootNamespace>Project_Management_System</RootNamespace>
+    <AssemblyName>Project Management System</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>Project Management System</ProductName>
+    <PublisherName>Littelfuse Philippines %28TSG%29 - GCatapang</PublisherName>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Project Management System.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Project Management System.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LF Logo Green.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Guna.UI2, Version=2.0.4.6, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
+      <HintPath>..\packages\Guna.UI2.WinForms.2.0.4.6\lib\net472\Guna.UI2.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminAddProject_Form.Designer.vb">
+      <DependentUpon>AdminAddProject_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AdminAddProject_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminProjectList_Form.Designer.vb">
+      <DependentUpon>AdminProjectList_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AdminProjectList_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin_Form.Designer.vb">
+      <DependentUpon>Admin_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Code.vb" />
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Home_Form.Designer.vb">
+      <DependentUpon>Home_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Home_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogIn_Form.Designer.vb">
+      <DependentUpon>LogIn_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LogIn_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_Form.Designer.vb">
+      <DependentUpon>Main_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="MyRequest_Form.Designer.vb">
+      <DependentUpon>MyRequest_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MyRequest_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Request_Form.Designer.vb">
+      <DependentUpon>Request_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Request_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SignUp_Form.Designer.vb">
+      <DependentUpon>SignUp_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SignUp_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartDate_Form.Designer.vb">
+      <DependentUpon>StartDate_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StartDate_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Task_Form.Designer.vb">
+      <DependentUpon>Task_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Task_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Token_Form.Designer.vb">
+      <DependentUpon>Token_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Token_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TSG_Project_Monitoring_SystemDataSet.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TSG_Project_Monitoring_SystemDataSet.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AdminAddProject_Form.resx">
+      <DependentUpon>AdminAddProject_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminProjectList_Form.resx">
+      <DependentUpon>AdminProjectList_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin_Form.resx">
+      <DependentUpon>Admin_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Home_Form.resx">
+      <DependentUpon>Home_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogIn_Form.resx">
+      <DependentUpon>LogIn_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main_Form.resx">
+      <DependentUpon>Main_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyRequest_Form.resx">
+      <DependentUpon>MyRequest_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Request_Form.resx">
+      <DependentUpon>Request_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SignUp_Form.resx">
+      <DependentUpon>SignUp_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartDate_Form.resx">
+      <DependentUpon>StartDate_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Task_Form.resx">
+      <DependentUpon>Task_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Token_Form.resx">
+      <DependentUpon>Token_Form.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="TSG_Project_Monitoring_SystemDataSet.xsc">
+      <DependentUpon>TSG_Project_Monitoring_SystemDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="TSG_Project_Monitoring_SystemDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>TSG_Project_Monitoring_SystemDataSet.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="TSG_Project_Monitoring_SystemDataSet.xss">
+      <DependentUpon>TSG_Project_Monitoring_SystemDataSet.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LF Logo Green.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>
