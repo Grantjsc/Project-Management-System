@@ -25,9 +25,12 @@ Partial Class Request_Form
         Me.Guna2GroupBox2 = New Guna.UI2.WinForms.Guna2GroupBox()
         Me.btnCancel = New Guna.UI2.WinForms.Guna2Button()
         Me.btnSend = New Guna.UI2.WinForms.Guna2Button()
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.txtDescription = New Guna.UI2.WinForms.Guna2TextBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.btmBrowse = New Guna.UI2.WinForms.Guna2Button()
+        Me.txtA3name = New Guna.UI2.WinForms.Guna2TextBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.txtDescription = New Guna.UI2.WinForms.Guna2TextBox()
         Me.dtpStartDate = New Guna.UI2.WinForms.Guna2DateTimePicker()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.dtpCompletion = New Guna.UI2.WinForms.Guna2DateTimePicker()
@@ -46,8 +49,8 @@ Partial Class Request_Form
         Me.txtName = New Guna.UI2.WinForms.Guna2TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.Guna2GroupBox2.SuspendLayout()
-        Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -60,7 +63,6 @@ Partial Class Request_Form
         Me.Guna2GroupBox2.BorderRadius = 10
         Me.Guna2GroupBox2.Controls.Add(Me.btnCancel)
         Me.Guna2GroupBox2.Controls.Add(Me.btnSend)
-        Me.Guna2GroupBox2.Controls.Add(Me.GroupBox4)
         Me.Guna2GroupBox2.Controls.Add(Me.GroupBox3)
         Me.Guna2GroupBox2.Controls.Add(Me.GroupBox2)
         Me.Guna2GroupBox2.Controls.Add(Me.GroupBox1)
@@ -108,17 +110,99 @@ Partial Class Request_Form
         Me.btnSend.TabIndex = 0
         Me.btnSend.Text = "Send Request"
         '
-        'GroupBox4
+        'GroupBox3
         '
-        Me.GroupBox4.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.GroupBox4.BackColor = System.Drawing.SystemColors.MenuBar
-        Me.GroupBox4.Controls.Add(Me.txtDescription)
-        Me.GroupBox4.Location = New System.Drawing.Point(596, 403)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(499, 291)
-        Me.GroupBox4.TabIndex = 7
-        Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "Project Description"
+        Me.GroupBox3.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.GroupBox3.BackColor = System.Drawing.SystemColors.MenuBar
+        Me.GroupBox3.Controls.Add(Me.btmBrowse)
+        Me.GroupBox3.Controls.Add(Me.txtA3name)
+        Me.GroupBox3.Controls.Add(Me.Label10)
+        Me.GroupBox3.Controls.Add(Me.Label9)
+        Me.GroupBox3.Controls.Add(Me.txtDescription)
+        Me.GroupBox3.Controls.Add(Me.dtpStartDate)
+        Me.GroupBox3.Controls.Add(Me.Label8)
+        Me.GroupBox3.Controls.Add(Me.dtpCompletion)
+        Me.GroupBox3.Controls.Add(Me.txtDept)
+        Me.GroupBox3.Controls.Add(Me.txtProjTitle)
+        Me.GroupBox3.Controls.Add(Me.Label7)
+        Me.GroupBox3.Controls.Add(Me.Label5)
+        Me.GroupBox3.Controls.Add(Me.Label6)
+        Me.GroupBox3.Location = New System.Drawing.Point(596, 64)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(499, 630)
+        Me.GroupBox3.TabIndex = 4
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Other Details"
+        '
+        'btmBrowse
+        '
+        Me.btmBrowse.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.btmBrowse.BackColor = System.Drawing.Color.Transparent
+        Me.btmBrowse.BorderRadius = 5
+        Me.btmBrowse.BorderThickness = 1
+        Me.btmBrowse.DisabledState.BorderColor = System.Drawing.Color.DarkGray
+        Me.btmBrowse.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
+        Me.btmBrowse.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
+        Me.btmBrowse.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
+        Me.btmBrowse.FillColor = System.Drawing.SystemColors.Control
+        Me.btmBrowse.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btmBrowse.ForeColor = System.Drawing.Color.Black
+        Me.btmBrowse.Location = New System.Drawing.Point(364, 534)
+        Me.btmBrowse.Name = "btmBrowse"
+        Me.btmBrowse.Size = New System.Drawing.Size(110, 35)
+        Me.btmBrowse.TabIndex = 16
+        Me.btmBrowse.Text = "Browse"
+        '
+        'txtA3name
+        '
+        Me.txtA3name.BackColor = System.Drawing.Color.Transparent
+        Me.txtA3name.BorderColor = System.Drawing.Color.Black
+        Me.txtA3name.BorderRadius = 20
+        Me.txtA3name.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtA3name.DefaultText = ""
+        Me.txtA3name.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
+        Me.txtA3name.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
+        Me.txtA3name.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtA3name.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtA3name.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtA3name.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtA3name.ForeColor = System.Drawing.Color.Black
+        Me.txtA3name.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtA3name.Location = New System.Drawing.Point(44, 525)
+        Me.txtA3name.Margin = New System.Windows.Forms.Padding(6)
+        Me.txtA3name.Name = "txtA3name"
+        Me.txtA3name.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.txtA3name.PlaceholderText = ""
+        Me.txtA3name.ReadOnly = True
+        Me.txtA3name.SelectedText = ""
+        Me.txtA3name.ShadowDecoration.BorderRadius = 20
+        Me.txtA3name.ShadowDecoration.Depth = 15
+        Me.txtA3name.ShadowDecoration.Enabled = True
+        Me.txtA3name.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 15, 15)
+        Me.txtA3name.Size = New System.Drawing.Size(298, 44)
+        Me.txtA3name.TabIndex = 8
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.ForeColor = System.Drawing.Color.Black
+        Me.Label10.Location = New System.Drawing.Point(21, 498)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(59, 21)
+        Me.Label10.TabIndex = 9
+        Me.Label10.Text = "A3 File"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.ForeColor = System.Drawing.Color.Black
+        Me.Label9.Location = New System.Drawing.Point(21, 151)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(150, 21)
+        Me.Label9.TabIndex = 7
+        Me.Label9.Text = "Project Description"
         '
         'txtDescription
         '
@@ -135,7 +219,7 @@ Partial Class Request_Form
         Me.txtDescription.Font = New System.Drawing.Font("Segoe UI", 12.0!)
         Me.txtDescription.ForeColor = System.Drawing.Color.Black
         Me.txtDescription.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtDescription.Location = New System.Drawing.Point(44, 45)
+        Me.txtDescription.Location = New System.Drawing.Point(44, 178)
         Me.txtDescription.Margin = New System.Windows.Forms.Padding(6)
         Me.txtDescription.Multiline = True
         Me.txtDescription.Name = "txtDescription"
@@ -147,27 +231,8 @@ Partial Class Request_Form
         Me.txtDescription.ShadowDecoration.Depth = 15
         Me.txtDescription.ShadowDecoration.Enabled = True
         Me.txtDescription.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 15, 15)
-        Me.txtDescription.Size = New System.Drawing.Size(419, 199)
+        Me.txtDescription.Size = New System.Drawing.Size(419, 111)
         Me.txtDescription.TabIndex = 0
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.GroupBox3.BackColor = System.Drawing.SystemColors.MenuBar
-        Me.GroupBox3.Controls.Add(Me.dtpStartDate)
-        Me.GroupBox3.Controls.Add(Me.Label8)
-        Me.GroupBox3.Controls.Add(Me.dtpCompletion)
-        Me.GroupBox3.Controls.Add(Me.txtDept)
-        Me.GroupBox3.Controls.Add(Me.txtProjTitle)
-        Me.GroupBox3.Controls.Add(Me.Label7)
-        Me.GroupBox3.Controls.Add(Me.Label5)
-        Me.GroupBox3.Controls.Add(Me.Label6)
-        Me.GroupBox3.Location = New System.Drawing.Point(596, 64)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(499, 307)
-        Me.GroupBox3.TabIndex = 4
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Other Details"
         '
         'dtpStartDate
         '
@@ -177,7 +242,7 @@ Partial Class Request_Form
         Me.dtpStartDate.FillColor = System.Drawing.Color.SeaGreen
         Me.dtpStartDate.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold)
         Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpStartDate.Location = New System.Drawing.Point(44, 256)
+        Me.dtpStartDate.Location = New System.Drawing.Point(44, 434)
         Me.dtpStartDate.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtpStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpStartDate.Name = "dtpStartDate"
@@ -190,7 +255,7 @@ Partial Class Request_Form
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.ForeColor = System.Drawing.Color.Black
-        Me.Label8.Location = New System.Drawing.Point(21, 232)
+        Me.Label8.Location = New System.Drawing.Point(21, 410)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(87, 21)
         Me.Label8.TabIndex = 6
@@ -203,7 +268,7 @@ Partial Class Request_Form
         Me.dtpCompletion.FillColor = System.Drawing.Color.SeaGreen
         Me.dtpCompletion.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpCompletion.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpCompletion.Location = New System.Drawing.Point(285, 256)
+        Me.dtpCompletion.Location = New System.Drawing.Point(285, 434)
         Me.dtpCompletion.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtpCompletion.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpCompletion.Name = "dtpCompletion"
@@ -226,7 +291,7 @@ Partial Class Request_Form
         Me.txtDept.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDept.ForeColor = System.Drawing.Color.Black
         Me.txtDept.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtDept.Location = New System.Drawing.Point(44, 170)
+        Me.txtDept.Location = New System.Drawing.Point(44, 348)
         Me.txtDept.Margin = New System.Windows.Forms.Padding(6)
         Me.txtDept.Name = "txtDept"
         Me.txtDept.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -275,7 +340,7 @@ Partial Class Request_Form
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.Black
-        Me.Label7.Location = New System.Drawing.Point(262, 232)
+        Me.Label7.Location = New System.Drawing.Point(262, 410)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(138, 21)
         Me.Label7.TabIndex = 4
@@ -286,7 +351,7 @@ Partial Class Request_Form
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.Black
-        Me.Label5.Location = New System.Drawing.Point(21, 143)
+        Me.Label5.Location = New System.Drawing.Point(21, 321)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(98, 21)
         Me.Label5.TabIndex = 1
@@ -495,6 +560,10 @@ Partial Class Request_Form
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Name:"
         '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
         'Request_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -507,7 +576,6 @@ Partial Class Request_Form
         Me.Name = "Request_Form"
         Me.Text = "Request_Form"
         Me.Guna2GroupBox2.ResumeLayout(False)
-        Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
@@ -524,7 +592,6 @@ Partial Class Request_Form
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
-    Friend WithEvents GroupBox4 As GroupBox
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Label5 As Label
@@ -541,4 +608,9 @@ Partial Class Request_Form
     Friend WithEvents dtpStartDate As Guna.UI2.WinForms.Guna2DateTimePicker
     Friend WithEvents Label8 As Label
     Friend WithEvents btnCancel As Guna.UI2.WinForms.Guna2Button
+    Friend WithEvents Label9 As Label
+    Friend WithEvents txtA3name As Guna.UI2.WinForms.Guna2TextBox
+    Friend WithEvents Label10 As Label
+    Friend WithEvents btmBrowse As Guna.UI2.WinForms.Guna2Button
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

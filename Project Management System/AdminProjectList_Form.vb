@@ -75,4 +75,10 @@ Public Class AdminProjectList_Form
     Private Sub dtpStartDate_ValueChanged(sender As Object, e As EventArgs) Handles dtpStartDate.ValueChanged
         dtpStartDate.Format = DateTimePickerFormat.Short
     End Sub
+
+    Private Sub btmBrowse_Click(sender As Object, e As EventArgs) Handles btmBrowse.Click
+        OpenFileDialog1.FileName = ""
+        OpenFileDialog1.ShowDialog()
+        txtA3name.Text = OpenFileDialog1.FileName
+    End Sub
 End Class

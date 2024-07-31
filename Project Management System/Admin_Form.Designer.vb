@@ -24,6 +24,7 @@ Partial Class Admin_Form
     Private Sub InitializeComponent()
         Me.Panel_Admin = New System.Windows.Forms.Panel()
         Me.Guna2CustomGradientPanel2 = New Guna.UI2.WinForms.Guna2CustomGradientPanel()
+        Me.btnDLA3 = New Guna.UI2.WinForms.Guna2Button()
         Me.btnList = New Guna.UI2.WinForms.Guna2Button()
         Me.btnAddProject = New Guna.UI2.WinForms.Guna2Button()
         Me.Guna2Button1 = New Guna.UI2.WinForms.Guna2Button()
@@ -41,6 +42,7 @@ Partial Class Admin_Form
         '
         'Guna2CustomGradientPanel2
         '
+        Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnDLA3)
         Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnList)
         Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnAddProject)
         Me.Guna2CustomGradientPanel2.Controls.Add(Me.Guna2Button1)
@@ -54,6 +56,24 @@ Partial Class Admin_Form
         Me.Guna2CustomGradientPanel2.Name = "Guna2CustomGradientPanel2"
         Me.Guna2CustomGradientPanel2.Size = New System.Drawing.Size(109, 847)
         Me.Guna2CustomGradientPanel2.TabIndex = 11
+        '
+        'btnDLA3
+        '
+        Me.btnDLA3.BackColor = System.Drawing.Color.Transparent
+        Me.btnDLA3.DisabledState.BorderColor = System.Drawing.Color.DarkGray
+        Me.btnDLA3.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
+        Me.btnDLA3.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
+        Me.btnDLA3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
+        Me.btnDLA3.Dock = System.Windows.Forms.DockStyle.Top
+        Me.btnDLA3.FillColor = System.Drawing.Color.Transparent
+        Me.btnDLA3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDLA3.ForeColor = System.Drawing.Color.White
+        Me.btnDLA3.HoverState.FillColor = System.Drawing.Color.Orange
+        Me.btnDLA3.Location = New System.Drawing.Point(0, 171)
+        Me.btnDLA3.Name = "btnDLA3"
+        Me.btnDLA3.Size = New System.Drawing.Size(109, 56)
+        Me.btnDLA3.TabIndex = 12
+        Me.btnDLA3.Text = "Download A3"
         '
         'btnList
         '
@@ -128,4 +148,5 @@ Partial Class Admin_Form
     Friend WithEvents btnList As Guna.UI2.WinForms.Guna2Button
     Friend WithEvents btnAddProject As Guna.UI2.WinForms.Guna2Button
     Friend WithEvents Guna2Button1 As Guna.UI2.WinForms.Guna2Button
+    Friend WithEvents btnDLA3 As Guna.UI2.WinForms.Guna2Button
 End Class

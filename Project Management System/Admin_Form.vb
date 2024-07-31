@@ -6,4 +6,8 @@
     Private Sub btnList_Click(sender As Object, e As EventArgs) Handles btnList.Click
         Clicked_ProjectList()
     End Sub
+
+    Private Sub btnDLA3_Click(sender As Object, e As EventArgs) Handles btnDLA3.Click
+        Clicked_DownloadA3()
+    End Sub
 End Class

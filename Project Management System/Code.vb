@@ -16,6 +16,8 @@ Imports System.ComponentModel
 Imports System.Net
 Imports System.Net.Mail
 Imports System.Net.Mime
+Imports System.IO
+Imports System.Collections.ObjectModel
 
 Module Login_Module
 
@@ -175,6 +177,7 @@ End Module
 Module AdminForm_Module
     Sub Clicked_AddProject()
         AdminProjectList_Form.Close()
+        AdminDLA3_Form.Close()
 
         With AdminAddProject_Form
             .TopLevel = False
@@ -186,13 +189,17 @@ Module AdminForm_Module
 
         Admin_Form.btnAddProject.BackColor = Color.WhiteSmoke
         Admin_Form.btnList.BackColor = Color.Transparent
+        Admin_Form.btnDLA3.BackColor = Color.Transparent
 
         Admin_Form.btnAddProject.ForeColor = Color.Orange
         Admin_Form.btnList.ForeColor = Color.White
+        Admin_Form.btnDLA3.ForeColor = Color.White
+
     End Sub
 
     Sub Clicked_ProjectList()
         AdminAddProject_Form.Close()
+        AdminDLA3_Form.Close()
 
         With AdminProjectList_Form
             .TopLevel = False
@@ -203,10 +210,33 @@ Module AdminForm_Module
         End With
 
         Admin_Form.btnAddProject.BackColor = Color.Transparent
-        Admin_Form.btnList.BackColor = Color.White
+        Admin_Form.btnList.BackColor = Color.WhiteSmoke
+        Admin_Form.btnDLA3.BackColor = Color.Transparent
 
         Admin_Form.btnAddProject.ForeColor = Color.White
         Admin_Form.btnList.ForeColor = Color.Orange
+        Admin_Form.btnDLA3.ForeColor = Color.White
+    End Sub
+
+    Sub Clicked_DownloadA3()
+        AdminAddProject_Form.Close()
+        AdminProjectList_Form.Close()
+
+        With AdminDLA3_Form
+            .TopLevel = False
+            Admin_Form.Panel_Admin.Controls.Add(AdminDLA3_Form)
+            .WindowState = FormWindowState.Maximized
+            .BringToFront()
+            .Show()
+        End With
+
+        Admin_Form.btnAddProject.BackColor = Color.Transparent
+        Admin_Form.btnList.BackColor = Color.Transparent
+        Admin_Form.btnDLA3.BackColor = Color.WhiteSmoke
+
+        Admin_Form.btnAddProject.ForeColor = Color.White
+        Admin_Form.btnList.ForeColor = Color.White
+        Admin_Form.btnDLA3.ForeColor = Color.Orange
     End Sub
 End Module
 
@@ -214,6 +244,17 @@ Module Query_Module
     Public connString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\LF Database\TSG Project Monitoring System.accdb;Persist Security Info=True;Jet OLEDB:Database Password=lfpromonitoring"
     Public Dbconnection As New OleDbConnection(connString)
 
+    Sub ConOpen()
+        If Dbconnection.State = ConnectionState.Closed Then
+            Dbconnection.Open()
+        End If
+    End Sub
+
+    Sub ConClose()
+        If Dbconnection.State = ConnectionState.Open Then
+            Dbconnection.Close()
+        End If
+    End Sub
 
     Public Firstname As String
     Public Lastname As String
@@ -247,8 +288,8 @@ Module Query_Module
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
         Finally
-            Dbconnection.Close()
-
+            'Dbconnection.Close()
+            ConClose()
         End Try
     End Sub
 
@@ -265,7 +306,8 @@ Module Query_Module
                 Dim sqlCom As New System.Data.OleDb.OleDbCommand(sql)
 
                 sqlCom.Connection = Dbconnection
-                Dbconnection.Open()
+                'Dbconnection.Open()
+                ConOpen()
 
                 Dim sqlRead As System.Data.OleDb.OleDbDataReader = sqlCom.ExecuteReader()
                 If sqlRead.Read() Then
@@ -293,7 +335,8 @@ Module Query_Module
                     LogIn_Form.txtUser.ForeColor = Color.FromArgb(87, 96, 111)
 
                     LogIn_Form.txtUser.Focus()
-                    Dbconnection.Close()
+                    'Dbconnection.Close()
+                    ConClose()
                 End If
 
             Catch ex As Exception
@@ -310,7 +353,8 @@ Module Query_Module
         Dim command As New OleDbCommand("", Dbconnection)
         Dim table As New DataTable
 
-        Dbconnection.Open()
+        'Dbconnection.Open()
+        ConOpen()
 
         If Dbconnection.State = ConnectionState.Open Then
             command.Connection = Dbconnection
@@ -340,7 +384,8 @@ Module Query_Module
             MyRequest_Form.DataGridView1.EnableHeadersVisualStyles = False
             MyRequest_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
         End If
-        Dbconnection.Close()
+        'Dbconnection.Close()
+        ConClose()
     End Sub
 
     Sub MyRequest_cell2click()
@@ -372,7 +417,8 @@ Module Query_Module
             Dim adap As New OleDbDataAdapter
             Dim val As String
 
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
 
             val = MyRequest_Form.DataGridView1.SelectedCells.Item(0).Value.ToString()
 
@@ -451,7 +497,8 @@ Module Query_Module
         Catch ex As Exception
 
         Finally
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
         End Try
     End Sub
 
@@ -477,9 +524,11 @@ Module Query_Module
                 adap.SelectCommand.Parameters.AddWithValue("@searchText", "%" & MyRequest_Form.txtSearch.Text & "%")
             End If
 
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
             adap.Fill(Data)
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
 
             MyRequest_Form.DataGridView1.DataSource = Data
 
@@ -520,7 +569,8 @@ Module Query_Module
             Dim cmd As New OleDbCommand
             Dim Data As New DataTable
             Dim adap As New OleDbDataAdapter
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
 
             ' Define the SQL query with a parameter placeholder
             MyData = "SELECT * From Project_tb WHERE Token LIKE @ProjectToken"
@@ -575,13 +625,15 @@ Module Query_Module
             Else
                 MsgBox("This token doesn't exist.", MsgBoxStyle.Critical)
                 Token_Form.Close()
-                Dbconnection.Close()
+                'Dbconnection.Close()
+                ConClose()
                 Click_MyRequestButton()
             End If
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
         Finally
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
         End Try
 
     End Sub
@@ -592,7 +644,8 @@ Module Query_Module
             Dim cmd As New OleDbCommand
             Dim Data As New DataTable
             Dim adap As New OleDbDataAdapter
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
 
             MyData = "SELECT * From Project_tb WHERE Token = '" & NewProj_Token & "'"
             cmd.Connection = Dbconnection
@@ -614,7 +667,8 @@ Module Query_Module
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
         Finally
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
         End Try
     End Sub
 
@@ -670,9 +724,11 @@ Module Query_Module
                     command.Parameters.AddWithValue("@DueDate", Due)
                     command.Parameters.AddWithValue("@TokenStatus", TokenStatus)
                     command.Parameters.AddWithValue("@proTitle", Token)
-                    Dbconnection.Open()
+                    'Dbconnection.Open()
+                    ConOpen()
                     command.ExecuteNonQuery()
-                    Dbconnection.Close()
+                    'Dbconnection.Close()
+                    ConClose()
                 End Using
 
                 'ShowDataTable()
@@ -695,7 +751,8 @@ Module Query_Module
 
         Dim command As New OleDbCommand(query, Dbconnection)
 
-        Dbconnection.Open()
+        'Dbconnection.Open()
+        ConOpen()
 
         ' Execute the query and retrieve the result
         Dim result As Object = command.ExecuteScalar()
@@ -711,7 +768,8 @@ Module Query_Module
             MsgBox("No dates found in the table.", MsgBoxStyle.Critical)
         End If
 
-        Dbconnection.Close()
+        'Dbconnection.Close()
+        ConClose()
     End Sub
 
 
@@ -743,7 +801,8 @@ Module Query_Module
                 Dim cmd As New OleDbCommand
                 Dim Data As New DataTable
                 Dim adap As New OleDbDataAdapter
-                Dbconnection.Open()
+                'Dbconnection.Open()
+                ConOpen()
 
                 ' Define the SQL query with a parameter placeholder
                 MyData = "SELECT * From Project_tb WHERE Token LIKE @ProjectToken"
@@ -769,7 +828,8 @@ Module Query_Module
             Catch ex As Exception
                 MsgBox(ex.Message, vbCritical)
             Finally
-                Dbconnection.Close()
+                'Dbconnection.Close()
+                ConClose()
             End Try
 
         End If
@@ -873,11 +933,13 @@ Module Query_Module
         Dim command As New OleDbCommand("", Dbconnection)
         Dim table As New DataTable
 
-        Dbconnection.Open()
+        'Dbconnection.Open()
+        ConOpen()
 
         If Dbconnection.State = ConnectionState.Open Then
             command.Connection = Dbconnection
-            command.CommandText = "Select Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus From Project_tb ORDER BY Due_Date DESC"
+            command.CommandText = "Select Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, 
+                                    FileName From Project_tb ORDER BY Due_Date DESC"
 
             '"Select Title, Description, Owner, Email, Member, 
             '                       Member_Emails, Department, Due_Date, TSG_Support, Status, TokenStatus From Project_tb"
@@ -899,16 +961,18 @@ Module Query_Module
             AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
             AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
             AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-            'AdminProjectList_Form.DataGridView1.Columns("Member_Emails").HeaderText = "Member Emails"
+            AdminProjectList_Form.DataGridView1.Columns("FileName").HeaderText = "A3 file name"
 
             AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
             AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
             AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
 
-            MyRequest_Form.DataGridView1.EnableHeadersVisualStyles = False
-            MyRequest_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+            AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
+            AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+
         End If
-        Dbconnection.Close()
+        'Dbconnection.Close()
+        ConClose()
     End Sub
 
     Sub AdminProjectList_PopulateEdit()
@@ -919,7 +983,8 @@ Module Query_Module
             Dim adap As New OleDbDataAdapter
             Dim val As String
 
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
 
             val = AdminProjectList_Form.DataGridView1.SelectedCells.Item(0).Value.ToString()
 
@@ -948,6 +1013,7 @@ Module Query_Module
                 AdminProjectList_Form.dtpStartDate.Text = data.Rows(0).Item("Start_date").ToString
                 AdminProjectList_Form.dtpDue.Text = data.Rows(0).Item("Due_date").ToString
                 AdminProjectList_Form.cboTokenStat.Text = data.Rows(0).Item("TokenStatus").ToString
+                AdminProjectList_Form.txtA3name.Text = data.Rows(0).Item("FileName").ToString
 
 
                 Due = data.Rows(0).Item("Due_Date").ToString
@@ -972,7 +1038,8 @@ Module Query_Module
         Catch ex As Exception
 
         Finally
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
         End Try
     End Sub
 
@@ -983,10 +1050,10 @@ Module Query_Module
             Dim query As String
 
             If AdminProjectList_Form.txtSearch.Text = "" Or AdminProjectList_Form.txtSearch.Text = "Search Project" Then
-                query = "Select Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus 
+                query = "Select Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus,  FileName 
                         From Project_tb ORDER BY Due_Date DESC"
             Else
-                query = "Select Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus From Project_tb 
+                query = "Select Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus,  FileName From Project_tb 
                          WHERE Title LIKE @searchText ORDER BY Due_Date DESC"
 
                 '"SELECT Part_Number, Qty FROM LineData_tb WHERE Part_Number LIKE @searchText"
@@ -999,9 +1066,11 @@ Module Query_Module
                 adap.SelectCommand.Parameters.AddWithValue("@searchText", "%" & AdminProjectList_Form.txtSearch.Text & "%")
             End If
 
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
             adap.Fill(Data)
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
 
             AdminProjectList_Form.DataGridView1.DataSource = Data
 
@@ -1057,7 +1126,8 @@ Module Query_Module
             Dim adap As New OleDbDataAdapter
             Dim val As String
 
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
 
             val = AdminProjectList_Form.DataGridView1.SelectedCells.Item(0).Value.ToString()
 
@@ -1136,7 +1206,8 @@ Module Query_Module
         Catch ex As Exception
 
         Finally
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
         End Try
     End Sub
 
@@ -1189,11 +1260,36 @@ Module Query_Module
                 Dim TokenStats As String = AdminProjectList_Form.cboTokenStat.Text
                 Dim Start As String = AdminProjectList_Form.dtpStartDate.Text
                 Dim Due As String = AdminProjectList_Form.dtpDue.Text
+
                 Dim query As String = "UPDATE Project_tb 
                                         SET Title = @Title, Description = @Desc, Owner = @Owner, Email = @ManEmail, Member = @Mem, 
                                         Member_Emails = @MemEmails, Department = @Dept, TSG_Support = @Support,
                                         Status = @Stat, TokenStatus = @TokenStats, Start_date = @start, Due_date = @Duedate
                                         WHERE Token = @proTitle"
+
+                ' Save File
+                If Not String.IsNullOrEmpty(AdminProjectList_Form.txtA3name.Text) Then
+                    Dim filePath As String = AdminProjectList_Form.txtA3name.Text
+                    Dim fileName As String = Path.GetFileName(filePath)
+                    Dim fileData As Byte() = File.ReadAllBytes(filePath)
+                    Try
+                        'Dbconnection.Open()
+                        ConOpen()
+
+                        Using command As New OleDbCommand("UPDATE Project_tb SET FileName = @FileName, A3 = @FileData 
+                                                WHERE Token = @proToken", Dbconnection)
+                            command.Parameters.AddWithValue("@FileName", fileName)
+                            command.Parameters.AddWithValue("@FileData", fileData)
+                            command.Parameters.AddWithValue("@proToken", Token)
+                            command.ExecuteNonQuery()
+                        End Using
+                        'Dbconnection.Close()
+                        ConClose()
+
+                    Catch ex As Exception
+                        MsgBox(ex.Message, vbCritical)
+                    End Try
+                End If
 
                 Using command As New OleDbCommand(query, Dbconnection)
                     command.Parameters.AddWithValue("@Title", Title)
@@ -1209,7 +1305,8 @@ Module Query_Module
                     command.Parameters.AddWithValue("@start", Start)
                     command.Parameters.AddWithValue("@DueDate", Due)
                     command.Parameters.AddWithValue("@proTitle", Token)
-                    Dbconnection.Open()
+                    'Dbconnection.Open()
+                    ConOpen()
                     command.ExecuteNonQuery()
                     'Dbconnection.Close()
                 End Using
@@ -1221,7 +1318,8 @@ Module Query_Module
                     command2.Parameters.AddWithValue("@proTitle", Token)
                     'Dbconnection.Open()
                     command2.ExecuteNonQuery()
-                    Dbconnection.Close()
+                    'Dbconnection.Close()
+                    ConClose()
                 End Using
 
 
@@ -1244,9 +1342,11 @@ Module Query_Module
             Using command As New OleDbCommand(query, Dbconnection)
                 command.Parameters.AddWithValue("@Project_Title", Title)
                 command.Parameters.AddWithValue("@proTitle", Token)
-                Dbconnection.Open()
+                'Dbconnection.Open()
+                ConOpen()
                 command.ExecuteNonQuery()
-                Dbconnection.Close()
+                'Dbconnection.Close()
+                ConClose()
             End Using
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
@@ -1307,9 +1407,11 @@ Module Query_Module
                 command.Parameters.AddWithValue("@Task_Due5", Task_Due5)
 
                 command.Parameters.AddWithValue("@proTitle", Title)
-                Dbconnection.Open()
+                'Dbconnection.Open()
+                ConOpen()
                 command.ExecuteNonQuery()
-                Dbconnection.Close()
+                'Dbconnection.Close()
+                ConClose()
             End Using
 
             'ShowDataTable()
@@ -1369,7 +1471,8 @@ Module Query_Module
         Else
 
             Try
-                Dbconnection.Open()
+                'Dbconnection.Open()
+                ConOpen()
                 mycommand = "INSERT INTO [Password_tb] ([Username],[Firstname], [Lastname], [AccessLevel], [Pass], [Email]) 
                                 VALUES (@Uname, @Fname, @Lname, @Acclvl, @PW, @LFemail)"
                 Using command As New OleDbCommand(mycommand, Dbconnection)
@@ -1381,7 +1484,8 @@ Module Query_Module
                     command.Parameters.AddWithValue("@LFemail", LFEmail)
                     command.ExecuteNonQuery()
                 End Using
-                Dbconnection.Close()
+                'Dbconnection.Close()
+                ConClose()
 
                 MsgBox("Thank you for signing up")
 
@@ -1403,7 +1507,8 @@ Module Query_Module
             Dim cmd As New OleDbCommand
             Dim Data As New DataTable
             Dim adap As New OleDbDataAdapter
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
 
             ' Define the SQL query with a parameter placeholder
             MyData = "SELECT * From Password_tb WHERE Username LIKE @USERnm"
@@ -1426,7 +1531,8 @@ Module Query_Module
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
         Finally
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
         End Try
     End Sub
 
@@ -1438,7 +1544,8 @@ Module Query_Module
             Dim cmd As New OleDbCommand
             Dim Data As New DataTable
             Dim adap As New OleDbDataAdapter
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
 
             ' Define the SQL query with a parameter placeholder
             MyData = "SELECT * From Password_tb WHERE Username LIKE @USERnm"
@@ -1461,7 +1568,8 @@ Module Query_Module
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
         Finally
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
         End Try
     End Sub
 
@@ -1499,7 +1607,7 @@ Module Query_Module
                         Dim Recipients As String() = EmailAdd.Split(";"c)
                         Dim SMTP As New SmtpClient
 
-                        email = New MailMessage
+                        Email = New MailMessage
 
                         For Each Reciever As String In Recipients
                             email.To.Add(New MailAddress(Reciever.ToString()))
@@ -1528,11 +1636,14 @@ Module Query_Module
 
                 End While
 
-                Dbconnection.Close()
+                'Dbconnection.Close()
+                ConClose()
                 'Update_DateToday() 'app.config
                 Update_Ydate() 'database
 
             Else
+                'Dbconnection.Close()
+                ConClose()
                 'Update_DateToday() 'app.config
                 Update_Ydate() 'database
                 Console.WriteLine("All tasks are either due today or earlier, or are marked as 'Done'.")
@@ -1553,7 +1664,8 @@ Module Query_Module
             Dim cmd As New OleDbCommand
             Dim Data As New DataTable
             Dim adap As New OleDbDataAdapter
-            Dbconnection.Open()
+            'Dbconnection.Open()
+            ConOpen()
 
             ' Define the SQL query with a parameter placeholder
             MyData = "SELECT * From SentChecker_tb WHERE Sent_Ver LIKE @LastDtSaved"
@@ -1584,7 +1696,8 @@ Module Query_Module
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
         Finally
-            Dbconnection.Close()
+            'Dbconnection.Close()
+            ConClose()
         End Try
     End Sub
 
@@ -1598,13 +1711,201 @@ Module Query_Module
             Using command As New OleDbCommand(query, Dbconnection)
                 command.Parameters.AddWithValue("@datenow", date_now)
                 command.Parameters.AddWithValue("@Ystday", ystd)
-                Dbconnection.Open()
+                'Dbconnection.Open()
+                ConOpen()
                 command.ExecuteNonQuery()
-                Dbconnection.Close()
+                'Dbconnection.Close()
+                ConClose()
             End Using
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
         End Try
+    End Sub
+
+
+    '******************** FOR AdminDLA3_Form *******************
+
+    Sub Show_A3List()
+        Dim command As New OleDbCommand("", Dbconnection)
+        Dim table As New DataTable
+
+        'Dbconnection.Open()
+        ConOpen()
+
+        If Dbconnection.State = ConnectionState.Open Then
+            command.Connection = Dbconnection
+            command.CommandText = "Select Title, FileName From Project_tb ORDER BY Due_Date DESC"
+
+            '"Select Title, Description, Owner, Email, Member, 
+            '                       Member_Emails, Department, Due_Date, TSG_Support, Status, TokenStatus From Project_tb"
+
+            Dim rdr As OleDbDataReader = command.ExecuteReader
+
+            table.Load(rdr)
+
+            AdminDLA3_Form.DataGridView1.DataSource = table
+
+            ' Bold the header cells
+            For Each column As DataGridViewColumn In AdminDLA3_Form.DataGridView1.Columns
+                column.HeaderCell.Style.Font = New Font("MS Reference Sans Serif", 11, FontStyle.Bold)
+                column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+                column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
+            Next
+
+            AdminDLA3_Form.DataGridView1.Columns("FileName").HeaderText = "A3 file name"
+
+            AdminDLA3_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
+            AdminDLA3_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
+            AdminDLA3_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
+
+            AdminDLA3_Form.DataGridView1.EnableHeadersVisualStyles = False
+            AdminDLA3_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+        End If
+        'Dbconnection.Close()
+        ConClose()
+    End Sub
+
+    Sub AdminDLA3_Populate()
+        Try
+            Dim mydata As String
+            Dim command As New OleDbCommand
+            Dim data As New DataTable
+            Dim adap As New OleDbDataAdapter
+            Dim val As String
+
+            'Dbconnection.Open()
+            ConOpen()
+
+            val = AdminDLA3_Form.DataGridView1.SelectedCells.Item(0).Value.ToString()
+
+            mydata = "SELECT * From Project_tb WHERE Title = '" & val & "'"
+            command.Connection = Dbconnection
+            command.CommandText = mydata
+            adap.SelectCommand = command
+
+            adap.Fill(data)
+
+            If data.Rows.Count > 0 Then
+
+                AdminDLA3_Form.txtFileName.Text = data.Rows(0).Item("FileName").ToString
+
+            End If
+        Catch ex As Exception
+
+        Finally
+            'Dbconnection.Close()
+            ConClose()
+        End Try
+    End Sub
+
+    Sub AdminDLA3_txtSearch()
+        Try
+            Dim Data As New DataTable
+            Dim adap As New OleDbDataAdapter
+            Dim query As String
+
+            If AdminDLA3_Form.txtSearch.Text = "" Or AdminDLA3_Form.txtSearch.Text = "Search Project" Then
+                query = "Select Title, FileName From Project_tb ORDER BY Due_Date DESC"
+            Else
+                query = "Select Title, FileName From Project_tb WHERE Title LIKE @searchText ORDER BY Due_Date DESC"
+
+                '"SELECT Part_Number, Qty FROM LineData_tb WHERE Part_Number LIKE @searchText"
+
+            End If
+
+            adap = New OleDbDataAdapter(query, Dbconnection)
+
+            If AdminDLA3_Form.txtSearch.Text <> "" Then
+                adap.SelectCommand.Parameters.AddWithValue("@searchText", "%" & AdminDLA3_Form.txtSearch.Text & "%")
+            End If
+
+            'Dbconnection.Open()
+            ConOpen()
+            adap.Fill(Data)
+            'Dbconnection.Close()
+            ConClose()
+
+            AdminDLA3_Form.DataGridView1.DataSource = Data
+
+            ' Bold the header cells
+            For Each column As DataGridViewColumn In AdminDLA3_Form.DataGridView1.Columns
+                column.HeaderCell.Style.Font = New Font("MS Reference Sans Serif", 11, FontStyle.Bold)
+                column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+                column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
+            Next
+
+            AdminDLA3_Form.DataGridView1.Columns("FileName").HeaderText = "A3 file name"
+
+            AdminDLA3_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
+            AdminDLA3_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
+            AdminDLA3_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
+
+            AdminDLA3_Form.DataGridView1.EnableHeadersVisualStyles = False
+            AdminDLA3_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+
+        Catch ex As Exception
+            'MsgBox(ex.Message, vbCritical)
+        Finally
+            If Dbconnection.State = ConnectionState.Open Then
+                Dbconnection.Close()
+            End If
+        End Try
+    End Sub
+
+    Sub SaveA3()
+        Dim Token As String = NewProj_Token
+        Dim filePath As String = Request_Form.txtA3name.Text
+        Dim fileName As String = Path.GetFileName(filePath)
+        Dim fileData As Byte() = File.ReadAllBytes(filePath)
+        Try
+            'Dbconnection.Open()
+            ConOpen()
+
+            Using command As New OleDbCommand("UPDATE Project_tb SET FileName = @FileName, A3 = @FileData 
+                                                WHERE Token = @proToken", Dbconnection)
+                command.Parameters.AddWithValue("@FileName", fileName)
+                command.Parameters.AddWithValue("@FileData", fileData)
+                command.Parameters.AddWithValue("@proToken", Token)
+                command.ExecuteNonQuery()
+            End Using
+            'Dbconnection.Close()
+            ConClose()
+
+        Catch ex As Exception
+            MsgBox(ex.Message, vbCritical)
+        End Try
+
+    End Sub
+
+    Sub DownloadA3()
+        Dim outputFilePath As String = AdminDLA3_Form.txtLocation.Text
+        Dim name As String = AdminDLA3_Form.txtFileName.Text
+
+        Try
+
+            'Dbconnection.Open()
+            ConOpen()
+
+            Using command As New OleDbCommand("SELECT FileName, A3 FROM Project_tb WHERE FileName = @Name", Dbconnection)
+                command.Parameters.AddWithValue("@Name", name) ' Change the ID to the appropriate value
+                Using reader As OleDbDataReader = command.ExecuteReader()
+                    If reader.Read() Then
+                        Dim fileName As String = reader("FileName").ToString()
+                        Dim fileData As Byte() = CType(reader("A3"), Byte())
+
+                        File.WriteAllBytes(Path.Combine(outputFilePath, fileName), fileData)
+                    End If
+                End Using
+            End Using
+            'Dbconnection.Close()
+            ConClose()
+
+        Catch ex As Exception
+            MsgBox(ex.Message, vbCritical)
+        End Try
+
     End Sub
 
 End Module
