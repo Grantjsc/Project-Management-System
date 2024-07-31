@@ -1,12 +1,21 @@
 ﻿Imports System.ComponentModel.Design
 Imports System.Data.Common
+Imports System.Data.Odbc
 Imports System.Data.OleDb
 Imports System.Data.SqlClient
 Imports System.Drawing.Imaging
 Imports System.Dynamic
 Imports System.Threading
 Imports System.Windows.Input
+Imports Microsoft.Office.Interop
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports TheArtOfDevHtmlRenderer.Adapters.RGraphicsPath
+Imports System.Configuration
+Imports System
+Imports System.ComponentModel
+Imports System.Net
+Imports System.Net.Mail
+Imports System.Net.Mime
 
 Module Login_Module
 
@@ -50,6 +59,12 @@ Module MainForm_Module
             Main_Form.btnAdmin.Visible = True
             Main_Form.btnMyReq.Visible = False
             Main_Form.btnRequest.Visible = False
+
+            'CheckDelay()
+
+            'SendingEmail_Condition() 'Checking using app.config
+            CheckLastDate() 'Checking using database
+
         End If
 
         With Main_Form
@@ -68,6 +83,8 @@ Module MainForm_Module
         MyRequest_Form.Close()
         Request_Form.Close()
         Admin_Form.Close()
+        StartDate_Form.Close()
+        Token_Form.Close()
 
         With Home_Form
             .TopLevel = False
@@ -86,6 +103,8 @@ Module MainForm_Module
         Home_Form.Close()
         Request_Form.Close()
         Admin_Form.Close()
+        StartDate_Form.Close()
+        Token_Form.Close()
 
         With MyRequest_Form
             .TopLevel = False
@@ -521,7 +540,7 @@ Module Query_Module
                 TokenStatus = Data.Rows(0).Item("TokenStatus").ToString
 
                 If TokenStatus = "Used" Then
-                    MsgBox("You already used this taken!", MsgBoxStyle.Critical)
+                    MsgBox("Token already used!", MsgBoxStyle.Critical)
                     Token_Form.TextBox1.Clear()
                     Token_Form.TextBox2.Clear()
                     Token_Form.TextBox3.Clear()
@@ -538,6 +557,7 @@ Module Query_Module
                     MyRequest_Form.Close()
                     Token_Form.Close()
                     Admin_Form.Close()
+
 
                     With Request_Form
                         .TopLevel = False
@@ -710,6 +730,10 @@ Module Query_Module
             MsgBox("Please enter the name of TSG support.")
             AdminAddProject_Form.txtTSGSupport.Focus()
 
+        ElseIf AdminAddProject_Form.txtEmail.Text = "" Then
+            MsgBox("Please enter the email of project owner.")
+            AdminAddProject_Form.txtEmail.Focus()
+
         Else
 
             Dim Token As String = AdminAddProject_Form.txtToken.Text
@@ -739,6 +763,7 @@ Module Query_Module
                 Else
                     Add_TitleForTask()
                     Add_ProjectToken()
+                    SendToken_toProjectOwner()
                     Clicked_ProjectList()
                 End If
             Catch ex As Exception
@@ -775,10 +800,6 @@ Module Query_Module
 
             MsgBox("A new project has been successfully added." & vbNewLine &
                    "You can now give the token to the project owner.", MessageBoxIcon.Information)
-
-            AdminAddProject_Form.txtProjectTitle.Clear()
-            AdminAddProject_Form.txtToken.Clear()
-            AdminAddProject_Form.txtTSGSupport.Clear()
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
         End Try
@@ -804,9 +825,47 @@ Module Query_Module
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
         End Try
-
     End Sub
 
+
+    Sub SendToken_toProjectOwner()
+        Try
+            Dim EmailAdd As String = AdminAddProject_Form.txtEmail.Text
+            Dim Recipients As String() = EmailAdd.Split(";"c)
+            Dim SMTP As New SmtpClient
+
+            Email = New MailMessage
+
+            For Each Reciever As String In Recipients
+                Email.To.Add(New MailAddress(Reciever.ToString()))
+            Next
+
+
+            Email.From = New MailAddress("TSG_SoftwareProjectMS@littelfuse.com")
+            Email.Subject = "New Project Request Token"
+            Email.Body = "<div style='font-family: Arial, sans-serif; font-size: 12pt;'>Good day,<br><br>
+                                        This is the token to add the details of your new project request. 
+                                       <br><br> <b> Token: " & AdminAddProject_Form.txtToken.Text &
+                                       "</b> <br><br>If you don't have an account in Software Project Management System, please open the app and sign up.<br>
+                                        Thank you.</div>
+                                        <br> <small style='color:Gray;'><i> This is a system generated mail. Please do not reply.</i></small>"
+            Email.IsBodyHtml = True
+
+            'AddHandler SMTP.SendCompleted, AddressOf SendCompletedCallback
+
+            SMTP.Host = "mailrelay.america.littelfuse.com"
+            SMTP.SendAsync(Email, Nothing)
+
+            AdminAddProject_Form.txtProjectTitle.Clear()
+            AdminAddProject_Form.txtToken.Clear()
+            AdminAddProject_Form.txtTSGSupport.Clear()
+            AdminAddProject_Form.txtEmail.Clear()
+
+        Catch ex As Exception
+
+            Console.WriteLine("An error occurred: " & ex.Message)
+        End Try
+    End Sub
 
     '******************** FOR AdminProjectList_Form *******************
 
@@ -1404,6 +1463,184 @@ Module Query_Module
         Finally
             Dbconnection.Close()
         End Try
+    End Sub
+
+
+    '******************** Checking if PROJECT is DELAY *******************
+    Private Email As MailMessage
+
+    Sub CheckDelay()
+        Dim query As String = "SELECT Title, Owner, Email FROM Project_tb WHERE Due_date < @Today AND Status <> 'Done'"
+
+        ' Get today's date
+        Dim today As Date = Date.Now.ToString("MM/dd/yyyy")
+
+        Dim command As New OleDbCommand(query, Dbconnection)
+        command.Parameters.AddWithValue("@Today", today)
+
+        Try
+            'Dbconnection.Open()
+            Dim reader As OleDbDataReader = command.ExecuteReader()
+
+            If reader.HasRows Then
+
+                Console.WriteLine("The following tasks have a due date greater than today and status not 'Done':")
+                While reader.Read()
+                    Dim title As String = reader("Title").ToString()
+                    Dim Manager As String = reader("Owner").ToString()
+                    Dim OwnerEmail As String = reader("Email").ToString()
+                    Console.WriteLine("Title: " & title)
+                    Console.WriteLine("Owner: " & Manager)
+                    Console.WriteLine("Email: " & OwnerEmail)
+                    Console.WriteLine()
+
+                    Try
+                        Dim EmailAdd As String = OwnerEmail
+                        Dim Recipients As String() = EmailAdd.Split(";"c)
+                        Dim SMTP As New SmtpClient
+
+                        email = New MailMessage
+
+                        For Each Reciever As String In Recipients
+                            email.To.Add(New MailAddress(Reciever.ToString()))
+                        Next
+
+
+                        Email.From = New MailAddress("TSG_SoftwareProjectMS@littelfuse.com")
+                        Email.Subject = "Software Project Delay Notification"
+                        Email.Body = "<div style='font-family: Arial, sans-serif; font-size: 12pt;'>Hi " & Manager &
+                                                    ",<br><br>Your project titled " & title & " is delayed. <br>
+                                                   Kindly visit Project Management System to view your requested projects. 
+                                                    <br><br>Thank you. </div>
+                                                    <br> <small style='color:Gray;'><i> This is a system generated mail. Please do not reply.</i></small>"
+
+
+                        Email.IsBodyHtml = True
+
+                        'AddHandler SMTP.SendCompleted, AddressOf SendCompletedCallback
+
+                        SMTP.Host = "mailrelay.america.littelfuse.com"
+                        SMTP.SendAsync(Email, Nothing)
+
+                    Catch ex As Exception
+                        Console.WriteLine("An error occurred: " & ex.Message)
+                    End Try
+
+                End While
+
+                Dbconnection.Close()
+                'Update_DateToday() 'app.config
+                Update_Ydate() 'database
+
+            Else
+                'Update_DateToday() 'app.config
+                Update_Ydate() 'database
+                Console.WriteLine("All tasks are either due today or earlier, or are marked as 'Done'.")
+            End If
+            reader.Close()
+        Catch ex As Exception
+
+            Console.WriteLine("An error occurred: " & ex.Message)
+        End Try
+    End Sub
+
+    Sub CheckLastDate()
+        Try
+
+            Dim ystd As String = "_Yesterdate"
+
+            Dim MyData As String
+            Dim cmd As New OleDbCommand
+            Dim Data As New DataTable
+            Dim adap As New OleDbDataAdapter
+            Dbconnection.Open()
+
+            ' Define the SQL query with a parameter placeholder
+            MyData = "SELECT * From SentChecker_tb WHERE Sent_Ver LIKE @LastDtSaved"
+            cmd.Connection = Dbconnection
+            cmd.CommandText = MyData
+
+            ' Add the parameter value with wildcard characters
+            cmd.Parameters.AddWithValue("@LastDtSaved", "%" & ystd & "%")
+
+            adap.SelectCommand = cmd
+            adap.Fill(Data)
+
+            If Data.Rows.Count > 0 Then
+
+                Dim date_ystdy As String
+                Dim date_now As String = Date.Now.ToString("MM/dd/yyyy")
+
+                date_ystdy = Data.Rows(0).Item("Ydate").ToString
+                Console.WriteLine(date_ystdy)
+                Console.WriteLine(date_now)
+
+                If date_ystdy = date_now Then
+                Else
+                    CheckDelay()
+                End If
+
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, vbCritical)
+        Finally
+            Dbconnection.Close()
+        End Try
+    End Sub
+
+    Sub Update_Ydate()
+        Try
+            Dim ystd As String = "_Yesterdate"
+            Dim date_now As String = Date.Now.ToString("MM/dd/yyyy")
+
+            Dim query As String = "UPDATE SentChecker_tb SET Ydate = @datenow WHERE Sent_Ver = @Ystday"
+
+            Using command As New OleDbCommand(query, Dbconnection)
+                command.Parameters.AddWithValue("@datenow", date_now)
+                command.Parameters.AddWithValue("@Ystday", ystd)
+                Dbconnection.Open()
+                command.ExecuteNonQuery()
+                Dbconnection.Close()
+            End Using
+        Catch ex As Exception
+            MsgBox(ex.Message, vbCritical)
+        End Try
+    End Sub
+
+End Module
+
+Module AppConfig_Module
+
+    Public config As Configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None)
+
+    Public LastDate As String
+    Sub GetDateYesterday()
+        Dim Yest As String = System.Configuration.ConfigurationManager.AppSettings("Yesterday")
+        Console.WriteLine(Yest)
+
+        LastDate = Yest
+    End Sub
+
+    Sub Update_DateToday()
+        Dim dt As String = Date.Now.ToString("MM/dd/yyyy")
+
+        config.AppSettings.Settings("Yesterday").Value = dt ' Rewrite
+        config.Save(ConfigurationSaveMode.Modified) ' save the new value
+
+        ConfigurationManager.RefreshSection("appSettings") 'refresh
+    End Sub
+
+    '******************** Sending Email condition *******************
+    Sub SendingEmail_Condition()
+        GetDateYesterday()
+        Dim date_now As String = Date.Now.ToString("MM/dd/yyyy")
+
+        If date_now = LastDate Then
+            GetDateYesterday()
+        Else
+            CheckDelay()
+        End If
+
     End Sub
 
 End Module

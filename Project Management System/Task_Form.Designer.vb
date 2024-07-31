@@ -59,6 +59,7 @@ Partial Class Task_Form
         '
         'GroupBoxProj
         '
+        Me.GroupBoxProj.AutoScroll = True
         Me.GroupBoxProj.BorderColor = System.Drawing.Color.Black
         Me.GroupBoxProj.BorderRadius = 10
         Me.GroupBoxProj.Controls.Add(Me.Panel1)

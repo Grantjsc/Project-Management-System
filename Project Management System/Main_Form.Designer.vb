@@ -149,14 +149,14 @@ Partial Class Main_Form
         Me.lblTitle.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.lblTitle.AutoSize = True
         Me.lblTitle.BackColor = System.Drawing.Color.Transparent
-        Me.lblTitle.Font = New System.Drawing.Font("Impact", 36.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTitle.Font = New System.Drawing.Font("Impact", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTitle.ForeColor = System.Drawing.Color.SeaGreen
-        Me.lblTitle.Location = New System.Drawing.Point(339, 0)
+        Me.lblTitle.Location = New System.Drawing.Point(319, 9)
         Me.lblTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.lblTitle.Name = "lblTitle"
-        Me.lblTitle.Size = New System.Drawing.Size(590, 60)
+        Me.lblTitle.Size = New System.Drawing.Size(595, 45)
         Me.lblTitle.TabIndex = 2
-        Me.lblTitle.Text = "Project Management System"
+        Me.lblTitle.Text = "Software Project Management System"
         '
         'Panel1
         '

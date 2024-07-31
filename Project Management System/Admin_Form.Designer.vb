@@ -32,6 +32,7 @@ Partial Class Admin_Form
         '
         'Panel_Admin
         '
+        Me.Panel_Admin.AutoScroll = True
         Me.Panel_Admin.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel_Admin.Location = New System.Drawing.Point(109, 0)
         Me.Panel_Admin.Name = "Panel_Admin"
@@ -111,6 +112,7 @@ Partial Class Admin_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScroll = True
         Me.ClientSize = New System.Drawing.Size(1264, 847)
         Me.Controls.Add(Me.Panel_Admin)
         Me.Controls.Add(Me.Guna2CustomGradientPanel2)

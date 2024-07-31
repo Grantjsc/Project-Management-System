@@ -10,6 +10,7 @@
         Home_Form.Close()
         MyRequest_Form.Close()
         Admin_Form.Close()
+        Me.Close()
 
         With Token_Form
             .TopLevel = False

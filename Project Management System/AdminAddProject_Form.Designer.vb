@@ -23,6 +23,8 @@ Partial Class AdminAddProject_Form
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Guna2GroupBox1 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.txtEmail = New Guna.UI2.WinForms.Guna2TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtTSGSupport = New Guna.UI2.WinForms.Guna2TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -40,6 +42,8 @@ Partial Class AdminAddProject_Form
         Me.Guna2GroupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Guna2GroupBox1.BorderColor = System.Drawing.Color.Black
         Me.Guna2GroupBox1.BorderRadius = 10
+        Me.Guna2GroupBox1.Controls.Add(Me.txtEmail)
+        Me.Guna2GroupBox1.Controls.Add(Me.Label6)
         Me.Guna2GroupBox1.Controls.Add(Me.Label3)
         Me.Guna2GroupBox1.Controls.Add(Me.txtTSGSupport)
         Me.Guna2GroupBox1.Controls.Add(Me.Label4)
@@ -60,13 +64,53 @@ Partial Class AdminAddProject_Form
         Me.Guna2GroupBox1.TabIndex = 4
         Me.Guna2GroupBox1.Text = "Input Token and Project Title"
         '
+        'txtEmail
+        '
+        Me.txtEmail.BackColor = System.Drawing.Color.Transparent
+        Me.txtEmail.BorderRadius = 20
+        Me.txtEmail.BorderThickness = 3
+        Me.txtEmail.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtEmail.DefaultText = ""
+        Me.txtEmail.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
+        Me.txtEmail.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
+        Me.txtEmail.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtEmail.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtEmail.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtEmail.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEmail.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtEmail.Location = New System.Drawing.Point(550, 328)
+        Me.txtEmail.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtEmail.Name = "txtEmail"
+        Me.txtEmail.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.txtEmail.PlaceholderText = ""
+        Me.txtEmail.SelectedText = ""
+        Me.txtEmail.ShadowDecoration.BorderRadius = 20
+        Me.txtEmail.ShadowDecoration.Depth = 15
+        Me.txtEmail.ShadowDecoration.Enabled = True
+        Me.txtEmail.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 15, 15)
+        Me.txtEmail.Size = New System.Drawing.Size(354, 51)
+        Me.txtEmail.TabIndex = 18
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.BackColor = System.Drawing.Color.Transparent
+        Me.Label6.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.ForeColor = System.Drawing.Color.SeaGreen
+        Me.Label6.Location = New System.Drawing.Point(544, 286)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(271, 36)
+        Me.Label6.TabIndex = 16
+        Me.Label6.Text = "Project Owner's Email"
+        '
         'Label3
         '
         Me.Label3.AutoSize = True
         Me.Label3.BackColor = System.Drawing.Color.Transparent
         Me.Label3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.DimGray
-        Me.Label3.Location = New System.Drawing.Point(149, 451)
+        Me.Label3.Location = New System.Drawing.Point(98, 458)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(272, 17)
         Me.Label3.TabIndex = 15
@@ -86,7 +130,7 @@ Partial Class AdminAddProject_Form
         Me.txtTSGSupport.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtTSGSupport.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTSGSupport.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtTSGSupport.Location = New System.Drawing.Point(143, 474)
+        Me.txtTSGSupport.Location = New System.Drawing.Point(92, 481)
         Me.txtTSGSupport.Margin = New System.Windows.Forms.Padding(6)
         Me.txtTSGSupport.Name = "txtTSGSupport"
         Me.txtTSGSupport.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -105,7 +149,7 @@ Partial Class AdminAddProject_Form
         Me.Label4.BackColor = System.Drawing.Color.Transparent
         Me.Label4.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label4.Location = New System.Drawing.Point(107, 401)
+        Me.Label4.Location = New System.Drawing.Point(56, 408)
         Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(159, 36)
@@ -143,7 +187,7 @@ Partial Class AdminAddProject_Form
         Me.txtProjectTitle.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtProjectTitle.Font = New System.Drawing.Font("Segoe UI", 20.25!)
         Me.txtProjectTitle.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtProjectTitle.Location = New System.Drawing.Point(152, 115)
+        Me.txtProjectTitle.Location = New System.Drawing.Point(101, 122)
         Me.txtProjectTitle.Margin = New System.Windows.Forms.Padding(6)
         Me.txtProjectTitle.Multiline = True
         Me.txtProjectTitle.Name = "txtProjectTitle"
@@ -172,7 +216,7 @@ Partial Class AdminAddProject_Form
         Me.txtToken.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtToken.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtToken.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtToken.Location = New System.Drawing.Point(143, 321)
+        Me.txtToken.Location = New System.Drawing.Point(92, 328)
         Me.txtToken.Margin = New System.Windows.Forms.Padding(6)
         Me.txtToken.MaxLength = 3
         Me.txtToken.Name = "txtToken"
@@ -192,7 +236,7 @@ Partial Class AdminAddProject_Form
         Me.Label2.BackColor = System.Drawing.Color.Transparent
         Me.Label2.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.DimGray
-        Me.Label2.Location = New System.Drawing.Point(149, 298)
+        Me.Label2.Location = New System.Drawing.Point(98, 305)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(276, 17)
         Me.Label2.TabIndex = 7
@@ -204,7 +248,7 @@ Partial Class AdminAddProject_Form
         Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label1.Location = New System.Drawing.Point(107, 61)
+        Me.Label1.Location = New System.Drawing.Point(56, 68)
         Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(159, 36)
@@ -217,7 +261,7 @@ Partial Class AdminAddProject_Form
         Me.lblTitle.BackColor = System.Drawing.Color.Transparent
         Me.lblTitle.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTitle.ForeColor = System.Drawing.Color.SeaGreen
-        Me.lblTitle.Location = New System.Drawing.Point(107, 250)
+        Me.lblTitle.Location = New System.Drawing.Point(56, 257)
         Me.lblTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(87, 36)
@@ -228,6 +272,7 @@ Partial Class AdminAddProject_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScroll = True
         Me.ClientSize = New System.Drawing.Size(1155, 847)
         Me.Controls.Add(Me.Guna2GroupBox1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -249,4 +294,6 @@ Partial Class AdminAddProject_Form
     Friend WithEvents txtTSGSupport As Guna.UI2.WinForms.Guna2TextBox
     Friend WithEvents Label4 As Label
     Friend WithEvents Label3 As Label
+    Friend WithEvents txtEmail As Guna.UI2.WinForms.Guna2TextBox
+    Friend WithEvents Label6 As Label
 End Class
