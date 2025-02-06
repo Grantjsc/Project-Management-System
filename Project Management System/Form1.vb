@@ -1,4 +1,6 @@
-﻿Public Class Form1
+﻿Imports System.Data.Common
+
+Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Me.WindowState = FormWindowState.Maximized
         Bounds = Screen.PrimaryScreen.WorkingArea
@@ -13,8 +15,12 @@
     End Sub
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If Dbconnection.State = ConnectionState.Open Then
-            Dbconnection.Close()
+        'If Dbconnection.State = ConnectionState.Open Then
+        '    Dbconnection.Close()
+        'End If
+
+        If SQLDbconnection.State = ConnectionState.Open Then
+            SQLDbconnection.Close()
         End If
         Application.ExitThread()
     End Sub

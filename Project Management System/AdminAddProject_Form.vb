@@ -1,7 +1,7 @@
 ﻿Public Class AdminAddProject_Form
     Private Sub txtToken_KeyUp(sender As Object, e As KeyEventArgs) Handles txtToken.KeyUp
         If e.KeyCode = Keys.Enter Then
-            txtTSGSupport.Focus()
+            cboTSG_Support.Focus()
         End If
     End Sub
 

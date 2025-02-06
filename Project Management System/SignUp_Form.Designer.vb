@@ -66,7 +66,7 @@ Partial Class SignUp_Form
         Me.txtUsername.BackColor = System.Drawing.Color.Transparent
         Me.txtUsername.BorderRadius = 15
         Me.txtUsername.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtUsername.DefaultText = "User name"
+        Me.txtUsername.DefaultText = "Employee number"
         Me.txtUsername.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
         Me.txtUsername.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
         Me.txtUsername.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
@@ -83,7 +83,7 @@ Partial Class SignUp_Form
         Me.txtUsername.PlaceholderText = ""
         Me.txtUsername.SelectedText = ""
         Me.txtUsername.Size = New System.Drawing.Size(542, 58)
-        Me.txtUsername.TabIndex = 11
+        Me.txtUsername.TabIndex = 2
         Me.txtUsername.TextOffset = New System.Drawing.Point(10, 0)
         '
         'btnCancel
@@ -116,7 +116,7 @@ Partial Class SignUp_Form
         Me.btnCancel.ShadowDecoration.Enabled = True
         Me.btnCancel.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(8)
         Me.btnCancel.Size = New System.Drawing.Size(180, 53)
-        Me.btnCancel.TabIndex = 10
+        Me.btnCancel.TabIndex = 7
         Me.btnCancel.Text = "Cancel"
         '
         'PictureBox1
@@ -153,7 +153,7 @@ Partial Class SignUp_Form
         Me.txtConfirmPass.PlaceholderText = ""
         Me.txtConfirmPass.SelectedText = ""
         Me.txtConfirmPass.Size = New System.Drawing.Size(542, 58)
-        Me.txtConfirmPass.TabIndex = 8
+        Me.txtConfirmPass.TabIndex = 5
         Me.txtConfirmPass.TextOffset = New System.Drawing.Point(10, 0)
         '
         'txtLastName
@@ -178,7 +178,7 @@ Partial Class SignUp_Form
         Me.txtLastName.PlaceholderText = ""
         Me.txtLastName.SelectedText = ""
         Me.txtLastName.Size = New System.Drawing.Size(262, 58)
-        Me.txtLastName.TabIndex = 7
+        Me.txtLastName.TabIndex = 1
         Me.txtLastName.TextOffset = New System.Drawing.Point(10, 0)
         '
         'txtLFEmail
@@ -204,7 +204,7 @@ Partial Class SignUp_Form
         Me.txtLFEmail.PlaceholderText = ""
         Me.txtLFEmail.SelectedText = ""
         Me.txtLFEmail.Size = New System.Drawing.Size(542, 58)
-        Me.txtLFEmail.TabIndex = 6
+        Me.txtLFEmail.TabIndex = 3
         Me.txtLFEmail.TextOffset = New System.Drawing.Point(10, 0)
         '
         'btnSignUp
@@ -237,7 +237,7 @@ Partial Class SignUp_Form
         Me.btnSignUp.ShadowDecoration.Enabled = True
         Me.btnSignUp.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(8)
         Me.btnSignUp.Size = New System.Drawing.Size(180, 53)
-        Me.btnSignUp.TabIndex = 0
+        Me.btnSignUp.TabIndex = 6
         Me.btnSignUp.Text = "Sign Up"
         '
         'Label3
@@ -276,7 +276,7 @@ Partial Class SignUp_Form
         Me.txtSignUpPass.PlaceholderText = ""
         Me.txtSignUpPass.SelectedText = ""
         Me.txtSignUpPass.Size = New System.Drawing.Size(542, 58)
-        Me.txtSignUpPass.TabIndex = 2
+        Me.txtSignUpPass.TabIndex = 4
         Me.txtSignUpPass.TextOffset = New System.Drawing.Point(10, 0)
         '
         'txtFirstName
@@ -301,7 +301,7 @@ Partial Class SignUp_Form
         Me.txtFirstName.PlaceholderText = ""
         Me.txtFirstName.SelectedText = ""
         Me.txtFirstName.Size = New System.Drawing.Size(274, 58)
-        Me.txtFirstName.TabIndex = 1
+        Me.txtFirstName.TabIndex = 0
         Me.txtFirstName.TextOffset = New System.Drawing.Point(10, 0)
         '
         'PictureBox3

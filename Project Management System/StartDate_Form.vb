@@ -24,4 +24,12 @@
             Main_Form.btnAdmin.BackColor = Color.Transparent
         End With
     End Sub
+
+    Private Sub StartDate_Form_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Get_TSG_Support_Due()
+    End Sub
+
+    Private Sub DataGridView1_CellStateChanged(sender As Object, e As DataGridViewCellStateChangedEventArgs) Handles DataGridView1.CellStateChanged
+        StartDate_Populate()
+    End Sub
 End Class

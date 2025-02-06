@@ -132,7 +132,7 @@ Partial Class Token_Form
         Me.btnOkay.HoverState.FillColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.btnOkay.HoverState.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnOkay.HoverState.ForeColor = System.Drawing.Color.White
-        Me.btnOkay.Location = New System.Drawing.Point(295, 579)
+        Me.btnOkay.Location = New System.Drawing.Point(295, 550)
         Me.btnOkay.Name = "btnOkay"
         Me.btnOkay.Size = New System.Drawing.Size(118, 43)
         Me.btnOkay.TabIndex = 8
@@ -175,7 +175,7 @@ Partial Class Token_Form
         Me.GroupBoxProj.FillColor = System.Drawing.Color.MediumSeaGreen
         Me.GroupBoxProj.Font = New System.Drawing.Font("Impact", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBoxProj.ForeColor = System.Drawing.Color.White
-        Me.GroupBoxProj.Location = New System.Drawing.Point(362, 167)
+        Me.GroupBoxProj.Location = New System.Drawing.Point(359, 138)
         Me.GroupBoxProj.Name = "GroupBoxProj"
         Me.GroupBoxProj.Size = New System.Drawing.Size(571, 357)
         Me.GroupBoxProj.TabIndex = 10
@@ -226,7 +226,7 @@ Partial Class Token_Form
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(1264, 740)
+        Me.ClientSize = New System.Drawing.Size(1258, 847)
         Me.Controls.Add(Me.GroupBoxProj)
         Me.Controls.Add(Me.btnOkay)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None

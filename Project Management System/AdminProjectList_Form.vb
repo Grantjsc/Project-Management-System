@@ -76,9 +76,11 @@ Public Class AdminProjectList_Form
         dtpStartDate.Format = DateTimePickerFormat.Short
     End Sub
 
-    Private Sub btmBrowse_Click(sender As Object, e As EventArgs) Handles btmBrowse.Click
-        OpenFileDialog1.FileName = ""
-        OpenFileDialog1.ShowDialog()
-        txtA3name.Text = OpenFileDialog1.FileName
+    Private Sub cboTSG_Support_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTSG_Support.SelectedIndexChanged
+        If cboTSG_Support.Text = "All" Then
+            Show_AdminProjectList()
+        Else
+            Show_SupportProjects()
+        End If
     End Sub
 End Class

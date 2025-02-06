@@ -112,7 +112,7 @@ Partial Class Task_Form
         Me.DateTimePicker5.Name = "DateTimePicker5"
         Me.DateTimePicker5.Size = New System.Drawing.Size(161, 29)
         Me.DateTimePicker5.TabIndex = 43
-        Me.DateTimePicker5.Value = New Date(2024, 7, 16, 13, 44, 33, 0)
+        Me.DateTimePicker5.Value = New Date(2024, 12, 27, 0, 0, 0, 0)
         '
         'DateTimePicker4
         '
@@ -122,7 +122,7 @@ Partial Class Task_Form
         Me.DateTimePicker4.Name = "DateTimePicker4"
         Me.DateTimePicker4.Size = New System.Drawing.Size(161, 29)
         Me.DateTimePicker4.TabIndex = 42
-        Me.DateTimePicker4.Value = New Date(2024, 7, 16, 13, 44, 33, 0)
+        Me.DateTimePicker4.Value = New Date(2024, 12, 27, 0, 0, 0, 0)
         '
         'DateTimePicker3
         '
@@ -132,7 +132,7 @@ Partial Class Task_Form
         Me.DateTimePicker3.Name = "DateTimePicker3"
         Me.DateTimePicker3.Size = New System.Drawing.Size(161, 29)
         Me.DateTimePicker3.TabIndex = 41
-        Me.DateTimePicker3.Value = New Date(2024, 7, 16, 13, 44, 33, 0)
+        Me.DateTimePicker3.Value = New Date(2024, 12, 27, 0, 0, 0, 0)
         '
         'DateTimePicker2
         '
@@ -142,7 +142,7 @@ Partial Class Task_Form
         Me.DateTimePicker2.Name = "DateTimePicker2"
         Me.DateTimePicker2.Size = New System.Drawing.Size(161, 29)
         Me.DateTimePicker2.TabIndex = 40
-        Me.DateTimePicker2.Value = New Date(2024, 7, 16, 13, 44, 33, 0)
+        Me.DateTimePicker2.Value = New Date(2024, 12, 27, 0, 0, 0, 0)
         '
         'DateTimePicker1
         '
@@ -152,7 +152,7 @@ Partial Class Task_Form
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(161, 29)
         Me.DateTimePicker1.TabIndex = 39
-        Me.DateTimePicker1.Value = New Date(2024, 7, 16, 13, 44, 33, 0)
+        Me.DateTimePicker1.Value = New Date(2024, 12, 27, 0, 0, 0, 0)
         '
         'Panel2
         '

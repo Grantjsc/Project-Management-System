@@ -26,7 +26,8 @@ Partial Class Request_Form
         Me.btnCancel = New Guna.UI2.WinForms.Guna2Button()
         Me.btnSend = New Guna.UI2.WinForms.Guna2Button()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.btmBrowse = New Guna.UI2.WinForms.Guna2Button()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.btnBrowse = New Guna.UI2.WinForms.Guna2Button()
         Me.txtA3name = New Guna.UI2.WinForms.Guna2TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
@@ -114,7 +115,8 @@ Partial Class Request_Form
         '
         Me.GroupBox3.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.GroupBox3.BackColor = System.Drawing.SystemColors.MenuBar
-        Me.GroupBox3.Controls.Add(Me.btmBrowse)
+        Me.GroupBox3.Controls.Add(Me.Label11)
+        Me.GroupBox3.Controls.Add(Me.btnBrowse)
         Me.GroupBox3.Controls.Add(Me.txtA3name)
         Me.GroupBox3.Controls.Add(Me.Label10)
         Me.GroupBox3.Controls.Add(Me.Label9)
@@ -134,24 +136,36 @@ Partial Class Request_Form
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Other Details"
         '
-        'btmBrowse
+        'Label11
         '
-        Me.btmBrowse.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.btmBrowse.BackColor = System.Drawing.Color.Transparent
-        Me.btmBrowse.BorderRadius = 5
-        Me.btmBrowse.BorderThickness = 1
-        Me.btmBrowse.DisabledState.BorderColor = System.Drawing.Color.DarkGray
-        Me.btmBrowse.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
-        Me.btmBrowse.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
-        Me.btmBrowse.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
-        Me.btmBrowse.FillColor = System.Drawing.SystemColors.Control
-        Me.btmBrowse.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btmBrowse.ForeColor = System.Drawing.Color.Black
-        Me.btmBrowse.Location = New System.Drawing.Point(364, 534)
-        Me.btmBrowse.Name = "btmBrowse"
-        Me.btmBrowse.Size = New System.Drawing.Size(110, 35)
-        Me.btmBrowse.TabIndex = 16
-        Me.btmBrowse.Text = "Browse"
+        Me.Label11.AutoSize = True
+        Me.Label11.BackColor = System.Drawing.Color.Transparent
+        Me.Label11.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.ForeColor = System.Drawing.Color.DimGray
+        Me.Label11.Location = New System.Drawing.Point(79, 501)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(194, 17)
+        Me.Label11.TabIndex = 17
+        Me.Label11.Text = "Note: (File size maximum: 2.5MB)"
+        '
+        'btnBrowse
+        '
+        Me.btnBrowse.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.btnBrowse.BackColor = System.Drawing.Color.Transparent
+        Me.btnBrowse.BorderRadius = 5
+        Me.btnBrowse.BorderThickness = 1
+        Me.btnBrowse.DisabledState.BorderColor = System.Drawing.Color.DarkGray
+        Me.btnBrowse.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
+        Me.btnBrowse.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
+        Me.btnBrowse.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
+        Me.btnBrowse.FillColor = System.Drawing.SystemColors.Control
+        Me.btnBrowse.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBrowse.ForeColor = System.Drawing.Color.Black
+        Me.btnBrowse.Location = New System.Drawing.Point(364, 534)
+        Me.btnBrowse.Name = "btnBrowse"
+        Me.btnBrowse.Size = New System.Drawing.Size(110, 35)
+        Me.btnBrowse.TabIndex = 16
+        Me.btnBrowse.Text = "Browse"
         '
         'txtA3name
         '
@@ -325,7 +339,6 @@ Partial Class Request_Form
         Me.txtProjTitle.Name = "txtProjTitle"
         Me.txtProjTitle.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
         Me.txtProjTitle.PlaceholderText = ""
-        Me.txtProjTitle.ReadOnly = True
         Me.txtProjTitle.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.txtProjTitle.SelectedText = ""
         Me.txtProjTitle.ShadowDecoration.BorderRadius = 20
@@ -611,6 +624,7 @@ Partial Class Request_Form
     Friend WithEvents Label9 As Label
     Friend WithEvents txtA3name As Guna.UI2.WinForms.Guna2TextBox
     Friend WithEvents Label10 As Label
-    Friend WithEvents btmBrowse As Guna.UI2.WinForms.Guna2Button
+    Friend WithEvents btnBrowse As Guna.UI2.WinForms.Guna2Button
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents Label11 As Label
 End Class

@@ -50,4 +50,8 @@
     Private Sub DateTimePicker5_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker5.ValueChanged
         DateTimePicker5.Format = DateTimePickerFormat.Short
     End Sub
+
+    Private Sub Task_Form_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+    End Sub
 End Class

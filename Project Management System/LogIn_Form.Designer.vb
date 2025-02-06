@@ -52,7 +52,7 @@ Partial Class LogIn_Form
         Me.Panel1.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(590, 835)
-        Me.Panel1.TabIndex = 1
+        Me.Panel1.TabIndex = 0
         '
         'PictureBox1
         '
@@ -74,7 +74,7 @@ Partial Class LogIn_Form
         Me.LinklblSignUp.Location = New System.Drawing.Point(261, 718)
         Me.LinklblSignUp.Name = "LinklblSignUp"
         Me.LinklblSignUp.Size = New System.Drawing.Size(77, 24)
-        Me.LinklblSignUp.TabIndex = 5
+        Me.LinklblSignUp.TabIndex = 4
         Me.LinklblSignUp.TabStop = True
         Me.LinklblSignUp.Text = "Sign Up"
         '
@@ -135,7 +135,7 @@ Partial Class LogIn_Form
         Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(512, 72)
-        Me.Label3.TabIndex = 1
+        Me.Label3.TabIndex = 0
         Me.Label3.Text = "Welcome back!"
         '
         'txtPass
@@ -169,7 +169,7 @@ Partial Class LogIn_Form
         Me.txtUser.BackColor = System.Drawing.Color.Transparent
         Me.txtUser.BorderRadius = 15
         Me.txtUser.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtUser.DefaultText = "Username"
+        Me.txtUser.DefaultText = "Employee number"
         Me.txtUser.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
         Me.txtUser.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
         Me.txtUser.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
@@ -215,7 +215,7 @@ Partial Class LogIn_Form
         Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "LogIn_Form"
-        Me.Text = "LogIn_Form"
+        Me.Text = "`"
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()

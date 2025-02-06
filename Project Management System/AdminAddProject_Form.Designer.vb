@@ -34,6 +34,7 @@ Partial Class AdminAddProject_Form
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.lblTitle = New System.Windows.Forms.Label()
+        Me.cboTSG_Support = New Guna.UI2.WinForms.Guna2ComboBox()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -42,6 +43,7 @@ Partial Class AdminAddProject_Form
         Me.Guna2GroupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Guna2GroupBox1.BorderColor = System.Drawing.Color.Black
         Me.Guna2GroupBox1.BorderRadius = 10
+        Me.Guna2GroupBox1.Controls.Add(Me.cboTSG_Support)
         Me.Guna2GroupBox1.Controls.Add(Me.txtEmail)
         Me.Guna2GroupBox1.Controls.Add(Me.Label6)
         Me.Guna2GroupBox1.Controls.Add(Me.Label3)
@@ -130,7 +132,7 @@ Partial Class AdminAddProject_Form
         Me.txtTSGSupport.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtTSGSupport.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTSGSupport.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtTSGSupport.Location = New System.Drawing.Point(92, 481)
+        Me.txtTSGSupport.Location = New System.Drawing.Point(560, 471)
         Me.txtTSGSupport.Margin = New System.Windows.Forms.Padding(6)
         Me.txtTSGSupport.Name = "txtTSGSupport"
         Me.txtTSGSupport.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -142,6 +144,7 @@ Partial Class AdminAddProject_Form
         Me.txtTSGSupport.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 15, 15)
         Me.txtTSGSupport.Size = New System.Drawing.Size(354, 51)
         Me.txtTSGSupport.TabIndex = 14
+        Me.txtTSGSupport.Visible = False
         '
         'Label4
         '
@@ -268,6 +271,28 @@ Partial Class AdminAddProject_Form
         Me.lblTitle.TabIndex = 4
         Me.lblTitle.Text = "Token"
         '
+        'cboTSG_Support
+        '
+        Me.cboTSG_Support.BackColor = System.Drawing.Color.Transparent
+        Me.cboTSG_Support.BorderRadius = 15
+        Me.cboTSG_Support.BorderThickness = 3
+        Me.cboTSG_Support.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboTSG_Support.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTSG_Support.FocusedColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.cboTSG_Support.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.cboTSG_Support.Font = New System.Drawing.Font("Segoe UI", 20.25!)
+        Me.cboTSG_Support.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
+        Me.cboTSG_Support.ItemHeight = 30
+        Me.cboTSG_Support.Items.AddRange(New Object() {"Ian", "Grant", "Ara", "Bernard"})
+        Me.cboTSG_Support.Location = New System.Drawing.Point(92, 486)
+        Me.cboTSG_Support.Name = "cboTSG_Support"
+        Me.cboTSG_Support.ShadowDecoration.BorderRadius = 20
+        Me.cboTSG_Support.ShadowDecoration.Depth = 15
+        Me.cboTSG_Support.ShadowDecoration.Enabled = True
+        Me.cboTSG_Support.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 10, 10)
+        Me.cboTSG_Support.Size = New System.Drawing.Size(278, 36)
+        Me.cboTSG_Support.TabIndex = 38
+        '
         'AdminAddProject_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -296,4 +321,5 @@ Partial Class AdminAddProject_Form
     Friend WithEvents Label3 As Label
     Friend WithEvents txtEmail As Guna.UI2.WinForms.Guna2TextBox
     Friend WithEvents Label6 As Label
+    Friend WithEvents cboTSG_Support As Guna.UI2.WinForms.Guna2ComboBox
 End Class

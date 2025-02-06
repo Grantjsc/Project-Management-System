@@ -127,7 +127,7 @@
     End Sub
 
     Private Sub txtUsername_Enter(sender As Object, e As EventArgs) Handles txtUsername.Enter
-        If txtUsername.Text = "User name" Then
+        If txtUsername.Text = "Employee number" Then
 
             txtUsername.Text = ""
             txtUsername.ForeColor = Color.Black
@@ -143,7 +143,7 @@
     Private Sub txtUsername_Leave(sender As Object, e As EventArgs) Handles txtUsername.Leave
         If txtUsername.Text = "" Then
 
-            txtUsername.Text = "User name"
+            txtUsername.Text = "Employee number"
             txtUsername.ForeColor = Color.FromArgb(87, 96, 111)
         End If
     End Sub

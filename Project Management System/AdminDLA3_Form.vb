@@ -32,6 +32,7 @@
     End Sub
 
     Private Sub btmBrowse_Click(sender As Object, e As EventArgs) Handles btmBrowse.Click
+        FolderBrowserDialog1.Description = "Select download location"
         FolderBrowserDialog1.ShowDialog()
         txtLocation.Text = FolderBrowserDialog1.SelectedPath.ToString
     End Sub
@@ -45,6 +46,21 @@
             DownloadA3()
             MsgBox("File has been downloaded successfully!")
             txtLocation.Clear()
+        End If
+    End Sub
+
+    Public Admin_UpdateA3 As Boolean = False
+
+    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
+        Admin_UpdateA3 = True
+        UpdateA3_Form.ShowDialog()
+    End Sub
+
+    Private Sub cboTSG_Support_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTSG_Support.SelectedIndexChanged
+        If cboTSG_Support.Text = "All" Then
+            Show_A3List()
+        Else
+            Show_Support_DLA3()
         End If
     End Sub
 End Class

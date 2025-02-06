@@ -45,6 +45,7 @@ Partial Class Main_Form
         '
         Me.Guna2CustomGradientPanel2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnLogOff)
         Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnAdmin)
         Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnRequest)
         Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnMyReq)
@@ -151,17 +152,16 @@ Partial Class Main_Form
         Me.lblTitle.BackColor = System.Drawing.Color.Transparent
         Me.lblTitle.Font = New System.Drawing.Font("Impact", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTitle.ForeColor = System.Drawing.Color.SeaGreen
-        Me.lblTitle.Location = New System.Drawing.Point(319, 9)
+        Me.lblTitle.Location = New System.Drawing.Point(374, 8)
         Me.lblTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.lblTitle.Name = "lblTitle"
-        Me.lblTitle.Size = New System.Drawing.Size(595, 45)
+        Me.lblTitle.Size = New System.Drawing.Size(516, 45)
         Me.lblTitle.TabIndex = 2
-        Me.lblTitle.Text = "Software Project Management System"
+        Me.lblTitle.Text = "TSG Project Management System"
         '
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Panel1.Controls.Add(Me.btnLogOff)
         Me.Panel1.Controls.Add(Me.lblfooter2)
         Me.Panel1.Controls.Add(Me.lblfooter1)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -184,14 +184,14 @@ Partial Class Main_Form
         Me.btnLogOff.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
         Me.btnLogOff.FillColor = System.Drawing.Color.Transparent
         Me.btnLogOff.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnLogOff.ForeColor = System.Drawing.Color.Black
+        Me.btnLogOff.ForeColor = System.Drawing.Color.White
         Me.btnLogOff.HoverState.BorderColor = System.Drawing.Color.Transparent
         Me.btnLogOff.HoverState.CustomBorderColor = System.Drawing.Color.Transparent
         Me.btnLogOff.HoverState.FillColor = System.Drawing.Color.Transparent
         Me.btnLogOff.HoverState.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnLogOff.HoverState.ForeColor = System.Drawing.Color.Red
         Me.btnLogOff.ImageSize = New System.Drawing.Size(30, 30)
-        Me.btnLogOff.Location = New System.Drawing.Point(1147, 3)
+        Me.btnLogOff.Location = New System.Drawing.Point(1164, 4)
         Me.btnLogOff.Margin = New System.Windows.Forms.Padding(2)
         Me.btnLogOff.Name = "btnLogOff"
         Me.btnLogOff.PressedColor = System.Drawing.Color.Transparent
@@ -202,7 +202,7 @@ Partial Class Main_Form
         Me.btnLogOff.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(8)
         Me.btnLogOff.Size = New System.Drawing.Size(97, 29)
         Me.btnLogOff.TabIndex = 1
-        Me.btnLogOff.Text = "Log off"
+        Me.btnLogOff.Text = "Log out"
         '
         'lblfooter2
         '
