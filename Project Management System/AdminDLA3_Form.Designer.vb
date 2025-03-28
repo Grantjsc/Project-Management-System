@@ -23,7 +23,7 @@ Partial Class AdminDLA3_Form
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdminDLA3_Form))
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.txtSearch = New Guna.UI2.WinForms.Guna2TextBox()
         Me.Guna2GroupBox1 = New Guna.UI2.WinForms.Guna2GroupBox()
         Me.btnUpdate = New Guna.UI2.WinForms.Guna2Button()
@@ -70,7 +70,7 @@ Partial Class AdminDLA3_Form
         '
         'Guna2GroupBox1
         '
-        Me.Guna2GroupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.Guna2GroupBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.Guna2GroupBox1.BackColor = System.Drawing.Color.Transparent
         Me.Guna2GroupBox1.BorderColor = System.Drawing.Color.Black
         Me.Guna2GroupBox1.BorderRadius = 10
@@ -85,10 +85,10 @@ Partial Class AdminDLA3_Form
         Me.Guna2GroupBox1.CustomBorderThickness = New System.Windows.Forms.Padding(3, 40, 3, 3)
         Me.Guna2GroupBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Guna2GroupBox1.ForeColor = System.Drawing.Color.White
-        Me.Guna2GroupBox1.Location = New System.Drawing.Point(175, 330)
+        Me.Guna2GroupBox1.Location = New System.Drawing.Point(187, 423)
         Me.Guna2GroupBox1.Name = "Guna2GroupBox1"
         Me.Guna2GroupBox1.ShadowDecoration.BorderRadius = 20
-        Me.Guna2GroupBox1.Size = New System.Drawing.Size(805, 360)
+        Me.Guna2GroupBox1.Size = New System.Drawing.Size(805, 305)
         Me.Guna2GroupBox1.TabIndex = 115
         Me.Guna2GroupBox1.Text = "Download A3"
         '
@@ -103,7 +103,7 @@ Partial Class AdminDLA3_Form
         Me.btnUpdate.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
         Me.btnUpdate.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnUpdate.ForeColor = System.Drawing.Color.White
-        Me.btnUpdate.Location = New System.Drawing.Point(226, 283)
+        Me.btnUpdate.Location = New System.Drawing.Point(222, 245)
         Me.btnUpdate.Name = "btnUpdate"
         Me.btnUpdate.Size = New System.Drawing.Size(131, 45)
         Me.btnUpdate.TabIndex = 18
@@ -124,7 +124,7 @@ Partial Class AdminDLA3_Form
         Me.txtFileName.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtFileName.ForeColor = System.Drawing.Color.Black
         Me.txtFileName.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtFileName.Location = New System.Drawing.Point(27, 93)
+        Me.txtFileName.Location = New System.Drawing.Point(26, 85)
         Me.txtFileName.Margin = New System.Windows.Forms.Padding(6)
         Me.txtFileName.MaxLength = 3
         Me.txtFileName.Name = "txtFileName"
@@ -145,7 +145,7 @@ Partial Class AdminDLA3_Form
         Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("Impact", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label1.Location = New System.Drawing.Point(31, 58)
+        Me.Label1.Location = New System.Drawing.Point(30, 50)
         Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(112, 29)
@@ -165,7 +165,7 @@ Partial Class AdminDLA3_Form
         Me.btmBrowse.FillColor = System.Drawing.SystemColors.Control
         Me.btmBrowse.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btmBrowse.ForeColor = System.Drawing.Color.Black
-        Me.btmBrowse.Location = New System.Drawing.Point(652, 199)
+        Me.btmBrowse.Location = New System.Drawing.Point(651, 191)
         Me.btmBrowse.Name = "btmBrowse"
         Me.btmBrowse.Size = New System.Drawing.Size(110, 35)
         Me.btmBrowse.TabIndex = 15
@@ -186,7 +186,7 @@ Partial Class AdminDLA3_Form
         Me.txtLocation.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.ForeColor = System.Drawing.Color.Black
         Me.txtLocation.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtLocation.Location = New System.Drawing.Point(27, 191)
+        Me.txtLocation.Location = New System.Drawing.Point(26, 183)
         Me.txtLocation.Margin = New System.Windows.Forms.Padding(6)
         Me.txtLocation.MaxLength = 3
         Me.txtLocation.Name = "txtLocation"
@@ -207,7 +207,7 @@ Partial Class AdminDLA3_Form
         Me.Label4.BackColor = System.Drawing.Color.Transparent
         Me.Label4.Font = New System.Drawing.Font("Impact", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label4.Location = New System.Drawing.Point(31, 156)
+        Me.Label4.Location = New System.Drawing.Point(30, 148)
         Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(101, 29)
@@ -225,7 +225,7 @@ Partial Class AdminDLA3_Form
         Me.btnDownload.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
         Me.btnDownload.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnDownload.ForeColor = System.Drawing.Color.White
-        Me.btnDownload.Location = New System.Drawing.Point(467, 283)
+        Me.btnDownload.Location = New System.Drawing.Point(465, 245)
         Me.btnDownload.Name = "btnDownload"
         Me.btnDownload.Size = New System.Drawing.Size(131, 45)
         Me.btnDownload.TabIndex = 11
@@ -248,24 +248,25 @@ Partial Class AdminDLA3_Form
         '
         Me.DataGridView1.AllowUserToAddRows = False
         Me.DataGridView1.AllowUserToDeleteRows = False
-        Me.DataGridView1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.White
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Location = New System.Drawing.Point(19, 76)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
-        Me.DataGridView1.Size = New System.Drawing.Size(1124, 235)
+        Me.DataGridView1.Size = New System.Drawing.Size(1124, 341)
         Me.DataGridView1.TabIndex = 113
         '
         'cboTSG_Support

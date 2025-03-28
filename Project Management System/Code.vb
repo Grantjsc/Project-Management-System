@@ -62,8 +62,6 @@ Module MainForm_Module
             Main_Form.btnMyReq.Visible = False
             Main_Form.btnRequest.Visible = False
 
-            'CheckDelay()
-
             'SendingEmail_Condition() 'Checking using app.config
             'CheckLastDate() 'Checking using database
 

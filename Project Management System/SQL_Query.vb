@@ -114,7 +114,7 @@ Module Query_Module
                     LogIn_Form.txtPass.PasswordChar = ""
                     LogIn_Form.txtPass.ForeColor = Color.FromArgb(87, 96, 111)
 
-                    LogIn_Form.txtUser.Text = "Username"
+                    LogIn_Form.txtUser.Text = "Employee number"
                     LogIn_Form.txtUser.ForeColor = Color.FromArgb(87, 96, 111)
 
                     LogIn_Form.txtUser.Focus()
@@ -141,7 +141,7 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
-            command.CommandText = "Select Title, Owner, Department, TSG_Support, Status, Start_date, Due_Date From Project_tb WHERE Owner = '" & User & "' ORDER BY Due_Date DESC"
+            command.CommandText = "Select ID, Title, Owner, Department, TSG_Support, Status, Start_date, Due_Date From Project_tb WHERE Owner = '" & User & "' ORDER BY Due_Date DESC"
 
             Dim rdr As SqlDataReader = command.ExecuteReader
 
@@ -157,7 +157,10 @@ Module Query_Module
                 column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
             Next
 
+
+            MyRequest_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
             MyRequest_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
+            MyRequest_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
             MyRequest_Form.DataGridView1.Columns("Due_Date").HeaderText = "Due Date"
 
             MyRequest_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
@@ -172,115 +175,160 @@ Module Query_Module
     End Sub
 
     Sub MyRequest_cell2click()
-
-        Task_Form.btnSave.Visible = False
-
-        Task_Form.txtTask1.ReadOnly = True
-        Task_Form.txtTask2.ReadOnly = True
-        Task_Form.txtTask3.ReadOnly = True
-        Task_Form.txtTask4.ReadOnly = True
-        Task_Form.txtTask5.ReadOnly = True
-
-        Task_Form.txtTask1_Owner.ReadOnly = True
-        Task_Form.txtTask2_Owner.ReadOnly = True
-        Task_Form.txtTask3_Owner.ReadOnly = True
-        Task_Form.txtTask4_Owner.ReadOnly = True
-        Task_Form.txtTask5_Owner.ReadOnly = True
-
-        Task_Form.DateTimePicker1.Enabled = False
-        Task_Form.DateTimePicker2.Enabled = False
-        Task_Form.DateTimePicker3.Enabled = False
-        Task_Form.DateTimePicker4.Enabled = False
-        Task_Form.DateTimePicker5.Enabled = False
-
         Try
-            Dim mydata As String
-            Dim command As New SqlCommand
-            Dim data As New DataTable
-            Dim adap As New SqlDataAdapter
-            Dim val As String
+            ' Disable editing for task-related fields
+            With Task_Form
+                .btnSave.Visible = False
 
-            'SQLDbconnection.Open()
-            ConOpen()
+                .txtTask1.ReadOnly = True
+                .txtTask2.ReadOnly = True
+                .txtTask3.ReadOnly = True
+                .txtTask4.ReadOnly = True
+                .txtTask5.ReadOnly = True
 
-            val = MyRequest_Form.DataGridView1.SelectedCells.Item(0).Value.ToString()
+                .txtTask1_Owner.ReadOnly = True
+                .txtTask2_Owner.ReadOnly = True
+                .txtTask3_Owner.ReadOnly = True
+                .txtTask4_Owner.ReadOnly = True
+                .txtTask5_Owner.ReadOnly = True
 
-            mydata = "SELECT * From ProActivity_tb WHERE Title = '" & val & "'"
-            command.Connection = SQLDbconnection
-            command.CommandText = mydata
-            adap.SelectCommand = command
+                .DateTimePicker1.Enabled = False
+                .DateTimePicker2.Enabled = False
+                .DateTimePicker3.Enabled = False
+                .DateTimePicker4.Enabled = False
+                .DateTimePicker5.Enabled = False
+            End With
 
-            adap.Fill(data)
+            ' Check if at least one cell is selected
+            If MyRequest_Form.DataGridView1.SelectedCells.Count > 0 Then
+                Dim selectedRowIndex As Integer = MyRequest_Form.DataGridView1.SelectedCells(0).RowIndex
 
-            If data.Rows.Count > 0 Then
+                ' Ensure row index is valid
+                If selectedRowIndex >= 0 Then
+                    ' Assuming "Title" is in column index 1 (adjust if needed)
+                    Dim titleColumnIndex As Integer = 1
+                    Dim selectedRow As DataGridViewRow = MyRequest_Form.DataGridView1.Rows(selectedRowIndex)
 
-                Dim Date1 As String
-                Dim Date2 As String
-                Dim Date3 As String
-                Dim Date4 As String
-                Dim Date5 As String
+                    ' Retrieve the project title from the specified column
+                    Dim val As String = selectedRow.Cells(titleColumnIndex).Value?.ToString()
 
-                Task_Form.txtTask1.Text = data.Rows(0).Item("Task1").ToString
-                Task_Form.txtTask1_Owner.Text = data.Rows(0).Item("Task1_Owner").ToString
-                Date1 = data.Rows(0).Item("Task1_Due").ToString
-                If Date1 = Nothing Then
-                    Task_Form.DateTimePicker1.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker1.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker1.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker1.CustomFormat = Date1
+                    ' Ensure value is not empty
+                    If Not String.IsNullOrEmpty(val) Then
+                        Dim command As New SqlCommand
+                        Dim data As New DataTable
+                        Dim adap As New SqlDataAdapter
+
+                        ' Open database connection
+                        ConOpen()
+
+                        ' Use parameterized query to prevent SQL injection
+                        Dim mydata As String = "SELECT * FROM ProActivity_tb WHERE Title = @Title"
+                        command.Connection = SQLDbconnection
+                        command.CommandText = mydata
+                        command.Parameters.AddWithValue("@Title", val)
+                        adap.SelectCommand = command
+
+                        ' Fill the DataTable
+                        adap.Fill(data)
+
+                        ' If data is found, populate the form fields
+                        If data.Rows.Count > 0 Then
+                            'With Task_Form
+                            '    .txtTask1.Text = data.Rows(0).Item("Task1").ToString()
+                            '    .txtTask1_Owner.Text = data.Rows(0).Item("Task1_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker1, data.Rows(0).Item("Task1_Due"))
+
+                            '    .txtTask2.Text = data.Rows(0).Item("Task2").ToString()
+                            '    .txtTask2_Owner.Text = data.Rows(0).Item("Task2_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker2, data.Rows(0).Item("Task2_Due"))
+
+                            '    .txtTask3.Text = data.Rows(0).Item("Task3").ToString()
+                            '    .txtTask3_Owner.Text = data.Rows(0).Item("Task3_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker3, data.Rows(0).Item("Task3_Due"))
+
+                            '    .txtTask4.Text = data.Rows(0).Item("Task4").ToString()
+                            '    .txtTask4_Owner.Text = data.Rows(0).Item("Task4_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker4, data.Rows(0).Item("Task4_Due"))
+
+                            '    .txtTask5.Text = data.Rows(0).Item("Task5").ToString()
+                            '    .txtTask5_Owner.Text = data.Rows(0).Item("Task5_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker5, data.Rows(0).Item("Task5_Due"))
+
+                            '    .GroupBoxProj.Text = val ' Set the group box title
+                            'End With
+
+                            Dim Date1 As String
+                            Dim Date2 As String
+                            Dim Date3 As String
+                            Dim Date4 As String
+                            Dim Date5 As String
+
+                            Task_Form.txtTask1.Text = data.Rows(0).Item("Task1").ToString
+                            Task_Form.txtTask1_Owner.Text = data.Rows(0).Item("Task1_Owner").ToString
+                            Date1 = data.Rows(0).Item("Task1_Due").ToString
+                            If Date1 = Nothing Then
+                                Task_Form.DateTimePicker1.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker1.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker1.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker1.CustomFormat = Date1
+                            End If
+
+                            Task_Form.txtTask2.Text = data.Rows(0).Item("Task2").ToString
+                            Task_Form.txtTask2_Owner.Text = data.Rows(0).Item("Task2_Owner").ToString
+                            Date2 = data.Rows(0).Item("Task2_Due").ToString
+                            If Date2 = Nothing Then
+                                Task_Form.DateTimePicker2.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker2.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker2.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker2.CustomFormat = Date2
+                            End If
+
+                            Task_Form.txtTask3.Text = data.Rows(0).Item("Task3").ToString
+                            Task_Form.txtTask3_Owner.Text = data.Rows(0).Item("Task3_Owner").ToString
+                            Date3 = data.Rows(0).Item("Task3_Due").ToString
+                            If Date3 = Nothing Then
+                                Task_Form.DateTimePicker3.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker3.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker3.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker3.CustomFormat = Date3
+                            End If
+
+                            Task_Form.txtTask4.Text = data.Rows(0).Item("Task4").ToString
+                            Task_Form.txtTask4_Owner.Text = data.Rows(0).Item("Task4_Owner").ToString
+                            Date4 = data.Rows(0).Item("Task4_Due").ToString
+                            If Date4 = Nothing Then
+                                Task_Form.DateTimePicker4.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker4.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker4.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker4.CustomFormat = Date4
+                            End If
+
+                            Task_Form.txtTask5.Text = data.Rows(0).Item("Task5").ToString
+                            Task_Form.txtTask5_Owner.Text = data.Rows(0).Item("Task5_Owner").ToString
+                            Date5 = data.Rows(0).Item("Task5_Due").ToString
+                            If Date5 = Nothing Then
+                                Task_Form.DateTimePicker5.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker5.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker5.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker5.CustomFormat = Date5
+                            End If
+
+                            Task_Form.GroupBoxProj.Text = val
+
+                        End If
+                    End If
                 End If
-
-                Task_Form.txtTask2.Text = data.Rows(0).Item("Task2").ToString
-                Task_Form.txtTask2_Owner.Text = data.Rows(0).Item("Task2_Owner").ToString
-                Date2 = data.Rows(0).Item("Task2_Due").ToString
-                If Date2 = Nothing Then
-                    Task_Form.DateTimePicker2.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker2.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker2.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker2.CustomFormat = Date2
-                End If
-
-                Task_Form.txtTask3.Text = data.Rows(0).Item("Task3").ToString
-                Task_Form.txtTask3_Owner.Text = data.Rows(0).Item("Task3_Owner").ToString
-                Date3 = data.Rows(0).Item("Task3_Due").ToString
-                If Date3 = Nothing Then
-                    Task_Form.DateTimePicker3.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker3.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker3.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker3.CustomFormat = Date3
-                End If
-
-                Task_Form.txtTask4.Text = data.Rows(0).Item("Task4").ToString
-                Task_Form.txtTask4_Owner.Text = data.Rows(0).Item("Task4_Owner").ToString
-                Date4 = data.Rows(0).Item("Task4_Due").ToString
-                If Date4 = Nothing Then
-                    Task_Form.DateTimePicker4.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker4.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker4.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker4.CustomFormat = Date4
-                End If
-
-                Task_Form.txtTask5.Text = data.Rows(0).Item("Task5").ToString
-                Task_Form.txtTask5_Owner.Text = data.Rows(0).Item("Task5_Owner").ToString
-                Date5 = data.Rows(0).Item("Task5_Due").ToString
-                If Date5 = Nothing Then
-                    Task_Form.DateTimePicker5.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker5.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker5.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker5.CustomFormat = Date5
-                End If
-
-                Task_Form.GroupBoxProj.Text = val
             End If
-        Catch ex As Exception
 
+        Catch ex As Exception
+            MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-            'SQLDbconnection.Close()
+            ' Close the database connection
             ConClose()
         End Try
     End Sub
@@ -292,9 +340,9 @@ Module Query_Module
             Dim query As String
 
             If MyRequest_Form.txtSearch.Text = "" Or MyRequest_Form.txtSearch.Text = "Search Project" Then
-                query = "Select Title, Owner, Department, TSG_Support, Status, Due_Date From Project_tb WHERE Owner = '" & User & "' ORDER BY Due_Date DESC"
+                query = "Select ID, Title, Owner, Department, TSG_Support, Status, Start_date, Due_Date From Project_tb WHERE Owner = '" & User & "' ORDER BY Due_Date DESC"
             Else
-                query = "Select Title, Owner, Department, TSG_Support, Status, Due_Date From Project_tb 
+                query = "Select ID, Title, Owner, Department, TSG_Support, Status, Start_date, Due_Date From Project_tb 
                          WHERE Title LIKE @searchText AND Owner = '" & User & "' "
 
                 '"SELECT Part_Number, Qty FROM LineData_tb WHERE Part_Number LIKE @searchText"
@@ -318,12 +366,15 @@ Module Query_Module
 
             ' Bold the header cells
             For Each column As DataGridViewColumn In MyRequest_Form.DataGridView1.Columns
-                column.HeaderCell.Style.Font = New Font(MyRequest_Form.DataGridView1.Font, FontStyle.Bold)
+                column.HeaderCell.Style.Font = New Font("MS Reference Sans Serif", 11, FontStyle.Bold)
                 column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
                 column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
             Next
 
+            MyRequest_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
             MyRequest_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
+            MyRequest_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
             MyRequest_Form.DataGridView1.Columns("Due_Date").HeaderText = "Due Date"
 
         Catch ex As Exception
@@ -339,35 +390,52 @@ Module Query_Module
 
     Sub MyRequest_Populate()
         Try
-            Dim mydata As String
-            Dim command As New SqlCommand
-            Dim data As New DataTable
-            Dim adap As New SqlDataAdapter
-            'Dim val As String
+            ' Ensure at least one cell is selected
+            If MyRequest_Form.DataGridView1.SelectedCells.Count > 0 Then
+                Dim selectedRowIndex As Integer = MyRequest_Form.DataGridView1.SelectedCells(0).RowIndex
 
-            'SQLDbconnection.Open()
-            ConOpen()
+                ' Ensure row index is valid
+                If selectedRowIndex >= 0 Then
+                    ' Assuming "Title" is in column index 1 (adjust if needed)
+                    Dim titleColumnIndex As Integer = 1
+                    Dim selectedRow As DataGridViewRow = MyRequest_Form.DataGridView1.Rows(selectedRowIndex)
 
-            User_Val = MyRequest_Form.DataGridView1.SelectedCells.Item(0).Value.ToString()
+                    ' Retrieve the project title from the specified column
+                    Dim User_Val As String = selectedRow.Cells(titleColumnIndex).Value?.ToString()
 
-            mydata = "SELECT * From Project_tb WHERE Title = '" & User_Val & "'"
-            command.Connection = SQLDbconnection
-            command.CommandText = mydata
-            adap.SelectCommand = command
+                    ' Ensure value is not empty
+                    If Not String.IsNullOrEmpty(User_Val) Then
+                        Dim query As String = "SELECT FileName FROM Project_tb WHERE Title = @Title"
 
-            adap.Fill(data)
+                        ' Open database connection
+                        ConOpen()
 
-            If data.Rows.Count > 0 Then
+                        ' Use "Using" to properly dispose of objects
+                        Using command As New SqlCommand(query, SQLDbconnection)
+                            command.Parameters.AddWithValue("@Title", User_Val)
 
-                MyRequest_Form.txtFileName.Text = data.Rows(0).Item("FileName").ToString
+                            Using adapter As New SqlDataAdapter(command)
+                                Using data As New DataTable()
+                                    adapter.Fill(data)
 
+                                    ' If data is found, populate the filename text field
+                                    If data.Rows.Count > 0 Then
+                                        MyRequest_Form.txtFileName.Text = data.Rows(0).Item("FileName").ToString()
+                                    End If
+                                End Using
+                            End Using
+                        End Using
+                    End If
+                End If
             End If
-        Catch ex As Exception
 
+        Catch ex As Exception
+            MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-            'SQLDbconnection.Close()
+            ' Close the database connection
             ConClose()
         End Try
+
     End Sub
 
     Sub MyRequest_DownloadA3()
@@ -518,6 +586,30 @@ Module Query_Module
         End Try
     End Sub
 
+    Sub Update_ProjectAct_Title()
+        Try
+
+            Dim Token As String = NewProj_Token
+            Dim Project_Title As String = Request_Form.txtProjTitle.Text
+            Dim query As String = "UPDATE ProActivity_tb 
+                                        SET Title = @ProjectTit
+                                        WHERE Token = @proTitle"
+
+            Using command As New SqlCommand(query, SQLDbconnection)
+                command.Parameters.AddWithValue("@ProjectTit", Project_Title)
+                command.Parameters.AddWithValue("@proTitle", Token)
+                'SQLDbconnection.Open()
+                ConOpen()
+                command.ExecuteNonQuery()
+                'SQLDbconnection.Close()
+                ConClose()
+            End Using
+
+        Catch ex As Exception
+            MsgBox(ex.Message, vbCritical)
+        End Try
+    End Sub
+
     Sub Update_ProjectDetails()
         If Request_Form.txtManagerEmail.Text = "" Then
             MsgBox("Please enter your emial!", MsgBoxStyle.Critical)
@@ -586,6 +678,7 @@ Module Query_Module
                 End Using
 
                 'ShowDataTable()
+                Update_ProjectAct_Title()
 
                 MsgBox("New project request sent successfully!")
 
@@ -848,8 +941,42 @@ Module Query_Module
         End Try
     End Sub
 
+    Public ProID As String
+
+
+    Sub Get_Project_ID()
+        Dim NewToken As String = AdminAddProject_Form.txtToken.Text
+        Try
+            Dim MyData As String
+            Dim cmd As New SqlCommand
+            Dim Data As New DataTable
+            Dim adap As New SqlDataAdapter
+            'SQLDbconnection.Open()
+            ConOpen()
+
+            MyData = "SELECT * From Project_tb WHERE Token = '" & NewToken & "'"
+            cmd.Connection = SQLDbconnection
+            cmd.CommandText = MyData
+            adap.SelectCommand = cmd
+
+            adap.Fill(Data)
+
+            If Data.Rows.Count > 0 Then
+
+                ProID = Data.Rows(0).Item("ID").ToString
+            End If
+        Catch ex As Exception
+            'MsgBox(ex.Message, vbCritical)
+        Finally
+            'SQLDbconnection.Close()
+            ConClose()
+        End Try
+    End Sub
+
 
     Sub SendToken_toProjectOwner()
+
+        Get_Project_ID()
         Try
             Dim EmailAdd As String = AdminAddProject_Form.txtEmail.Text
             Dim Recipients As String() = EmailAdd.Split(";"c)
@@ -877,8 +1004,9 @@ Module Query_Module
             Email.Body = "<div style='font-family: Arial, sans-serif; font-size: 12pt;'>Good day,<br><br>
                                         This is the token to add the details of your new project request. 
                                        <br><br> <b> Token: " & AdminAddProject_Form.txtToken.Text &
+                                       "<br>Project ID: " & ProID &
                                        "</b> <br><br>If you don't have Software Project Management System App, please open then link below and click launch.<br><br>
-                                        Link: file://btwebdev01/Websites/WindowsAppUpdater/TSG_Shared/TSG%20Software%20Project%20Management%20System/Installer.htm <br><br>
+                                        <b>Link:</b> <i> file://btwebdev01/Websites/WindowsAppUpdater/TSG_Shared/TSG%20Software%20Project%20Management%20System/Installer.htm</i> <br><br>
                                         If you don't have an account please sign up. <br>
                                         Thank you.</div>
                                         <br> <small style='color:Gray;'><i> This is a system generated mail. Please do not reply.</i></small>"
@@ -911,7 +1039,7 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
-            command.CommandText = "Select Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus
+            command.CommandText = "Select ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus
                                     From Project_tb ORDER BY Due_Date DESC"
 
             '"Select Title, Description, Owner, Email, Member, 
@@ -931,6 +1059,7 @@ Module Query_Module
                 column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
             Next
 
+            AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
             AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
             AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
             AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
@@ -954,7 +1083,7 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus " &
+            Dim query As String = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus " &
                                   "FROM Project_tb " &
                                   "WHERE TSG_Support LIKE @TSGSupport " &
                                   "ORDER BY Due_Date DESC"
@@ -984,6 +1113,7 @@ Module Query_Module
                 Next
 
                 ' Adjust specific column headers
+                AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
                 AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
                 AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
                 AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
@@ -1006,6 +1136,7 @@ Module Query_Module
 
     Sub AdminProjectList_PopulateEdit()
         Try
+
             Dim mydata As String
             Dim command As New SqlCommand
             Dim data As New DataTable
@@ -1064,6 +1195,7 @@ Module Query_Module
                 End If
 
             End If
+
         Catch ex As Exception
 
         Finally
@@ -1072,6 +1204,91 @@ Module Query_Module
         End Try
     End Sub
 
+
+    Sub AdminProDetails_Form_Populate()
+        Try
+            ' Check if a row is selected in the DataGridView
+            If AdminProjectList_Form.DataGridView1.SelectedCells.Count > 0 Then
+                Dim selectedRowIndex As Integer = AdminProjectList_Form.DataGridView1.SelectedCells(0).RowIndex
+
+                ' Ensure the row index is valid
+                If selectedRowIndex >= 0 Then
+                    ' Assuming "Title" is in column index 1 (adjust if needed)
+                    Dim titleColumnIndex As Integer = 1
+                    Dim selectedRow As DataGridViewRow = AdminProjectList_Form.DataGridView1.Rows(selectedRowIndex)
+
+                    ' Get the title value from the specific column
+                    Dim val As String = selectedRow.Cells(titleColumnIndex).Value?.ToString()
+
+                    ' Ensure the value is not null or empty
+                    If Not String.IsNullOrEmpty(val) Then
+                        Dim command As New SqlCommand
+                        Dim data As New DataTable
+                        Dim adap As New SqlDataAdapter
+
+                        ' Open the database connection
+                        ConOpen()
+
+                        ' Use parameterized query to prevent SQL Injection
+                        Dim mydata As String = "SELECT * FROM Project_tb WHERE Title = @Title"
+                        command.Connection = SQLDbconnection
+                        command.CommandText = mydata
+                        command.Parameters.AddWithValue("@Title", val)
+                        adap.SelectCommand = command
+
+                        ' Fill the DataTable with query results
+                        adap.Fill(data)
+
+                        ' If there is a matching record, populate the fields
+                        If data.Rows.Count > 0 Then
+                            With AdminProDetail_Form
+                                .txtToken.Text = data.Rows(0).Item("Token").ToString()
+                                .txtTitle.Text = data.Rows(0).Item("Title").ToString()
+                                .txtDescr.Text = data.Rows(0).Item("Description").ToString()
+                                .txtOwner.Text = data.Rows(0).Item("Owner").ToString()
+                                .txtOwnersEmail.Text = data.Rows(0).Item("Email").ToString()
+                                .txtMember.Text = data.Rows(0).Item("Member").ToString()
+                                .txtMemEmails.Text = data.Rows(0).Item("Member_Emails").ToString()
+                                .txtDept.Text = data.Rows(0).Item("Department").ToString()
+                                .txtSupport.Text = data.Rows(0).Item("TSG_Support").ToString()
+                                .cboStat.Text = data.Rows(0).Item("Status").ToString()
+                                .dtpStartDate.Text = data.Rows(0).Item("Start_date").ToString()
+                                .dtpDue.Text = data.Rows(0).Item("Due_date").ToString()
+                                .cboTokenStat.Text = data.Rows(0).Item("TokenStatus").ToString()
+
+                                ' Handle Due Date formatting
+                                Dim due As Object = data.Rows(0).Item("Due_date")
+                                If due Is DBNull.Value OrElse String.IsNullOrWhiteSpace(due.ToString()) Then
+                                    .dtpDue.Format = DateTimePickerFormat.Custom
+                                    .dtpDue.CustomFormat = " "
+                                Else
+                                    .dtpDue.Format = DateTimePickerFormat.Short
+                                    .dtpDue.CustomFormat = due.ToString()
+                                End If
+
+                                ' Handle Start Date formatting
+                                Dim start As Object = data.Rows(0).Item("Start_date")
+                                If start Is DBNull.Value OrElse String.IsNullOrWhiteSpace(start.ToString()) Then
+                                    .dtpStartDate.Format = DateTimePickerFormat.Custom
+                                    .dtpStartDate.CustomFormat = " "
+                                Else
+                                    .dtpStartDate.Format = DateTimePickerFormat.Short
+                                    .dtpStartDate.CustomFormat = start.ToString()
+                                End If
+                            End With
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Close the database connection
+            ConClose()
+        End Try
+    End Sub
+
+
     Sub AdminProjetList_TextSearch()
         Try
             Dim Data As New DataTable
@@ -1079,10 +1296,10 @@ Module Query_Module
             Dim query As String
 
             If AdminProjectList_Form.txtSearch.Text = "" Or AdminProjectList_Form.txtSearch.Text = "Search Project" Then
-                query = "Select Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus 
+                query = "Select ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus 
                         From Project_tb ORDER BY Due_Date DESC"
             Else
-                query = "Select Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus From Project_tb 
+                query = "Select ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus From Project_tb 
                          WHERE Title LIKE @searchText ORDER BY Due_Date DESC"
 
                 '"SELECT Part_Number, Qty FROM LineData_tb WHERE Part_Number LIKE @searchText"
@@ -1111,6 +1328,7 @@ Module Query_Module
                 column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             Next
 
+            AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
             AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
             AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
             AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
@@ -1126,119 +1344,175 @@ Module Query_Module
     End Sub
 
     Sub AdminProjectList_ShowTask()
-        'If AccLevel = "Admin" Then
-        Task_Form.btnSave.Visible = True
-
-        Task_Form.txtTask1.ReadOnly = False
-        Task_Form.txtTask2.ReadOnly = False
-        Task_Form.txtTask3.ReadOnly = False
-        Task_Form.txtTask4.ReadOnly = False
-        Task_Form.txtTask5.ReadOnly = False
-
-        Task_Form.txtTask1_Owner.ReadOnly = False
-        Task_Form.txtTask2_Owner.ReadOnly = False
-        Task_Form.txtTask3_Owner.ReadOnly = False
-        Task_Form.txtTask4_Owner.ReadOnly = False
-        Task_Form.txtTask5_Owner.ReadOnly = False
-
-        Task_Form.DateTimePicker1.Enabled = True
-        Task_Form.DateTimePicker2.Enabled = True
-        Task_Form.DateTimePicker3.Enabled = True
-        Task_Form.DateTimePicker4.Enabled = True
-        Task_Form.DateTimePicker5.Enabled = True
-        'End If
-
         Try
-            Dim mydata As String
-            Dim command As New SqlCommand
-            Dim data As New DataTable
-            Dim adap As New SqlDataAdapter
-            Dim val As String
+            ' Enable editing for task-related fields
+            With Task_Form
+                .btnSave.Visible = True
 
-            'SQLDbconnection.Open()
-            ConOpen()
+                .txtTask1.ReadOnly = False
+                .txtTask2.ReadOnly = False
+                .txtTask3.ReadOnly = False
+                .txtTask4.ReadOnly = False
+                .txtTask5.ReadOnly = False
 
-            val = AdminProjectList_Form.DataGridView1.SelectedCells.Item(0).Value.ToString()
+                .txtTask1_Owner.ReadOnly = False
+                .txtTask2_Owner.ReadOnly = False
+                .txtTask3_Owner.ReadOnly = False
+                .txtTask4_Owner.ReadOnly = False
+                .txtTask5_Owner.ReadOnly = False
 
-            mydata = "SELECT * From ProActivity_tb WHERE Title = '" & val & "'"
-            command.Connection = SQLDbconnection
-            command.CommandText = mydata
-            adap.SelectCommand = command
+                .DateTimePicker1.Enabled = True
+                .DateTimePicker2.Enabled = True
+                .DateTimePicker3.Enabled = True
+                .DateTimePicker4.Enabled = True
+                .DateTimePicker5.Enabled = True
+            End With
 
-            adap.Fill(data)
+            ' Check if at least one cell is selected
+            If AdminProjectList_Form.DataGridView1.SelectedCells.Count > 0 Then
+                Dim selectedRowIndex As Integer = AdminProjectList_Form.DataGridView1.SelectedCells(0).RowIndex
 
-            If data.Rows.Count > 0 Then
+                ' Ensure row index is valid
+                If selectedRowIndex >= 0 Then
+                    ' Assuming "Title" is in column index 1 (adjust if needed)
+                    Dim titleColumnIndex As Integer = 1
+                    Dim selectedRow As DataGridViewRow = AdminProjectList_Form.DataGridView1.Rows(selectedRowIndex)
 
-                Dim Date1 As String
-                Dim Date2 As String
-                Dim Date3 As String
-                Dim Date4 As String
-                Dim Date5 As String
+                    ' Retrieve the project title from the specified column
+                    Dim val As String = selectedRow.Cells(titleColumnIndex).Value?.ToString()
 
-                Task_Form.txtTask1.Text = data.Rows(0).Item("Task1").ToString
-                Task_Form.txtTask1_Owner.Text = data.Rows(0).Item("Task1_Owner").ToString
-                Date1 = data.Rows(0).Item("Task1_Due").ToString
-                If Date1 = Nothing Then
-                    Task_Form.DateTimePicker1.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker1.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker1.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker1.CustomFormat = Date1
+                    ' Ensure value is not empty
+                    If Not String.IsNullOrEmpty(val) Then
+                        Dim command As New SqlCommand
+                        Dim data As New DataTable
+                        Dim adap As New SqlDataAdapter
+
+                        ' Open database connection
+                        ConOpen()
+
+                        ' Use parameterized query to prevent SQL injection
+                        Dim mydata As String = "SELECT * FROM ProActivity_tb WHERE Title = @Title"
+                        command.Connection = SQLDbconnection
+                        command.CommandText = mydata
+                        command.Parameters.AddWithValue("@Title", val)
+                        adap.SelectCommand = command
+
+                        ' Fill the DataTable
+                        adap.Fill(data)
+
+                        ' If data is found, populate the form fields
+                        If data.Rows.Count > 0 Then
+                            'With Task_Form
+                            '    .txtTask1.Text = data.Rows(0).Item("Task1").ToString()
+                            '    .txtTask1_Owner.Text = data.Rows(0).Item("Task1_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker1, data.Rows(0).Item("Task1_Due"))
+
+                            '    .txtTask2.Text = data.Rows(0).Item("Task2").ToString()
+                            '    .txtTask2_Owner.Text = data.Rows(0).Item("Task2_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker2, data.Rows(0).Item("Task2_Due"))
+
+                            '    .txtTask3.Text = data.Rows(0).Item("Task3").ToString()
+                            '    .txtTask3_Owner.Text = data.Rows(0).Item("Task3_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker3, data.Rows(0).Item("Task3_Due"))
+
+                            '    .txtTask4.Text = data.Rows(0).Item("Task4").ToString()
+                            '    .txtTask4_Owner.Text = data.Rows(0).Item("Task4_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker4, data.Rows(0).Item("Task4_Due"))
+
+                            '    .txtTask5.Text = data.Rows(0).Item("Task5").ToString()
+                            '    .txtTask5_Owner.Text = data.Rows(0).Item("Task5_Owner").ToString()
+                            '    SetDatePickerValue(.DateTimePicker5, data.Rows(0).Item("Task5_Due"))
+
+                            '    .GroupBoxProj.Text = val ' Set the group box title
+                            'End With
+
+
+                            Dim Date1 As String
+                            Dim Date2 As String
+                            Dim Date3 As String
+                            Dim Date4 As String
+                            Dim Date5 As String
+
+                            Task_Form.txtTask1.Text = data.Rows(0).Item("Task1").ToString
+                            Task_Form.txtTask1_Owner.Text = data.Rows(0).Item("Task1_Owner").ToString
+                            Date1 = data.Rows(0).Item("Task1_Due").ToString
+                            If Date1 = Nothing Then
+                                Task_Form.DateTimePicker1.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker1.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker1.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker1.CustomFormat = Date1
+                            End If
+
+                            Task_Form.txtTask2.Text = data.Rows(0).Item("Task2").ToString
+                            Task_Form.txtTask2_Owner.Text = data.Rows(0).Item("Task2_Owner").ToString
+                            Date2 = data.Rows(0).Item("Task2_Due").ToString
+                            If Date2 = Nothing Then
+                                Task_Form.DateTimePicker2.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker2.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker2.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker2.CustomFormat = Date2
+                            End If
+
+                            Task_Form.txtTask3.Text = data.Rows(0).Item("Task3").ToString
+                            Task_Form.txtTask3_Owner.Text = data.Rows(0).Item("Task3_Owner").ToString
+                            Date3 = data.Rows(0).Item("Task3_Due").ToString
+                            If Date3 = Nothing Then
+                                Task_Form.DateTimePicker3.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker3.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker3.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker3.CustomFormat = Date3
+                            End If
+
+                            Task_Form.txtTask4.Text = data.Rows(0).Item("Task4").ToString
+                            Task_Form.txtTask4_Owner.Text = data.Rows(0).Item("Task4_Owner").ToString
+                            Date4 = data.Rows(0).Item("Task4_Due").ToString
+                            If Date4 = Nothing Then
+                                Task_Form.DateTimePicker4.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker4.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker4.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker4.CustomFormat = Date4
+                            End If
+
+                            Task_Form.txtTask5.Text = data.Rows(0).Item("Task5").ToString
+                            Task_Form.txtTask5_Owner.Text = data.Rows(0).Item("Task5_Owner").ToString
+                            Date5 = data.Rows(0).Item("Task5_Due").ToString
+                            If Date5 = Nothing Then
+                                Task_Form.DateTimePicker5.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker5.CustomFormat = " "
+                            Else
+                                Task_Form.DateTimePicker5.Format = DateTimePickerFormat.Custom
+                                Task_Form.DateTimePicker5.CustomFormat = Date5
+                            End If
+
+                            Task_Form.GroupBoxProj.Text = val
+
+                        End If
+                    End If
                 End If
-
-                Task_Form.txtTask2.Text = data.Rows(0).Item("Task2").ToString
-                Task_Form.txtTask2_Owner.Text = data.Rows(0).Item("Task2_Owner").ToString
-                Date2 = data.Rows(0).Item("Task2_Due").ToString
-                If Date2 = Nothing Then
-                    Task_Form.DateTimePicker2.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker2.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker2.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker2.CustomFormat = Date2
-                End If
-
-                Task_Form.txtTask3.Text = data.Rows(0).Item("Task3").ToString
-                Task_Form.txtTask3_Owner.Text = data.Rows(0).Item("Task3_Owner").ToString
-                Date3 = data.Rows(0).Item("Task3_Due").ToString
-                If Date3 = Nothing Then
-                    Task_Form.DateTimePicker3.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker3.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker3.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker3.CustomFormat = Date3
-                End If
-
-                Task_Form.txtTask4.Text = data.Rows(0).Item("Task4").ToString
-                Task_Form.txtTask4_Owner.Text = data.Rows(0).Item("Task4_Owner").ToString
-                Date4 = data.Rows(0).Item("Task4_Due").ToString
-                If Date4 = Nothing Then
-                    Task_Form.DateTimePicker4.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker4.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker4.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker4.CustomFormat = Date4
-                End If
-
-                Task_Form.txtTask5.Text = data.Rows(0).Item("Task5").ToString
-                Task_Form.txtTask5_Owner.Text = data.Rows(0).Item("Task5_Owner").ToString
-                Date5 = data.Rows(0).Item("Task5_Due").ToString
-                If Date5 = Nothing Then
-                    Task_Form.DateTimePicker5.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker5.CustomFormat = " "
-                Else
-                    Task_Form.DateTimePicker5.Format = DateTimePickerFormat.Custom
-                    Task_Form.DateTimePicker5.CustomFormat = Date5
-                End If
-
-                Task_Form.GroupBoxProj.Text = val
             End If
-        Catch ex As Exception
 
+        Catch ex As Exception
+            MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-            'SQLDbconnection.Close()
+            ' Close the database connection
             ConClose()
         End Try
     End Sub
+
+    Sub SetDatePickerValue(dtp As DateTimePicker, value As Object)
+        If value Is DBNull.Value OrElse String.IsNullOrWhiteSpace(value.ToString()) Then
+            dtp.Format = DateTimePickerFormat.Custom
+            dtp.CustomFormat = " "
+        Else
+            dtp.Format = DateTimePickerFormat.Short
+            dtp.CustomFormat = value.ToString()
+        End If
+    End Sub
+
 
     Sub AdminProjectList_UpdateDetails()
         If AdminProjectList_Form.txtTitle.Text = "" Then
@@ -1354,6 +1628,128 @@ Module Query_Module
 
                 Show_AdminProjectList()
                 MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
+
+            Catch ex As Exception
+                MsgBox(ex.Message, vbCritical)
+            End Try
+        End If
+    End Sub
+
+    Sub AdminProDetails_Form_Update()
+        If AdminProDetail_Form.txtTitle.Text = "" Then
+            MsgBox("Please the title of project!", MsgBoxStyle.Critical)
+            AdminProDetail_Form.txtTitle.Focus()
+
+        ElseIf AdminProDetail_Form.txtDescr.Text = "" Then
+            MsgBox("Please enter project description!", MsgBoxStyle.Critical)
+            AdminProDetail_Form.txtDescr.Focus()
+
+        ElseIf AdminProDetail_Form.txtOwner.Text = "" Then
+            MsgBox("Please enter the name of project owner!", MsgBoxStyle.Critical)
+            AdminProDetail_Form.txtOwner.Focus()
+
+        ElseIf AdminProDetail_Form.txtOwnersEmail.Text = "" Then
+            MsgBox("Please enter the email of project owner!", MsgBoxStyle.Critical)
+            AdminProDetail_Form.txtOwnersEmail.Focus()
+
+        ElseIf AdminProDetail_Form.txtMember.Text = "" Then
+            MsgBox("Please enter name of member!", MsgBoxStyle.Critical)
+            AdminProDetail_Form.txtMember.Focus()
+
+        ElseIf AdminProDetail_Form.txtMemEmails.Text = "" Then
+            MsgBox("Please enter the email(s) of member!", MsgBoxStyle.Critical)
+            AdminProDetail_Form.txtMemEmails.Focus()
+
+        ElseIf AdminProDetail_Form.txtDept.Text = "" Then
+            MsgBox("Please enter the department!", MsgBoxStyle.Critical)
+            AdminProDetail_Form.txtDept.Focus()
+
+        ElseIf AdminProDetail_Form.txtSupport.Text = "" Then
+            MsgBox("Please enter name of support!", MsgBoxStyle.Critical)
+            AdminProDetail_Form.txtSupport.Focus()
+
+        Else
+            Try
+                Dim Token As String = AdminProDetail_Form.txtToken.Text
+
+                Dim Title As String = AdminProDetail_Form.txtTitle.Text
+                Dim Description As String = AdminProDetail_Form.txtDescr.Text
+                Dim Project_Owner As String = AdminProDetail_Form.txtOwner.Text
+                Dim Owners_Email As String = AdminProDetail_Form.txtOwnersEmail.Text
+                Dim Member As String = AdminProDetail_Form.txtMember.Text
+                Dim Member_Email As String = AdminProDetail_Form.txtMemEmails.Text
+                Dim Department As String = AdminProDetail_Form.txtDept.Text
+                Dim Support As String = AdminProDetail_Form.txtSupport.Text
+                Dim Stats As String = AdminProDetail_Form.cboStat.Text
+                Dim TokenStats As String = AdminProDetail_Form.cboTokenStat.Text
+                Dim Start As String = AdminProDetail_Form.dtpStartDate.Text
+                Dim Due As String = AdminProDetail_Form.dtpDue.Text
+
+                Dim query As String = "UPDATE Project_tb 
+                                        SET Title = @Title, Description = @Desc, Owner = @Owner, Email = @ManEmail, Member = @Mem, 
+                                        Member_Emails = @MemEmails, Department = @Dept, TSG_Support = @Support,
+                                        Status = @Stat, TokenStatus = @TokenStats, Start_date = @start, Due_date = @Duedate
+                                        WHERE Token = @proTitle"
+
+                '' Save File
+                'If Not String.IsNullOrEmpty(AdminProDetail_Form.txtA3name.Text) Then
+                '    Dim filePath As String = AdminProDetail_Form.txtA3name.Text
+                '    Dim fileName As String = Path.GetFileName(filePath)
+                '    Dim fileData As Byte() = File.ReadAllBytes(filePath)
+                '    Try
+                '        'SQLDbconnection.Open()
+                '        ConOpen()
+
+                '        Using command As New sqlCommand("UPDATE Project_tb SET FileName = @FileName, A3 = @FileData 
+                '                                WHERE Token = @proToken", SQLDbconnection)
+                '            command.Parameters.AddWithValue("@FileName", fileName)
+                '            command.Parameters.AddWithValue("@FileData", fileData)
+                '            command.Parameters.AddWithValue("@proToken", Token)
+                '            command.ExecuteNonQuery()
+                '        End Using
+                '        'SQLDbconnection.Close()
+                '        ConClose()
+
+                '    Catch ex As Exception
+                '        MsgBox(ex.Message, vbCritical)
+                '    End Try
+                'End If
+
+                Using command As New SqlCommand(query, SQLDbconnection)
+                    command.Parameters.AddWithValue("@Title", Title)
+                    command.Parameters.AddWithValue("@Desc", Description)
+                    command.Parameters.AddWithValue("@Owner", Project_Owner)
+                    command.Parameters.AddWithValue("@ManEmail", Owners_Email)
+                    command.Parameters.AddWithValue("@Mem", Member)
+                    command.Parameters.AddWithValue("@MemEmails", Member_Email)
+                    command.Parameters.AddWithValue("@Dept", Department)
+                    command.Parameters.AddWithValue("@Support", Support)
+                    command.Parameters.AddWithValue("@Stat", Stats)
+                    command.Parameters.AddWithValue("@TokenStats", TokenStats)
+                    command.Parameters.AddWithValue("@start", Start)
+                    command.Parameters.AddWithValue("@DueDate", Due)
+                    command.Parameters.AddWithValue("@proTitle", Token)
+                    'SQLDbconnection.Open()
+                    ConOpen()
+                    command.ExecuteNonQuery()
+                    'SQLDbconnection.Close()
+                End Using
+
+                Dim query2 As String = "UPDATE ProActivity_tb SET Title = @Project_Title WHERE Token = @proTitle"
+
+                Using command2 As New SqlCommand(query2, SQLDbconnection)
+                    command2.Parameters.AddWithValue("@Project_Title", Title)
+                    command2.Parameters.AddWithValue("@proTitle", Token)
+                    'SQLDbconnection.Open()
+                    command2.ExecuteNonQuery()
+                    'SQLDbconnection.Close()
+                    ConClose()
+                End Using
+
+
+                Show_AdminProjectList()
+                MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
+                AdminProDetail_Form.Close()
 
             Catch ex As Exception
                 MsgBox(ex.Message, vbCritical)
@@ -1634,12 +2030,23 @@ Module Query_Module
                     Try
                         Dim EmailAdd As String = OwnerEmail
                         Dim Recipients As String() = EmailAdd.Split(";"c)
+
+                        Dim CCEmailAdd As String = "gcatapang@littelfuse.com; ibayer@littelfuse.com; mroxas2@littelfuse.com; bmanalo@littelfuse.com"
+                        Dim CCRecipients As String() = CCEmailAdd.Split(";"c)
+
                         Dim SMTP As New SmtpClient
 
                         Email = New MailMessage
 
                         For Each Reciever As String In Recipients
                             Email.To.Add(New MailAddress(Reciever.ToString()))
+                        Next
+
+                        ' Add CC recipients
+                        For Each CCReciever As String In CCRecipients
+                            If Not String.IsNullOrWhiteSpace(CCReciever) Then
+                                Email.CC.Add(New MailAddress(CCReciever.ToString()))
+                            End If
                         Next
 
 
@@ -1764,7 +2171,7 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
-            command.CommandText = "Select Title, TSG_Support, FileName From Project_tb ORDER BY Due_Date DESC"
+            command.CommandText = "Select ID, Title, TSG_Support, FileName From Project_tb ORDER BY Due_Date DESC"
 
             '"Select Title, Description, Owner, Email, Member, 
             '                       Member_Emails, Department, Due_Date, TSG_Support, Status, TokenStatus From Project_tb"
@@ -1783,6 +2190,7 @@ Module Query_Module
                 column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
             Next
 
+            AdminDLA3_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
             AdminDLA3_Form.DataGridView1.Columns("FileName").HeaderText = "A3 file name"
             AdminDLA3_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
 
@@ -1801,35 +2209,52 @@ Module Query_Module
 
     Sub AdminDLA3_Populate()
         Try
-            Dim mydata As String
-            Dim command As New SqlCommand
-            Dim data As New DataTable
-            Dim adap As New SqlDataAdapter
-            'Dim val As String
+            ' Ensure at least one cell is selected
+            If AdminDLA3_Form.DataGridView1.SelectedCells.Count > 0 Then
+                Dim selectedRowIndex As Integer = AdminDLA3_Form.DataGridView1.SelectedCells(0).RowIndex
 
-            'SQLDbconnection.Open()
-            ConOpen()
+                ' Ensure row index is valid
+                If selectedRowIndex >= 0 Then
+                    ' Assuming "Title" is in column index 1 (adjust if needed)
+                    Dim titleColumnIndex As Integer = 1
+                    Dim selectedRow As DataGridViewRow = AdminDLA3_Form.DataGridView1.Rows(selectedRowIndex)
 
-            Admin_Val_A3 = AdminDLA3_Form.DataGridView1.SelectedCells.Item(0).Value.ToString()
+                    ' Retrieve the project title from the specified column
+                    Dim Admin_Val_A3 As String = selectedRow.Cells(titleColumnIndex).Value?.ToString()
 
-            mydata = "SELECT * From Project_tb WHERE Title = '" & Admin_Val_A3 & "'"
-            command.Connection = SQLDbconnection
-            command.CommandText = mydata
-            adap.SelectCommand = command
+                    ' Ensure value is not empty
+                    If Not String.IsNullOrEmpty(Admin_Val_A3) Then
+                        Dim query As String = "SELECT FileName FROM Project_tb WHERE Title = @Title"
 
-            adap.Fill(data)
+                        ' Open database connection
+                        ConOpen()
 
-            If data.Rows.Count > 0 Then
+                        ' Use "Using" to properly dispose of objects
+                        Using command As New SqlCommand(query, SQLDbconnection)
+                            command.Parameters.AddWithValue("@Title", Admin_Val_A3)
 
-                AdminDLA3_Form.txtFileName.Text = data.Rows(0).Item("FileName").ToString
+                            Using adapter As New SqlDataAdapter(command)
+                                Using data As New DataTable()
+                                    adapter.Fill(data)
 
+                                    ' If data is found, populate the filename text field
+                                    If data.Rows.Count > 0 Then
+                                        AdminDLA3_Form.txtFileName.Text = data.Rows(0).Item("FileName").ToString()
+                                    End If
+                                End Using
+                            End Using
+                        End Using
+                    End If
+                End If
             End If
-        Catch ex As Exception
 
+        Catch ex As Exception
+            MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-            'SQLDbconnection.Close()
+            ' Close the database connection
             ConClose()
         End Try
+
     End Sub
 
     Sub AdminDLA3_txtSearch()
@@ -1839,9 +2264,9 @@ Module Query_Module
             Dim query As String
 
             If AdminDLA3_Form.txtSearch.Text = "" Or AdminDLA3_Form.txtSearch.Text = "Search Project" Then
-                query = "Select Title, TSG_Support, FileName From Project_tb ORDER BY Due_Date DESC"
+                query = "Select ID, Title, TSG_Support, FileName From Project_tb ORDER BY Due_Date DESC"
             Else
-                query = "Select Title, TSG_Support, FileName From Project_tb WHERE Title LIKE @searchText ORDER BY Due_Date DESC"
+                query = "Select ID, Title, TSG_Support, FileName From Project_tb WHERE Title LIKE @searchText ORDER BY Due_Date DESC"
 
                 '"SELECT Part_Number, Qty FROM LineData_tb WHERE Part_Number LIKE @searchText"
 
@@ -1869,6 +2294,7 @@ Module Query_Module
                 column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
             Next
 
+            AdminDLA3_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
             AdminDLA3_Form.DataGridView1.Columns("FileName").HeaderText = "A3 file name"
             AdminDLA3_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
 

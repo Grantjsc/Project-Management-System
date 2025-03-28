@@ -29,7 +29,7 @@
     <PublisherName>Littelfuse Philippines %28TSG%29 - GCatapang</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>Installer.htm</WebPage>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>17</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -179,6 +179,12 @@
     <Compile Include="AdminDLA3_Form.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AdminProDetail_Form.Designer.vb">
+      <DependentUpon>AdminProDetail_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AdminProDetail_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AdminProjectList_Form.Designer.vb">
       <DependentUpon>AdminProjectList_Form.vb</DependentUpon>
     </Compile>
@@ -192,6 +198,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Code.vb" />
+    <Compile Include="editor.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -288,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AdminDLA3_Form.resx">
       <DependentUpon>AdminDLA3_Form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminProDetail_Form.resx">
+      <DependentUpon>AdminProDetail_Form.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdminProjectList_Form.resx">
       <DependentUpon>AdminProjectList_Form.vb</DependentUpon>

@@ -6,12 +6,14 @@ Public Class AdminProjectList_Form
         Show_AdminProjectList()
     End Sub
 
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        AdminProjectList_PopulateEdit()
-    End Sub
+    'Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+    '    'AdminProjectList_PopulateEdit()
+    '    'AdminProDetails_Form_Populate()
+    '    AdminProDetail_Form.ShowDialog()
+    'End Sub
 
     Private Sub DataGridView1_CellStateChanged(sender As Object, e As DataGridViewCellStateChangedEventArgs) Handles DataGridView1.CellStateChanged
-        AdminProjectList_PopulateEdit()
+        'AdminProjectList_PopulateEdit()
     End Sub
 
     Private Sub txtSearch_Enter(sender As Object, e As EventArgs) Handles txtSearch.Enter
@@ -41,8 +43,9 @@ Public Class AdminProjectList_Form
     End Sub
 
     Private Sub DataGridView1_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellDoubleClick
-        AdminProjectList_ShowTask()
-        Task_Form.ShowDialog()
+        'AdminProjectList_PopulateEdit()
+        'AdminProDetails_Form_Populate()
+        AdminProDetail_Form.ShowDialog()
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
