@@ -23,6 +23,7 @@ Partial Class AdminAddProject_Form
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Guna2GroupBox1 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.cboTSG_Support = New Guna.UI2.WinForms.Guna2ComboBox()
         Me.txtEmail = New Guna.UI2.WinForms.Guna2TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -34,7 +35,6 @@ Partial Class AdminAddProject_Form
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.lblTitle = New System.Windows.Forms.Label()
-        Me.cboTSG_Support = New Guna.UI2.WinForms.Guna2ComboBox()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -65,6 +65,28 @@ Partial Class AdminAddProject_Form
         Me.Guna2GroupBox1.Size = New System.Drawing.Size(993, 670)
         Me.Guna2GroupBox1.TabIndex = 4
         Me.Guna2GroupBox1.Text = "Input Token and Project Title"
+        '
+        'cboTSG_Support
+        '
+        Me.cboTSG_Support.BackColor = System.Drawing.Color.Transparent
+        Me.cboTSG_Support.BorderRadius = 15
+        Me.cboTSG_Support.BorderThickness = 3
+        Me.cboTSG_Support.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboTSG_Support.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTSG_Support.FocusedColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.cboTSG_Support.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.cboTSG_Support.Font = New System.Drawing.Font("Segoe UI", 20.25!)
+        Me.cboTSG_Support.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
+        Me.cboTSG_Support.ItemHeight = 30
+        Me.cboTSG_Support.Items.AddRange(New Object() {"Ian Bayer", "Grant Catapang", "Ara Roxas", "Bernard Manalo"})
+        Me.cboTSG_Support.Location = New System.Drawing.Point(92, 486)
+        Me.cboTSG_Support.Name = "cboTSG_Support"
+        Me.cboTSG_Support.ShadowDecoration.BorderRadius = 20
+        Me.cboTSG_Support.ShadowDecoration.Depth = 15
+        Me.cboTSG_Support.ShadowDecoration.Enabled = True
+        Me.cboTSG_Support.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 10, 10)
+        Me.cboTSG_Support.Size = New System.Drawing.Size(354, 36)
+        Me.cboTSG_Support.TabIndex = 38
         '
         'txtEmail
         '
@@ -225,6 +247,7 @@ Partial Class AdminAddProject_Form
         Me.txtToken.Name = "txtToken"
         Me.txtToken.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
         Me.txtToken.PlaceholderText = ""
+        Me.txtToken.ReadOnly = True
         Me.txtToken.SelectedText = ""
         Me.txtToken.ShadowDecoration.BorderRadius = 20
         Me.txtToken.ShadowDecoration.Depth = 15
@@ -270,28 +293,6 @@ Partial Class AdminAddProject_Form
         Me.lblTitle.Size = New System.Drawing.Size(87, 36)
         Me.lblTitle.TabIndex = 4
         Me.lblTitle.Text = "Token"
-        '
-        'cboTSG_Support
-        '
-        Me.cboTSG_Support.BackColor = System.Drawing.Color.Transparent
-        Me.cboTSG_Support.BorderRadius = 15
-        Me.cboTSG_Support.BorderThickness = 3
-        Me.cboTSG_Support.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboTSG_Support.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboTSG_Support.FocusedColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.cboTSG_Support.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.cboTSG_Support.Font = New System.Drawing.Font("Segoe UI", 20.25!)
-        Me.cboTSG_Support.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
-        Me.cboTSG_Support.ItemHeight = 30
-        Me.cboTSG_Support.Items.AddRange(New Object() {"Ian", "Grant", "Ara", "Bernard"})
-        Me.cboTSG_Support.Location = New System.Drawing.Point(92, 486)
-        Me.cboTSG_Support.Name = "cboTSG_Support"
-        Me.cboTSG_Support.ShadowDecoration.BorderRadius = 20
-        Me.cboTSG_Support.ShadowDecoration.Depth = 15
-        Me.cboTSG_Support.ShadowDecoration.Enabled = True
-        Me.cboTSG_Support.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 10, 10)
-        Me.cboTSG_Support.Size = New System.Drawing.Size(278, 36)
-        Me.cboTSG_Support.TabIndex = 38
         '
         'AdminAddProject_Form
         '

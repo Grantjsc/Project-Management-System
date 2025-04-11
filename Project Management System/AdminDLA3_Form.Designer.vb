@@ -266,6 +266,7 @@ Partial Class AdminDLA3_Form
         Me.DataGridView1.Location = New System.Drawing.Point(19, 76)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(1124, 341)
         Me.DataGridView1.TabIndex = 113
         '
@@ -279,16 +280,16 @@ Partial Class AdminDLA3_Form
         Me.cboTSG_Support.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTSG_Support.FocusedColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.cboTSG_Support.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.cboTSG_Support.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboTSG_Support.Font = New System.Drawing.Font("Segoe UI", 12.0!)
         Me.cboTSG_Support.ForeColor = System.Drawing.Color.DimGray
         Me.cboTSG_Support.ItemHeight = 30
-        Me.cboTSG_Support.Items.AddRange(New Object() {"Ian", "Grant", "Ara", "Bernard", "All"})
-        Me.cboTSG_Support.Location = New System.Drawing.Point(988, 17)
+        Me.cboTSG_Support.Items.AddRange(New Object() {"Ian Bayer", "Grant Catapang", "Ara Roxas", "Bernard Manalo", "All"})
+        Me.cboTSG_Support.Location = New System.Drawing.Point(886, 17)
         Me.cboTSG_Support.Name = "cboTSG_Support"
         Me.cboTSG_Support.ShadowDecoration.BorderRadius = 20
         Me.cboTSG_Support.ShadowDecoration.Depth = 15
         Me.cboTSG_Support.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 10, 10)
-        Me.cboTSG_Support.Size = New System.Drawing.Size(155, 36)
+        Me.cboTSG_Support.Size = New System.Drawing.Size(252, 36)
         Me.cboTSG_Support.TabIndex = 118
         '
         'Label15
@@ -298,7 +299,7 @@ Partial Class AdminDLA3_Form
         Me.Label15.BackColor = System.Drawing.Color.Transparent
         Me.Label15.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label15.Location = New System.Drawing.Point(864, 17)
+        Me.Label15.Location = New System.Drawing.Point(771, 17)
         Me.Label15.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(110, 36)

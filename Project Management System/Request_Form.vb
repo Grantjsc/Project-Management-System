@@ -58,4 +58,8 @@ Public Class Request_Form
             End If
         End If
     End Sub
+
+    Private Sub cboDepartments_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboDepartments.SelectedIndexChanged
+        txtDept.Text = cboDepartments.Text
+    End Sub
 End Class

@@ -4,6 +4,9 @@ Imports System.Threading
 Public Class AdminProjectList_Form
     Private Sub AdminProjectList_Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Show_AdminProjectList()
+        HighlightDelayedProjects()
+
+        Aadmin_Count_TotalPro()
     End Sub
 
     'Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
@@ -82,8 +85,11 @@ Public Class AdminProjectList_Form
     Private Sub cboTSG_Support_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTSG_Support.SelectedIndexChanged
         If cboTSG_Support.Text = "All" Then
             Show_AdminProjectList()
+
+            Aadmin_Count_TotalPro()
         Else
             Show_SupportProjects()
+            Admin_Count_Projects_Support()
         End If
     End Sub
 End Class

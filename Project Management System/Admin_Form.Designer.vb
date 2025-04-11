@@ -28,6 +28,7 @@ Partial Class Admin_Form
         Me.btnList = New Guna.UI2.WinForms.Guna2Button()
         Me.btnAddProject = New Guna.UI2.WinForms.Guna2Button()
         Me.Guna2Button1 = New Guna.UI2.WinForms.Guna2Button()
+        Me.btnCancel = New Guna.UI2.WinForms.Guna2Button()
         Me.Guna2CustomGradientPanel2.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -42,6 +43,7 @@ Partial Class Admin_Form
         '
         'Guna2CustomGradientPanel2
         '
+        Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnCancel)
         Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnDLA3)
         Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnList)
         Me.Guna2CustomGradientPanel2.Controls.Add(Me.btnAddProject)
@@ -127,6 +129,24 @@ Partial Class Admin_Form
         Me.Guna2Button1.Size = New System.Drawing.Size(109, 59)
         Me.Guna2Button1.TabIndex = 10
         '
+        'btnCancel
+        '
+        Me.btnCancel.BackColor = System.Drawing.Color.Transparent
+        Me.btnCancel.DisabledState.BorderColor = System.Drawing.Color.DarkGray
+        Me.btnCancel.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
+        Me.btnCancel.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
+        Me.btnCancel.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
+        Me.btnCancel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.btnCancel.FillColor = System.Drawing.Color.Transparent
+        Me.btnCancel.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCancel.ForeColor = System.Drawing.Color.White
+        Me.btnCancel.HoverState.FillColor = System.Drawing.Color.Orange
+        Me.btnCancel.Location = New System.Drawing.Point(0, 227)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(109, 56)
+        Me.btnCancel.TabIndex = 13
+        Me.btnCancel.Text = "Canceled Project"
+        '
         'Admin_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -148,4 +168,5 @@ Partial Class Admin_Form
     Friend WithEvents btnAddProject As Guna.UI2.WinForms.Guna2Button
     Friend WithEvents Guna2Button1 As Guna.UI2.WinForms.Guna2Button
     Friend WithEvents btnDLA3 As Guna.UI2.WinForms.Guna2Button
+    Friend WithEvents btnCancel As Guna.UI2.WinForms.Guna2Button
 End Class

@@ -14,4 +14,8 @@
             txtEmail.Focus()
         End If
     End Sub
+
+    Private Sub AdminAddProject_Form_Load(sender As Object, e As EventArgs) Handles Me.Load
+        SetUniqueToken()
+    End Sub
 End Class

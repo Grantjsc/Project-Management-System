@@ -10,4 +10,8 @@
     Private Sub btnDLA3_Click(sender As Object, e As EventArgs) Handles btnDLA3.Click
         Clicked_DownloadA3()
     End Sub
+
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        Clicked_CancledProject()
+    End Sub
 End Class

@@ -22,7 +22,7 @@ Partial Class AdminProjectList_Form
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdminProjectList_Form))
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
@@ -60,6 +60,16 @@ Partial Class AdminProjectList_Form
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.cboTSG_Support = New Guna.UI2.WinForms.Guna2ComboBox()
+        Me.lblCount = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.lblTotal = New System.Windows.Forms.Label()
+        Me.lblNotStarted = New System.Windows.Forms.Label()
+        Me.lblOnGoing = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.lblDone = New System.Windows.Forms.Label()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.lblOnHold = New System.Windows.Forms.Label()
+        Me.Label24 = New System.Windows.Forms.Label()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -70,7 +80,7 @@ Partial Class AdminProjectList_Form
         Me.lblTitle.BackColor = System.Drawing.Color.Transparent
         Me.lblTitle.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTitle.ForeColor = System.Drawing.Color.SeaGreen
-        Me.lblTitle.Location = New System.Drawing.Point(17, 9)
+        Me.lblTitle.Location = New System.Drawing.Point(14, 9)
         Me.lblTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(148, 36)
@@ -87,20 +97,21 @@ Partial Class AdminProjectList_Form
         Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.White
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(23, 74)
+        Me.DataGridView1.Location = New System.Drawing.Point(23, 121)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
-        Me.DataGridView1.Size = New System.Drawing.Size(1103, 639)
-        Me.DataGridView1.TabIndex = 4
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.DataGridView1.Size = New System.Drawing.Size(1103, 592)
+        Me.DataGridView1.TabIndex = 0
         '
         'Guna2GroupBox1
         '
@@ -140,7 +151,7 @@ Partial Class AdminProjectList_Form
         Me.Guna2GroupBox1.CustomBorderThickness = New System.Windows.Forms.Padding(3)
         Me.Guna2GroupBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Guna2GroupBox1.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Guna2GroupBox1.Location = New System.Drawing.Point(23, 105)
+        Me.Guna2GroupBox1.Location = New System.Drawing.Point(23, 159)
         Me.Guna2GroupBox1.Name = "Guna2GroupBox1"
         Me.Guna2GroupBox1.ShadowDecoration.BorderRadius = 20
         Me.Guna2GroupBox1.Size = New System.Drawing.Size(1093, 513)
@@ -709,7 +720,7 @@ Partial Class AdminProjectList_Form
         Me.Label6.BackColor = System.Drawing.Color.Transparent
         Me.Label6.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.DimGray
-        Me.Label6.Location = New System.Drawing.Point(20, 54)
+        Me.Label6.Location = New System.Drawing.Point(17, 101)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(293, 17)
         Me.Label6.TabIndex = 16
@@ -731,14 +742,14 @@ Partial Class AdminProjectList_Form
         Me.txtSearch.HoverState.BorderColor = System.Drawing.Color.LightGray
         Me.txtSearch.IconLeft = CType(resources.GetObject("txtSearch.IconLeft"), System.Drawing.Image)
         Me.txtSearch.IconLeftOffset = New System.Drawing.Point(5, 0)
-        Me.txtSearch.Location = New System.Drawing.Point(169, 12)
+        Me.txtSearch.Location = New System.Drawing.Point(166, 12)
         Me.txtSearch.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
         Me.txtSearch.PlaceholderText = ""
         Me.txtSearch.SelectedText = ""
         Me.txtSearch.Size = New System.Drawing.Size(539, 28)
-        Me.txtSearch.TabIndex = 0
+        Me.txtSearch.TabIndex = 2
         Me.txtSearch.TextOffset = New System.Drawing.Point(10, 0)
         '
         'OpenFileDialog1
@@ -752,7 +763,7 @@ Partial Class AdminProjectList_Form
         Me.Label15.BackColor = System.Drawing.Color.Transparent
         Me.Label15.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label15.Location = New System.Drawing.Point(846, 12)
+        Me.Label15.Location = New System.Drawing.Point(759, 65)
         Me.Label15.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(110, 36)
@@ -769,17 +780,139 @@ Partial Class AdminProjectList_Form
         Me.cboTSG_Support.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTSG_Support.FocusedColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.cboTSG_Support.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.cboTSG_Support.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboTSG_Support.Font = New System.Drawing.Font("Segoe UI", 12.0!)
         Me.cboTSG_Support.ForeColor = System.Drawing.Color.DimGray
         Me.cboTSG_Support.ItemHeight = 30
-        Me.cboTSG_Support.Items.AddRange(New Object() {"Ian", "Grant", "Ara", "Bernard", "All"})
-        Me.cboTSG_Support.Location = New System.Drawing.Point(970, 12)
+        Me.cboTSG_Support.Items.AddRange(New Object() {"Ian Bayer", "Grant Catapang", "Ara Roxas", "Bernard Manalo", "All"})
+        Me.cboTSG_Support.Location = New System.Drawing.Point(874, 65)
         Me.cboTSG_Support.Name = "cboTSG_Support"
         Me.cboTSG_Support.ShadowDecoration.BorderRadius = 20
         Me.cboTSG_Support.ShadowDecoration.Depth = 15
         Me.cboTSG_Support.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 10, 10)
-        Me.cboTSG_Support.Size = New System.Drawing.Size(155, 36)
-        Me.cboTSG_Support.TabIndex = 43
+        Me.cboTSG_Support.Size = New System.Drawing.Size(252, 36)
+        Me.cboTSG_Support.TabIndex = 1
+        '
+        'lblCount
+        '
+        Me.lblCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblCount.BackColor = System.Drawing.Color.Transparent
+        Me.lblCount.Font = New System.Drawing.Font("Impact", 20.0!)
+        Me.lblCount.ForeColor = System.Drawing.Color.SeaGreen
+        Me.lblCount.Location = New System.Drawing.Point(759, 12)
+        Me.lblCount.Name = "lblCount"
+        Me.lblCount.Size = New System.Drawing.Size(192, 36)
+        Me.lblCount.TabIndex = 187
+        Me.lblCount.Text = "Total Project(s):"
+        Me.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label16
+        '
+        Me.Label16.BackColor = System.Drawing.Color.Transparent
+        Me.Label16.Font = New System.Drawing.Font("Impact", 15.0!)
+        Me.Label16.ForeColor = System.Drawing.Color.SeaGreen
+        Me.Label16.Location = New System.Drawing.Point(18, 54)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(119, 32)
+        Me.Label16.TabIndex = 188
+        Me.Label16.Text = "Not started:"
+        Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblTotal
+        '
+        Me.lblTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotal.BackColor = System.Drawing.Color.Transparent
+        Me.lblTotal.Font = New System.Drawing.Font("Impact", 25.0!)
+        Me.lblTotal.ForeColor = System.Drawing.Color.DimGray
+        Me.lblTotal.Location = New System.Drawing.Point(942, 8)
+        Me.lblTotal.Name = "lblTotal"
+        Me.lblTotal.Size = New System.Drawing.Size(162, 45)
+        Me.lblTotal.TabIndex = 189
+        Me.lblTotal.Text = "0"
+        Me.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblNotStarted
+        '
+        Me.lblNotStarted.BackColor = System.Drawing.Color.Transparent
+        Me.lblNotStarted.Font = New System.Drawing.Font("Impact", 18.0!)
+        Me.lblNotStarted.ForeColor = System.Drawing.Color.DimGray
+        Me.lblNotStarted.Location = New System.Drawing.Point(119, 55)
+        Me.lblNotStarted.Name = "lblNotStarted"
+        Me.lblNotStarted.Size = New System.Drawing.Size(98, 31)
+        Me.lblNotStarted.TabIndex = 190
+        Me.lblNotStarted.Text = "0"
+        Me.lblNotStarted.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblOnGoing
+        '
+        Me.lblOnGoing.BackColor = System.Drawing.Color.Transparent
+        Me.lblOnGoing.Font = New System.Drawing.Font("Impact", 18.0!)
+        Me.lblOnGoing.ForeColor = System.Drawing.Color.DimGray
+        Me.lblOnGoing.Location = New System.Drawing.Point(285, 55)
+        Me.lblOnGoing.Name = "lblOnGoing"
+        Me.lblOnGoing.Size = New System.Drawing.Size(102, 31)
+        Me.lblOnGoing.TabIndex = 192
+        Me.lblOnGoing.Text = "0"
+        Me.lblOnGoing.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label20
+        '
+        Me.Label20.BackColor = System.Drawing.Color.Transparent
+        Me.Label20.Font = New System.Drawing.Font("Impact", 15.0!)
+        Me.Label20.ForeColor = System.Drawing.Color.SeaGreen
+        Me.Label20.Location = New System.Drawing.Point(202, 54)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(104, 32)
+        Me.Label20.TabIndex = 191
+        Me.Label20.Text = "On-going:"
+        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblDone
+        '
+        Me.lblDone.BackColor = System.Drawing.Color.Transparent
+        Me.lblDone.Font = New System.Drawing.Font("Impact", 18.0!)
+        Me.lblDone.ForeColor = System.Drawing.Color.DimGray
+        Me.lblDone.Location = New System.Drawing.Point(430, 55)
+        Me.lblDone.Name = "lblDone"
+        Me.lblDone.Size = New System.Drawing.Size(88, 31)
+        Me.lblDone.TabIndex = 194
+        Me.lblDone.Text = "0"
+        Me.lblDone.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label22
+        '
+        Me.Label22.BackColor = System.Drawing.Color.Transparent
+        Me.Label22.Font = New System.Drawing.Font("Impact", 15.0!)
+        Me.Label22.ForeColor = System.Drawing.Color.SeaGreen
+        Me.Label22.Location = New System.Drawing.Point(373, 54)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(85, 32)
+        Me.Label22.TabIndex = 193
+        Me.Label22.Text = "Done:"
+        Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblOnHold
+        '
+        Me.lblOnHold.BackColor = System.Drawing.Color.Transparent
+        Me.lblOnHold.Font = New System.Drawing.Font("Impact", 18.0!)
+        Me.lblOnHold.ForeColor = System.Drawing.Color.DimGray
+        Me.lblOnHold.Location = New System.Drawing.Point(597, 55)
+        Me.lblOnHold.Name = "lblOnHold"
+        Me.lblOnHold.Size = New System.Drawing.Size(101, 31)
+        Me.lblOnHold.TabIndex = 196
+        Me.lblOnHold.Text = "0"
+        Me.lblOnHold.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label24
+        '
+        Me.Label24.BackColor = System.Drawing.Color.Transparent
+        Me.Label24.Font = New System.Drawing.Font("Impact", 15.0!)
+        Me.Label24.ForeColor = System.Drawing.Color.SeaGreen
+        Me.Label24.Location = New System.Drawing.Point(524, 54)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(123, 32)
+        Me.Label24.TabIndex = 195
+        Me.Label24.Text = "On-hold:"
+        Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'AdminProjectList_Form
         '
@@ -787,6 +920,16 @@ Partial Class AdminProjectList_Form
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.ClientSize = New System.Drawing.Size(1155, 740)
+        Me.Controls.Add(Me.lblOnHold)
+        Me.Controls.Add(Me.Label24)
+        Me.Controls.Add(Me.lblDone)
+        Me.Controls.Add(Me.Label22)
+        Me.Controls.Add(Me.lblOnGoing)
+        Me.Controls.Add(Me.Label20)
+        Me.Controls.Add(Me.lblNotStarted)
+        Me.Controls.Add(Me.lblTotal)
+        Me.Controls.Add(Me.Label16)
+        Me.Controls.Add(Me.lblCount)
         Me.Controls.Add(Me.cboTSG_Support)
         Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.txtSearch)
@@ -841,4 +984,14 @@ Partial Class AdminProjectList_Form
     Friend WithEvents Label15 As Label
     Friend WithEvents cboTSG_Support As Guna.UI2.WinForms.Guna2ComboBox
     Friend WithEvents Guna2TextBox1 As Guna.UI2.WinForms.Guna2TextBox
+    Friend WithEvents lblCount As Label
+    Friend WithEvents Label16 As Label
+    Friend WithEvents lblTotal As Label
+    Friend WithEvents lblNotStarted As Label
+    Friend WithEvents lblOnGoing As Label
+    Friend WithEvents Label20 As Label
+    Friend WithEvents lblDone As Label
+    Friend WithEvents Label22 As Label
+    Friend WithEvents lblOnHold As Label
+    Friend WithEvents Label24 As Label
 End Class
