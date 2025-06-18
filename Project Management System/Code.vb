@@ -18,6 +18,9 @@ Imports System.Net.Mail
 Imports System.Net.Mime
 Imports System.IO
 Imports System.Collections.ObjectModel
+Imports System.Runtime.InteropServices
+Imports System.Security.Principal
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Header
 
 Module Login_Module
 
@@ -201,13 +204,6 @@ Module AdminForm_Module
         AdminAddProject_Form.Close()
         AdminDLA3_Form.Close()
 
-        With AdminProjectList_Form
-            .TopLevel = False
-            Admin_Form.Panel_Admin.Controls.Add(AdminProjectList_Form)
-            .WindowState = FormWindowState.Maximized
-            .BringToFront()
-            .Show()
-        End With
 
         Admin_Form.btnAddProject.BackColor = Color.Transparent
         Admin_Form.btnList.BackColor = Color.WhiteSmoke
@@ -218,6 +214,17 @@ Module AdminForm_Module
         Admin_Form.btnList.ForeColor = Color.Orange
         Admin_Form.btnDLA3.ForeColor = Color.White
         Admin_Form.btnCancel.ForeColor = Color.White
+
+
+        With AdminProjectList_Form
+            .TopLevel = False
+            Admin_Form.Panel_Admin.Controls.Add(AdminProjectList_Form)
+            .WindowState = FormWindowState.Maximized
+            .BringToFront()
+            .Show()
+        End With
+
+        HighlightDelayedProjects()
     End Sub
 
     Sub Clicked_DownloadA3()

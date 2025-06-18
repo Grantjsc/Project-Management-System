@@ -32,6 +32,7 @@ Partial Class LogIn_Form
         Me.txtPass = New Guna.UI2.WinForms.Guna2TextBox()
         Me.txtUser = New Guna.UI2.WinForms.Guna2TextBox()
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -41,6 +42,7 @@ Partial Class LogIn_Form
         '
         Me.Panel1.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Panel1.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Controls.Add(Me.PictureBox1)
         Me.Panel1.Controls.Add(Me.LinklblSignUp)
         Me.Panel1.Controls.Add(Me.btnLogin)
@@ -169,7 +171,7 @@ Partial Class LogIn_Form
         Me.txtUser.BackColor = System.Drawing.Color.Transparent
         Me.txtUser.BorderRadius = 15
         Me.txtUser.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtUser.DefaultText = "Employee number"
+        Me.txtUser.DefaultText = "Username"
         Me.txtUser.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
         Me.txtUser.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
         Me.txtUser.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
@@ -202,6 +204,18 @@ Partial Class LogIn_Form
         Me.PictureBox3.TabIndex = 3
         Me.PictureBox3.TabStop = False
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 14.25!)
+        Me.Label1.ForeColor = System.Drawing.Color.White
+        Me.Label1.Location = New System.Drawing.Point(107, 391)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(383, 25)
+        Me.Label1.TabIndex = 10
+        Me.Label1.Text = "Please log in with your Windows credentials"
+        '
         'LogIn_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -232,4 +246,5 @@ Partial Class LogIn_Form
     Friend WithEvents PictureBox3 As PictureBox
     Friend WithEvents LinklblSignUp As LinkLabel
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents Label1 As Label
 End Class

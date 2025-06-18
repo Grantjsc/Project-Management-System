@@ -48,12 +48,10 @@ Partial Class SignUp_Form
         Me.PanelSignUp.Controls.Add(Me.txtUsername)
         Me.PanelSignUp.Controls.Add(Me.btnCancel)
         Me.PanelSignUp.Controls.Add(Me.PictureBox1)
-        Me.PanelSignUp.Controls.Add(Me.txtConfirmPass)
         Me.PanelSignUp.Controls.Add(Me.txtLastName)
         Me.PanelSignUp.Controls.Add(Me.txtLFEmail)
         Me.PanelSignUp.Controls.Add(Me.btnSignUp)
         Me.PanelSignUp.Controls.Add(Me.Label3)
-        Me.PanelSignUp.Controls.Add(Me.txtSignUpPass)
         Me.PanelSignUp.Controls.Add(Me.txtFirstName)
         Me.PanelSignUp.Location = New System.Drawing.Point(652, 76)
         Me.PanelSignUp.Margin = New System.Windows.Forms.Padding(2)
@@ -66,7 +64,7 @@ Partial Class SignUp_Form
         Me.txtUsername.BackColor = System.Drawing.Color.Transparent
         Me.txtUsername.BorderRadius = 15
         Me.txtUsername.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtUsername.DefaultText = "Employee number"
+        Me.txtUsername.DefaultText = "Username"
         Me.txtUsername.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
         Me.txtUsername.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
         Me.txtUsername.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
@@ -76,7 +74,7 @@ Partial Class SignUp_Form
         Me.txtUsername.ForeColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
         Me.txtUsername.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtUsername.IconLeftOffset = New System.Drawing.Point(10, 0)
-        Me.txtUsername.Location = New System.Drawing.Point(22, 437)
+        Me.txtUsername.Location = New System.Drawing.Point(22, 492)
         Me.txtUsername.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtUsername.Name = "txtUsername"
         Me.txtUsername.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -106,7 +104,7 @@ Partial Class SignUp_Form
         Me.btnCancel.HoverState.Font = New System.Drawing.Font("Microsoft Sans Serif", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnCancel.HoverState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.btnCancel.ImageSize = New System.Drawing.Size(30, 30)
-        Me.btnCancel.Location = New System.Drawing.Point(316, 733)
+        Me.btnCancel.Location = New System.Drawing.Point(302, 674)
         Me.btnCancel.Margin = New System.Windows.Forms.Padding(2)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.PressedColor = System.Drawing.Color.Transparent
@@ -146,7 +144,7 @@ Partial Class SignUp_Form
         Me.txtConfirmPass.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtConfirmPass.IconLeft = CType(resources.GetObject("txtConfirmPass.IconLeft"), System.Drawing.Image)
         Me.txtConfirmPass.IconLeftOffset = New System.Drawing.Point(10, 0)
-        Me.txtConfirmPass.Location = New System.Drawing.Point(22, 641)
+        Me.txtConfirmPass.Location = New System.Drawing.Point(41, 764)
         Me.txtConfirmPass.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtConfirmPass.Name = "txtConfirmPass"
         Me.txtConfirmPass.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -155,6 +153,7 @@ Partial Class SignUp_Form
         Me.txtConfirmPass.Size = New System.Drawing.Size(542, 58)
         Me.txtConfirmPass.TabIndex = 5
         Me.txtConfirmPass.TextOffset = New System.Drawing.Point(10, 0)
+        Me.txtConfirmPass.Visible = False
         '
         'txtLastName
         '
@@ -171,7 +170,7 @@ Partial Class SignUp_Form
         Me.txtLastName.ForeColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
         Me.txtLastName.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtLastName.IconLeftOffset = New System.Drawing.Point(10, 0)
-        Me.txtLastName.Location = New System.Drawing.Point(302, 370)
+        Me.txtLastName.Location = New System.Drawing.Point(302, 425)
         Me.txtLastName.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtLastName.Name = "txtLastName"
         Me.txtLastName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -197,7 +196,7 @@ Partial Class SignUp_Form
         Me.txtLFEmail.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtLFEmail.IconLeft = CType(resources.GetObject("txtLFEmail.IconLeft"), System.Drawing.Image)
         Me.txtLFEmail.IconLeftOffset = New System.Drawing.Point(10, 0)
-        Me.txtLFEmail.Location = New System.Drawing.Point(22, 505)
+        Me.txtLFEmail.Location = New System.Drawing.Point(22, 560)
         Me.txtLFEmail.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtLFEmail.Name = "txtLFEmail"
         Me.txtLFEmail.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -227,7 +226,7 @@ Partial Class SignUp_Form
         Me.btnSignUp.HoverState.Font = New System.Drawing.Font("Microsoft Sans Serif", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSignUp.HoverState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.btnSignUp.ImageSize = New System.Drawing.Size(30, 30)
-        Me.btnSignUp.Location = New System.Drawing.Point(109, 733)
+        Me.btnSignUp.Location = New System.Drawing.Point(95, 674)
         Me.btnSignUp.Margin = New System.Windows.Forms.Padding(2)
         Me.btnSignUp.Name = "btnSignUp"
         Me.btnSignUp.PressedColor = System.Drawing.Color.Transparent
@@ -269,7 +268,7 @@ Partial Class SignUp_Form
         Me.txtSignUpPass.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtSignUpPass.IconLeft = CType(resources.GetObject("txtSignUpPass.IconLeft"), System.Drawing.Image)
         Me.txtSignUpPass.IconLeftOffset = New System.Drawing.Point(10, 0)
-        Me.txtSignUpPass.Location = New System.Drawing.Point(22, 573)
+        Me.txtSignUpPass.Location = New System.Drawing.Point(41, 696)
         Me.txtSignUpPass.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtSignUpPass.Name = "txtSignUpPass"
         Me.txtSignUpPass.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -278,6 +277,7 @@ Partial Class SignUp_Form
         Me.txtSignUpPass.Size = New System.Drawing.Size(542, 58)
         Me.txtSignUpPass.TabIndex = 4
         Me.txtSignUpPass.TextOffset = New System.Drawing.Point(10, 0)
+        Me.txtSignUpPass.Visible = False
         '
         'txtFirstName
         '
@@ -294,7 +294,7 @@ Partial Class SignUp_Form
         Me.txtFirstName.ForeColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
         Me.txtFirstName.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtFirstName.IconLeftOffset = New System.Drawing.Point(10, 0)
-        Me.txtFirstName.Location = New System.Drawing.Point(22, 370)
+        Me.txtFirstName.Location = New System.Drawing.Point(22, 425)
         Me.txtFirstName.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtFirstName.Name = "txtFirstName"
         Me.txtFirstName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -326,6 +326,8 @@ Partial Class SignUp_Form
         Me.ClientSize = New System.Drawing.Size(1264, 985)
         Me.Controls.Add(Me.PictureBox3)
         Me.Controls.Add(Me.PanelSignUp)
+        Me.Controls.Add(Me.txtSignUpPass)
+        Me.Controls.Add(Me.txtConfirmPass)
         Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "SignUp_Form"

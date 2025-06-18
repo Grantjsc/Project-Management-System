@@ -78,7 +78,6 @@ Partial Class AdminAddProject_Form
         Me.cboTSG_Support.Font = New System.Drawing.Font("Segoe UI", 20.25!)
         Me.cboTSG_Support.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
         Me.cboTSG_Support.ItemHeight = 30
-        Me.cboTSG_Support.Items.AddRange(New Object() {"Ian Bayer", "Grant Catapang", "Ara Roxas", "Bernard Manalo"})
         Me.cboTSG_Support.Location = New System.Drawing.Point(92, 486)
         Me.cboTSG_Support.Name = "cboTSG_Support"
         Me.cboTSG_Support.ShadowDecoration.BorderRadius = 20

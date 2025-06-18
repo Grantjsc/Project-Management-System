@@ -57,10 +57,20 @@
     End Sub
 
     Private Sub cboTSG_Support_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTSG_Support.SelectedIndexChanged
+
+        'If Not cboTSG_Support.Text = Nothing Then
+        '    Get_Support_AdminDLA3()
+        'End If
+
         If cboTSG_Support.Text = "All" Then
             Show_A3List()
         Else
             Show_Support_DLA3()
         End If
     End Sub
+    Private Sub cboTSG_Support_MouseClick(sender As Object, e As MouseEventArgs) Handles cboTSG_Support.MouseClick
+        cboTSG_Support.Items.Clear()
+        Get_Support_AdminDLA3()
+    End Sub
+
 End Class

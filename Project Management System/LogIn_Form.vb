@@ -1,10 +1,11 @@
 ﻿Public Class LogIn_Form
     Private Sub LogIn_Form_Load(sender As Object, e As EventArgs) Handles Me.Load
         Panel1.BackColor = Color.FromArgb(180, 0, 0, 0)
+        txtUser.Text = Environment.UserName
     End Sub
 
     Private Sub txtUser_Enter(sender As Object, e As EventArgs) Handles txtUser.Enter
-        If txtUser.Text = "Employee number" Then
+        If txtUser.Text = "Username" Then
 
             txtUser.Text = ""
             txtUser.ForeColor = Color.Black
@@ -14,7 +15,7 @@
     Private Sub txtUser_Leave(sender As Object, e As EventArgs) Handles txtUser.Leave
         If txtUser.Text = "" Then
 
-            txtUser.Text = "Employee number"
+            txtUser.Text = "Username"
             txtUser.ForeColor = Color.FromArgb(87, 96, 111)
         End If
     End Sub
@@ -45,7 +46,7 @@
 
     Private Sub txtPass_KeyUp(sender As Object, e As KeyEventArgs) Handles txtPass.KeyUp
         If e.KeyCode = Keys.Enter Then
-            Login()
+            Check_Account()
         End If
     End Sub
 
@@ -62,7 +63,7 @@
     End Sub
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
-        Login()
+        Check_Account()
     End Sub
 
     Private Sub LinklblSignUp_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinklblSignUp.LinkClicked

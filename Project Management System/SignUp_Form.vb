@@ -1,6 +1,8 @@
 ﻿Public Class SignUp_Form
     Private Sub SignUp_Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PanelSignUp.BackColor = Color.FromArgb(180, 0, 0, 0)
+        txtUsername.Text = Environment.UserName
+        txtLFEmail.Text = Environment.UserName & "@littelfuse.com"
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
@@ -127,7 +129,7 @@
     End Sub
 
     Private Sub txtUsername_Enter(sender As Object, e As EventArgs) Handles txtUsername.Enter
-        If txtUsername.Text = "Employee number" Then
+        If txtUsername.Text = "Username" Then
 
             txtUsername.Text = ""
             txtUsername.ForeColor = Color.Black
@@ -143,7 +145,7 @@
     Private Sub txtUsername_Leave(sender As Object, e As EventArgs) Handles txtUsername.Leave
         If txtUsername.Text = "" Then
 
-            txtUsername.Text = "Employee number"
+            txtUsername.Text = "Username"
             txtUsername.ForeColor = Color.FromArgb(87, 96, 111)
         End If
     End Sub
