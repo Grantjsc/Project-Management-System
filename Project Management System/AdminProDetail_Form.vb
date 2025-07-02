@@ -12,7 +12,31 @@
     End Sub
 
     Private Sub Guna2Button1_Click(sender As Object, e As EventArgs) Handles Guna2Button1.Click
-        AdminProjectList_ShowTask()
-        Task_Form.ShowDialog()
+        'AdminProjectList_ShowTask()
+        'Task_Form.ShowDialog()
+
+        Activity_Show()
+        Highligh_Activity()
+        'Activity_Form.ShowDialog()
+
+        Me.Hide()
+
+        Admin_Form.btnAddProject.Enabled = False
+        Admin_Form.btnList.Enabled = False
+        Admin_Form.btnDLA3.Enabled = False
+        Admin_Form.btnProdSupport.Enabled = False
+        Admin_Form.btnCancel.Enabled = False
+
+        Main_Form.btnHome.Enabled = False
+        Main_Form.btnAdmin.Enabled = False
+
+        With Activity_Form
+            .TopLevel = False
+            Admin_Form.Panel_Admin.Controls.Add(Activity_Form)
+            .WindowState = FormWindowState.Maximized
+            .BringToFront()
+            .Show()
+        End With
+
     End Sub
 End Class

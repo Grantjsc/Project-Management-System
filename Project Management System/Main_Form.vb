@@ -5,6 +5,7 @@
 
     Private Sub btnMyReq_Click(sender As Object, e As EventArgs) Handles btnMyReq.Click
         Click_MyRequestButton()
+        Highligh_MyRequest_NoData()
     End Sub
 
     Private Sub btnRequest_Click(sender As Object, e As EventArgs) Handles btnRequest.Click

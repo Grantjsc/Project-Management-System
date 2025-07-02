@@ -74,8 +74,19 @@ Partial Class AdminProjectList_Form
         Me.Label17 = New System.Windows.Forms.Label()
         Me.cboDept = New Guna.UI2.WinForms.Guna2ComboBox()
         Me.Label18 = New System.Windows.Forms.Label()
+        Me.Guna2GroupBox2 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Guna2CirclePictureBox3 = New Guna.UI2.WinForms.Guna2CirclePictureBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.Guna2CirclePictureBox1 = New Guna.UI2.WinForms.Guna2CirclePictureBox()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.Guna2CirclePictureBox2 = New Guna.UI2.WinForms.Guna2CirclePictureBox()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Guna2GroupBox1.SuspendLayout()
+        Me.Guna2GroupBox2.SuspendLayout()
+        CType(Me.Guna2CirclePictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Guna2CirclePictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Guna2CirclePictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'DataGridView1
@@ -97,7 +108,7 @@ Partial Class AdminProjectList_Form
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(20, 138)
+        Me.DataGridView1.Location = New System.Drawing.Point(20, 147)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
@@ -110,7 +121,7 @@ Partial Class AdminProjectList_Form
         Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridView1.RowHeadersVisible = False
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1123, 592)
+        Me.DataGridView1.Size = New System.Drawing.Size(1123, 581)
         Me.DataGridView1.TabIndex = 0
         '
         'Guna2GroupBox1
@@ -720,7 +731,7 @@ Partial Class AdminProjectList_Form
         Me.Label6.BackColor = System.Drawing.Color.Transparent
         Me.Label6.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.DimGray
-        Me.Label6.Location = New System.Drawing.Point(483, 110)
+        Me.Label6.Location = New System.Drawing.Point(20, 94)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(293, 17)
         Me.Label6.TabIndex = 16
@@ -742,7 +753,7 @@ Partial Class AdminProjectList_Form
         Me.txtSearch.HoverState.BorderColor = System.Drawing.Color.LightGray
         Me.txtSearch.IconLeft = CType(resources.GetObject("txtSearch.IconLeft"), System.Drawing.Image)
         Me.txtSearch.IconLeftOffset = New System.Drawing.Point(5, 0)
-        Me.txtSearch.Location = New System.Drawing.Point(21, 104)
+        Me.txtSearch.Location = New System.Drawing.Point(23, 113)
         Me.txtSearch.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -924,7 +935,7 @@ Partial Class AdminProjectList_Form
         Me.cboStatus.Font = New System.Drawing.Font("Segoe UI", 12.0!)
         Me.cboStatus.ForeColor = System.Drawing.Color.DimGray
         Me.cboStatus.ItemHeight = 30
-        Me.cboStatus.Items.AddRange(New Object() {"All", "Not Started", "On-going", "Done", "On Hold"})
+        Me.cboStatus.Items.AddRange(New Object() {"Open Status", "Not Started", "On-going", "Done", "On Hold", "All"})
         Me.cboStatus.Location = New System.Drawing.Point(891, 48)
         Me.cboStatus.Name = "cboStatus"
         Me.cboStatus.ShadowDecoration.BorderRadius = 20
@@ -985,12 +996,102 @@ Partial Class AdminProjectList_Form
         Me.Label18.TabIndex = 200
         Me.Label18.Text = "Status"
         '
+        'Guna2GroupBox2
+        '
+        Me.Guna2GroupBox2.BackColor = System.Drawing.Color.Transparent
+        Me.Guna2GroupBox2.BorderColor = System.Drawing.Color.Black
+        Me.Guna2GroupBox2.BorderRadius = 5
+        Me.Guna2GroupBox2.BorderThickness = 5
+        Me.Guna2GroupBox2.Controls.Add(Me.Label19)
+        Me.Guna2GroupBox2.Controls.Add(Me.Guna2CirclePictureBox3)
+        Me.Guna2GroupBox2.Controls.Add(Me.Label21)
+        Me.Guna2GroupBox2.Controls.Add(Me.Guna2CirclePictureBox1)
+        Me.Guna2GroupBox2.Controls.Add(Me.Label23)
+        Me.Guna2GroupBox2.Controls.Add(Me.Guna2CirclePictureBox2)
+        Me.Guna2GroupBox2.CustomBorderThickness = New System.Windows.Forms.Padding(0)
+        Me.Guna2GroupBox2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Guna2GroupBox2.ForeColor = System.Drawing.Color.Green
+        Me.Guna2GroupBox2.Location = New System.Drawing.Point(490, 100)
+        Me.Guna2GroupBox2.Name = "Guna2GroupBox2"
+        Me.Guna2GroupBox2.Size = New System.Drawing.Size(257, 41)
+        Me.Guna2GroupBox2.TabIndex = 201
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Font = New System.Drawing.Font("Segoe UI", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+        Me.Label19.ForeColor = System.Drawing.Color.Black
+        Me.Label19.Location = New System.Drawing.Point(192, 15)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(44, 13)
+        Me.Label19.TabIndex = 7
+        Me.Label19.Text = "- Delay"
+        '
+        'Guna2CirclePictureBox3
+        '
+        Me.Guna2CirclePictureBox3.BackColor = System.Drawing.Color.Transparent
+        Me.Guna2CirclePictureBox3.FillColor = System.Drawing.Color.Red
+        Me.Guna2CirclePictureBox3.ImageRotate = 0!
+        Me.Guna2CirclePictureBox3.Location = New System.Drawing.Point(171, 12)
+        Me.Guna2CirclePictureBox3.Name = "Guna2CirclePictureBox3"
+        Me.Guna2CirclePictureBox3.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle
+        Me.Guna2CirclePictureBox3.Size = New System.Drawing.Size(18, 18)
+        Me.Guna2CirclePictureBox3.TabIndex = 6
+        Me.Guna2CirclePictureBox3.TabStop = False
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Font = New System.Drawing.Font("Segoe UI", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+        Me.Label21.ForeColor = System.Drawing.Color.Black
+        Me.Label21.Location = New System.Drawing.Point(124, 15)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(41, 13)
+        Me.Label21.TabIndex = 5
+        Me.Label21.Text = "- Done"
+        '
+        'Guna2CirclePictureBox1
+        '
+        Me.Guna2CirclePictureBox1.BackColor = System.Drawing.Color.Transparent
+        Me.Guna2CirclePictureBox1.FillColor = System.Drawing.Color.MediumSeaGreen
+        Me.Guna2CirclePictureBox1.ImageRotate = 0!
+        Me.Guna2CirclePictureBox1.Location = New System.Drawing.Point(103, 12)
+        Me.Guna2CirclePictureBox1.Name = "Guna2CirclePictureBox1"
+        Me.Guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle
+        Me.Guna2CirclePictureBox1.Size = New System.Drawing.Size(18, 18)
+        Me.Guna2CirclePictureBox1.TabIndex = 4
+        Me.Guna2CirclePictureBox1.TabStop = False
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Font = New System.Drawing.Font("Segoe UI", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+        Me.Label23.ForeColor = System.Drawing.Color.Black
+        Me.Label23.Location = New System.Drawing.Point(34, 15)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(63, 13)
+        Me.Label23.TabIndex = 3
+        Me.Label23.Text = "- On-going"
+        '
+        'Guna2CirclePictureBox2
+        '
+        Me.Guna2CirclePictureBox2.BackColor = System.Drawing.Color.Transparent
+        Me.Guna2CirclePictureBox2.FillColor = System.Drawing.Color.Gold
+        Me.Guna2CirclePictureBox2.ImageRotate = 0!
+        Me.Guna2CirclePictureBox2.Location = New System.Drawing.Point(13, 12)
+        Me.Guna2CirclePictureBox2.Name = "Guna2CirclePictureBox2"
+        Me.Guna2CirclePictureBox2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle
+        Me.Guna2CirclePictureBox2.Size = New System.Drawing.Size(18, 18)
+        Me.Guna2CirclePictureBox2.TabIndex = 1
+        Me.Guna2CirclePictureBox2.TabStop = False
+        '
         'AdminProjectList_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.ClientSize = New System.Drawing.Size(1155, 740)
+        Me.Controls.Add(Me.Guna2GroupBox2)
         Me.Controls.Add(Me.cboDept)
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.cboStatus)
@@ -1017,6 +1118,11 @@ Partial Class AdminProjectList_Form
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Guna2GroupBox1.ResumeLayout(False)
         Me.Guna2GroupBox1.PerformLayout()
+        Me.Guna2GroupBox2.ResumeLayout(False)
+        Me.Guna2GroupBox2.PerformLayout()
+        CType(Me.Guna2CirclePictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Guna2CirclePictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Guna2CirclePictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1070,4 +1176,11 @@ Partial Class AdminProjectList_Form
     Friend WithEvents Label17 As Label
     Friend WithEvents cboDept As Guna.UI2.WinForms.Guna2ComboBox
     Friend WithEvents Label18 As Label
+    Friend WithEvents Guna2GroupBox2 As Guna.UI2.WinForms.Guna2GroupBox
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Guna2CirclePictureBox3 As Guna.UI2.WinForms.Guna2CirclePictureBox
+    Friend WithEvents Label21 As Label
+    Friend WithEvents Guna2CirclePictureBox1 As Guna.UI2.WinForms.Guna2CirclePictureBox
+    Friend WithEvents Label23 As Label
+    Friend WithEvents Guna2CirclePictureBox2 As Guna.UI2.WinForms.Guna2CirclePictureBox
 End Class

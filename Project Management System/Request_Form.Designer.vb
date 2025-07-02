@@ -38,10 +38,8 @@ Partial Class Request_Form
         Me.dtpStartDate = New Guna.UI2.WinForms.Guna2DateTimePicker()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.dtpCompletion = New Guna.UI2.WinForms.Guna2DateTimePicker()
-        Me.txtDept = New Guna.UI2.WinForms.Guna2TextBox()
         Me.txtProjTitle = New Guna.UI2.WinForms.Guna2TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.txtMemEmail = New Guna.UI2.WinForms.Guna2TextBox()
@@ -53,6 +51,8 @@ Partial Class Request_Form
         Me.txtName = New Guna.UI2.WinForms.Guna2TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.txtDept = New Guna.UI2.WinForms.Guna2TextBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.Guna2GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -331,6 +331,7 @@ Partial Class Request_Form
         '
         Me.dtpCompletion.BorderRadius = 10
         Me.dtpCompletion.Checked = True
+        Me.dtpCompletion.Enabled = False
         Me.dtpCompletion.FillColor = System.Drawing.Color.SeaGreen
         Me.dtpCompletion.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpCompletion.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
@@ -341,36 +342,6 @@ Partial Class Request_Form
         Me.dtpCompletion.Size = New System.Drawing.Size(153, 36)
         Me.dtpCompletion.TabIndex = 2
         Me.dtpCompletion.Value = New Date(2024, 7, 18, 15, 24, 7, 891)
-        '
-        'txtDept
-        '
-        Me.txtDept.BackColor = System.Drawing.Color.Transparent
-        Me.txtDept.BorderColor = System.Drawing.Color.Black
-        Me.txtDept.BorderRadius = 20
-        Me.txtDept.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtDept.DefaultText = ""
-        Me.txtDept.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
-        Me.txtDept.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
-        Me.txtDept.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtDept.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtDept.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtDept.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDept.ForeColor = System.Drawing.Color.Black
-        Me.txtDept.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtDept.Location = New System.Drawing.Point(719, 27)
-        Me.txtDept.Margin = New System.Windows.Forms.Padding(6)
-        Me.txtDept.Name = "txtDept"
-        Me.txtDept.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.txtDept.PlaceholderText = ""
-        Me.txtDept.ReadOnly = True
-        Me.txtDept.SelectedText = ""
-        Me.txtDept.ShadowDecoration.BorderRadius = 20
-        Me.txtDept.ShadowDecoration.Depth = 15
-        Me.txtDept.ShadowDecoration.Enabled = True
-        Me.txtDept.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 15, 15)
-        Me.txtDept.Size = New System.Drawing.Size(419, 44)
-        Me.txtDept.TabIndex = 1
-        Me.txtDept.Visible = False
         '
         'txtProjTitle
         '
@@ -412,18 +383,6 @@ Partial Class Request_Form
         Me.Label7.Size = New System.Drawing.Size(138, 21)
         Me.Label7.TabIndex = 4
         Me.Label7.Text = "Completion Date:"
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.ForeColor = System.Drawing.Color.Black
-        Me.Label5.Location = New System.Drawing.Point(696, 0)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(98, 21)
-        Me.Label5.TabIndex = 1
-        Me.Label5.Text = "Department"
-        Me.Label5.Visible = False
         '
         'Label6
         '
@@ -627,6 +586,48 @@ Partial Class Request_Form
         Me.Label1.Size = New System.Drawing.Size(57, 21)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Name:"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.Black
+        Me.Label5.Location = New System.Drawing.Point(696, 0)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(98, 21)
+        Me.Label5.TabIndex = 1
+        Me.Label5.Text = "Department"
+        Me.Label5.Visible = False
+        '
+        'txtDept
+        '
+        Me.txtDept.BackColor = System.Drawing.Color.Transparent
+        Me.txtDept.BorderColor = System.Drawing.Color.Black
+        Me.txtDept.BorderRadius = 20
+        Me.txtDept.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtDept.DefaultText = ""
+        Me.txtDept.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
+        Me.txtDept.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
+        Me.txtDept.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtDept.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtDept.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtDept.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDept.ForeColor = System.Drawing.Color.Black
+        Me.txtDept.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtDept.Location = New System.Drawing.Point(719, 27)
+        Me.txtDept.Margin = New System.Windows.Forms.Padding(6)
+        Me.txtDept.Name = "txtDept"
+        Me.txtDept.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.txtDept.PlaceholderText = ""
+        Me.txtDept.ReadOnly = True
+        Me.txtDept.SelectedText = ""
+        Me.txtDept.ShadowDecoration.BorderRadius = 20
+        Me.txtDept.ShadowDecoration.Depth = 15
+        Me.txtDept.ShadowDecoration.Enabled = True
+        Me.txtDept.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 15, 15)
+        Me.txtDept.Size = New System.Drawing.Size(419, 44)
+        Me.txtDept.TabIndex = 1
+        Me.txtDept.Visible = False
         '
         'OpenFileDialog1
         '

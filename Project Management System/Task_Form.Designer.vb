@@ -99,7 +99,7 @@ Partial Class Task_Form
         Me.Panel1.Controls.Add(Me.txtTask4_Owner)
         Me.Panel1.Controls.Add(Me.Label6)
         Me.Panel1.Controls.Add(Me.txtTask4)
-        Me.Panel1.Location = New System.Drawing.Point(100, 84)
+        Me.Panel1.Location = New System.Drawing.Point(95, 90)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(967, 583)
         Me.Panel1.TabIndex = 37

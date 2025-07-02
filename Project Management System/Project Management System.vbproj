@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A8F841C5-C50D-4E45-8C89-1277D710F6AB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Project_Management_System.My.MyApplication</StartupObject>
+    <StartupObject>Project_Management_System.Form1</StartupObject>
     <RootNamespace>Project_Management_System</RootNamespace>
     <AssemblyName>Project Management System</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -14,10 +14,10 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>\\btwebdev01\Websites\WindowsAppUpdater\TSG_Shared\TSG Software Project Management System\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Unc</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -25,11 +25,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://btwebdev01/TSGSoftwareProjectManagementSystem/</InstallUrl>
+    <SupportUrl>https://www.littelfuse.com/</SupportUrl>
+    <ErrorReportUrl>https://www.littelfuse.com/</ErrorReportUrl>
     <ProductName>TSG Software Project Management System</ProductName>
     <PublisherName>Littelfuse Philippines %28TSG%29 - GCatapang</PublisherName>
+    <SuiteName>TSG Software Project Management System</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>Installer.htm</WebPage>
-    <ApplicationRevision>37</ApplicationRevision>
+    <ApplicationRevision>53</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -82,6 +86,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
@@ -168,6 +175,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Access_Query.vb" />
+    <Compile Include="Activity_Form.Designer.vb">
+      <DependentUpon>Activity_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Activity_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AdminAddProject_Form.Designer.vb">
       <DependentUpon>AdminAddProject_Form.vb</DependentUpon>
     </Compile>
@@ -232,11 +245,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="My Project\Application.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Application.myapp</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -251,6 +259,12 @@
       <DependentUpon>MyRequest_Form.vb</DependentUpon>
     </Compile>
     <Compile Include="MyRequest_Form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminProdSupport_Form.Designer.vb">
+      <DependentUpon>AdminProdSupport_Form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AdminProdSupport_Form.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Request_Form.Designer.vb">
@@ -298,6 +312,9 @@
     <Compile Include="Windows.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Activity_Form.resx">
+      <DependentUpon>Activity_Form.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AdminAddProject_Form.resx">
       <DependentUpon>AdminAddProject_Form.vb</DependentUpon>
     </EmbeddedResource>
@@ -337,6 +354,9 @@
     <EmbeddedResource Include="MyRequest_Form.resx">
       <DependentUpon>MyRequest_Form.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AdminProdSupport_Form.resx">
+      <DependentUpon>AdminProdSupport_Form.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Request_Form.resx">
       <DependentUpon>Request_Form.vb</DependentUpon>
     </EmbeddedResource>
@@ -357,9 +377,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
-      <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

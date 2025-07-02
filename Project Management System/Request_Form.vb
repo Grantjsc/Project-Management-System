@@ -16,7 +16,8 @@ Public Class Request_Form
     End Sub
 
     Private Sub Request_Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        dtpCompletion.Text = Date.Now
+        'dtpCompletion.Text = Date.Now
+        'dtpCompletion.Value = dtpStartDate.Value.AddDays(14)
     End Sub
 
     Private Sub txtManagerEmail_KeyUp(sender As Object, e As KeyEventArgs) Handles txtManagerEmail.KeyUp
@@ -34,6 +35,7 @@ Public Class Request_Form
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Me.Close()
         Click_MyRequestButton()
+        Highligh_MyRequest_NoData()
     End Sub
 
     Private Sub btmBrowse_Click(sender As Object, e As EventArgs) Handles btnBrowse.Click

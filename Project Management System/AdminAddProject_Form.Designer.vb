@@ -35,6 +35,8 @@ Partial Class AdminAddProject_Form
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.lblTitle = New System.Windows.Forms.Label()
+        Me.dtpCompletion = New Guna.UI2.WinForms.Guna2DateTimePicker()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -43,6 +45,8 @@ Partial Class AdminAddProject_Form
         Me.Guna2GroupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.Guna2GroupBox1.BorderColor = System.Drawing.Color.Black
         Me.Guna2GroupBox1.BorderRadius = 10
+        Me.Guna2GroupBox1.Controls.Add(Me.Label5)
+        Me.Guna2GroupBox1.Controls.Add(Me.dtpCompletion)
         Me.Guna2GroupBox1.Controls.Add(Me.cboTSG_Support)
         Me.Guna2GroupBox1.Controls.Add(Me.txtEmail)
         Me.Guna2GroupBox1.Controls.Add(Me.Label6)
@@ -101,7 +105,7 @@ Partial Class AdminAddProject_Form
         Me.txtEmail.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtEmail.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEmail.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtEmail.Location = New System.Drawing.Point(550, 328)
+        Me.txtEmail.Location = New System.Drawing.Point(574, 328)
         Me.txtEmail.Margin = New System.Windows.Forms.Padding(4)
         Me.txtEmail.Name = "txtEmail"
         Me.txtEmail.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -153,7 +157,7 @@ Partial Class AdminAddProject_Form
         Me.txtTSGSupport.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.txtTSGSupport.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTSGSupport.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtTSGSupport.Location = New System.Drawing.Point(560, 471)
+        Me.txtTSGSupport.Location = New System.Drawing.Point(630, 46)
         Me.txtTSGSupport.Margin = New System.Windows.Forms.Padding(6)
         Me.txtTSGSupport.Name = "txtTSGSupport"
         Me.txtTSGSupport.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -293,6 +297,39 @@ Partial Class AdminAddProject_Form
         Me.lblTitle.TabIndex = 4
         Me.lblTitle.Text = "Token"
         '
+        'dtpCompletion
+        '
+        Me.dtpCompletion.BackColor = System.Drawing.Color.Transparent
+        Me.dtpCompletion.BorderRadius = 10
+        Me.dtpCompletion.Checked = True
+        Me.dtpCompletion.FillColor = System.Drawing.Color.SeaGreen
+        Me.dtpCompletion.Font = New System.Drawing.Font("Segoe UI", 20.0!, System.Drawing.FontStyle.Bold)
+        Me.dtpCompletion.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpCompletion.Location = New System.Drawing.Point(574, 455)
+        Me.dtpCompletion.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
+        Me.dtpCompletion.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpCompletion.Name = "dtpCompletion"
+        Me.dtpCompletion.ShadowDecoration.BorderRadius = 20
+        Me.dtpCompletion.ShadowDecoration.Depth = 15
+        Me.dtpCompletion.ShadowDecoration.Enabled = True
+        Me.dtpCompletion.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 15, 15)
+        Me.dtpCompletion.Size = New System.Drawing.Size(227, 51)
+        Me.dtpCompletion.TabIndex = 39
+        Me.dtpCompletion.Value = New Date(2024, 7, 18, 15, 24, 7, 891)
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.Transparent
+        Me.Label5.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.SeaGreen
+        Me.Label5.Location = New System.Drawing.Point(544, 408)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(219, 36)
+        Me.Label5.TabIndex = 41
+        Me.Label5.Text = "Completion Date:"
+        '
         'AdminAddProject_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -322,4 +359,6 @@ Partial Class AdminAddProject_Form
     Friend WithEvents txtEmail As Guna.UI2.WinForms.Guna2TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents cboTSG_Support As Guna.UI2.WinForms.Guna2ComboBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents dtpCompletion As Guna.UI2.WinForms.Guna2DateTimePicker
 End Class

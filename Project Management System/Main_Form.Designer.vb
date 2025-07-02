@@ -24,6 +24,7 @@ Partial Class Main_Form
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main_Form))
         Me.Guna2CustomGradientPanel2 = New Guna.UI2.WinForms.Guna2CustomGradientPanel()
+        Me.btnLogOff = New Guna.UI2.WinForms.Guna2Button()
         Me.btnAdmin = New Guna.UI2.WinForms.Guna2Button()
         Me.btnRequest = New Guna.UI2.WinForms.Guna2Button()
         Me.btnMyReq = New Guna.UI2.WinForms.Guna2Button()
@@ -31,7 +32,6 @@ Partial Class Main_Form
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnLogOff = New Guna.UI2.WinForms.Guna2Button()
         Me.lblfooter2 = New System.Windows.Forms.Label()
         Me.lblfooter1 = New System.Windows.Forms.Label()
         Me.Panel = New System.Windows.Forms.Panel()
@@ -59,6 +59,40 @@ Partial Class Main_Form
         Me.Guna2CustomGradientPanel2.Name = "Guna2CustomGradientPanel2"
         Me.Guna2CustomGradientPanel2.Size = New System.Drawing.Size(1264, 38)
         Me.Guna2CustomGradientPanel2.TabIndex = 8
+        '
+        'btnLogOff
+        '
+        Me.btnLogOff.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.btnLogOff.BackColor = System.Drawing.Color.Transparent
+        Me.btnLogOff.BorderColor = System.Drawing.Color.Transparent
+        Me.btnLogOff.BorderRadius = 18
+        Me.btnLogOff.BorderThickness = 3
+        Me.btnLogOff.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btnLogOff.DisabledState.BorderColor = System.Drawing.Color.DarkGray
+        Me.btnLogOff.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
+        Me.btnLogOff.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
+        Me.btnLogOff.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
+        Me.btnLogOff.FillColor = System.Drawing.Color.Transparent
+        Me.btnLogOff.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLogOff.ForeColor = System.Drawing.Color.White
+        Me.btnLogOff.HoverState.BorderColor = System.Drawing.Color.Transparent
+        Me.btnLogOff.HoverState.CustomBorderColor = System.Drawing.Color.Transparent
+        Me.btnLogOff.HoverState.FillColor = System.Drawing.Color.Transparent
+        Me.btnLogOff.HoverState.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLogOff.HoverState.ForeColor = System.Drawing.Color.Red
+        Me.btnLogOff.ImageSize = New System.Drawing.Size(30, 30)
+        Me.btnLogOff.Location = New System.Drawing.Point(1164, 4)
+        Me.btnLogOff.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnLogOff.Name = "btnLogOff"
+        Me.btnLogOff.PressedColor = System.Drawing.Color.Transparent
+        Me.btnLogOff.ShadowDecoration.BorderRadius = 0
+        Me.btnLogOff.ShadowDecoration.Color = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnLogOff.ShadowDecoration.Depth = 0
+        Me.btnLogOff.ShadowDecoration.Enabled = True
+        Me.btnLogOff.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(8)
+        Me.btnLogOff.Size = New System.Drawing.Size(97, 29)
+        Me.btnLogOff.TabIndex = 1
+        Me.btnLogOff.Text = "Log out"
         '
         'btnAdmin
         '
@@ -96,6 +130,7 @@ Partial Class Main_Form
         Me.btnRequest.Size = New System.Drawing.Size(109, 38)
         Me.btnRequest.TabIndex = 10
         Me.btnRequest.Text = "New Request"
+        Me.btnRequest.Visible = False
         '
         'btnMyReq
         '
@@ -169,40 +204,6 @@ Partial Class Main_Form
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1264, 39)
         Me.Panel1.TabIndex = 9
-        '
-        'btnLogOff
-        '
-        Me.btnLogOff.Anchor = System.Windows.Forms.AnchorStyles.Right
-        Me.btnLogOff.BackColor = System.Drawing.Color.Transparent
-        Me.btnLogOff.BorderColor = System.Drawing.Color.Transparent
-        Me.btnLogOff.BorderRadius = 18
-        Me.btnLogOff.BorderThickness = 3
-        Me.btnLogOff.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btnLogOff.DisabledState.BorderColor = System.Drawing.Color.DarkGray
-        Me.btnLogOff.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
-        Me.btnLogOff.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
-        Me.btnLogOff.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
-        Me.btnLogOff.FillColor = System.Drawing.Color.Transparent
-        Me.btnLogOff.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnLogOff.ForeColor = System.Drawing.Color.White
-        Me.btnLogOff.HoverState.BorderColor = System.Drawing.Color.Transparent
-        Me.btnLogOff.HoverState.CustomBorderColor = System.Drawing.Color.Transparent
-        Me.btnLogOff.HoverState.FillColor = System.Drawing.Color.Transparent
-        Me.btnLogOff.HoverState.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnLogOff.HoverState.ForeColor = System.Drawing.Color.Red
-        Me.btnLogOff.ImageSize = New System.Drawing.Size(30, 30)
-        Me.btnLogOff.Location = New System.Drawing.Point(1164, 4)
-        Me.btnLogOff.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnLogOff.Name = "btnLogOff"
-        Me.btnLogOff.PressedColor = System.Drawing.Color.Transparent
-        Me.btnLogOff.ShadowDecoration.BorderRadius = 0
-        Me.btnLogOff.ShadowDecoration.Color = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.btnLogOff.ShadowDecoration.Depth = 0
-        Me.btnLogOff.ShadowDecoration.Enabled = True
-        Me.btnLogOff.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(8)
-        Me.btnLogOff.Size = New System.Drawing.Size(97, 29)
-        Me.btnLogOff.TabIndex = 1
-        Me.btnLogOff.Text = "Log out"
         '
         'lblfooter2
         '

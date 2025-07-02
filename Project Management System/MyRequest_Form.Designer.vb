@@ -37,8 +37,19 @@ Partial Class MyRequest_Form
         Me.Label4 = New System.Windows.Forms.Label()
         Me.btnDownload = New Guna.UI2.WinForms.Guna2Button()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.Guna2GroupBox2 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Guna2CirclePictureBox3 = New Guna.UI2.WinForms.Guna2CirclePictureBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Guna2CirclePictureBox1 = New Guna.UI2.WinForms.Guna2CirclePictureBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Guna2CirclePictureBox2 = New Guna.UI2.WinForms.Guna2CirclePictureBox()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Guna2GroupBox1.SuspendLayout()
+        Me.Guna2GroupBox2.SuspendLayout()
+        CType(Me.Guna2CirclePictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Guna2CirclePictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Guna2CirclePictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'DataGridView1
@@ -72,7 +83,7 @@ Partial Class MyRequest_Form
         Me.lblTitle.BackColor = System.Drawing.Color.Transparent
         Me.lblTitle.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTitle.ForeColor = System.Drawing.Color.SeaGreen
-        Me.lblTitle.Location = New System.Drawing.Point(40, 40)
+        Me.lblTitle.Location = New System.Drawing.Point(40, 63)
         Me.lblTitle.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(244, 36)
@@ -95,27 +106,30 @@ Partial Class MyRequest_Form
         Me.txtSearch.HoverState.BorderColor = System.Drawing.Color.LightGray
         Me.txtSearch.IconLeft = CType(resources.GetObject("txtSearch.IconLeft"), System.Drawing.Image)
         Me.txtSearch.IconLeftOffset = New System.Drawing.Point(5, 0)
-        Me.txtSearch.Location = New System.Drawing.Point(289, 40)
+        Me.txtSearch.Location = New System.Drawing.Point(166, 0)
         Me.txtSearch.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
         Me.txtSearch.PlaceholderText = ""
         Me.txtSearch.SelectedText = ""
         Me.txtSearch.Size = New System.Drawing.Size(534, 35)
-        Me.txtSearch.TabIndex = 113
+        Me.txtSearch.TabIndex = 2
         Me.txtSearch.TextOffset = New System.Drawing.Point(10, 0)
+        Me.txtSearch.Visible = False
         '
         'Label6
         '
+        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label6.AutoSize = True
         Me.Label6.BackColor = System.Drawing.Color.Transparent
-        Me.Label6.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Italic)
         Me.Label6.ForeColor = System.Drawing.Color.DimGray
-        Me.Label6.Location = New System.Drawing.Point(42, 82)
+        Me.Label6.Location = New System.Drawing.Point(627, 27)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(416, 20)
+        Me.Label6.Size = New System.Drawing.Size(392, 57)
         Me.Label6.TabIndex = 114
-        Me.Label6.Text = "Note: (Please double-click on the project row to see the activity)"
+        Me.Label6.Text = "Note:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "- Double-click the project row to view the activity." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "- You must first com" &
+    "plete the project detail if it is incomplete."
         '
         'Guna2GroupBox1
         '
@@ -126,6 +140,7 @@ Partial Class MyRequest_Form
         Me.Guna2GroupBox1.Controls.Add(Me.btnUpdate)
         Me.Guna2GroupBox1.Controls.Add(Me.txtFileName)
         Me.Guna2GroupBox1.Controls.Add(Me.Label1)
+        Me.Guna2GroupBox1.Controls.Add(Me.txtSearch)
         Me.Guna2GroupBox1.Controls.Add(Me.btmBrowse)
         Me.Guna2GroupBox1.Controls.Add(Me.txtLocation)
         Me.Guna2GroupBox1.Controls.Add(Me.Label4)
@@ -138,7 +153,7 @@ Partial Class MyRequest_Form
         Me.Guna2GroupBox1.Name = "Guna2GroupBox1"
         Me.Guna2GroupBox1.ShadowDecoration.BorderRadius = 20
         Me.Guna2GroupBox1.Size = New System.Drawing.Size(805, 325)
-        Me.Guna2GroupBox1.TabIndex = 116
+        Me.Guna2GroupBox1.TabIndex = 0
         Me.Guna2GroupBox1.Text = "Download A3"
         '
         'btnUpdate
@@ -155,7 +170,7 @@ Partial Class MyRequest_Form
         Me.btnUpdate.Location = New System.Drawing.Point(239, 258)
         Me.btnUpdate.Name = "btnUpdate"
         Me.btnUpdate.Size = New System.Drawing.Size(131, 45)
-        Me.btnUpdate.TabIndex = 23
+        Me.btnUpdate.TabIndex = 1
         Me.btnUpdate.Text = "Update"
         '
         'txtFileName
@@ -217,7 +232,7 @@ Partial Class MyRequest_Form
         Me.btmBrowse.Location = New System.Drawing.Point(652, 199)
         Me.btmBrowse.Name = "btmBrowse"
         Me.btmBrowse.Size = New System.Drawing.Size(110, 35)
-        Me.btmBrowse.TabIndex = 15
+        Me.btmBrowse.TabIndex = 0
         Me.btmBrowse.Text = "Browse"
         '
         'txtLocation
@@ -277,8 +292,98 @@ Partial Class MyRequest_Form
         Me.btnDownload.Location = New System.Drawing.Point(432, 258)
         Me.btnDownload.Name = "btnDownload"
         Me.btnDownload.Size = New System.Drawing.Size(131, 45)
-        Me.btnDownload.TabIndex = 11
+        Me.btnDownload.TabIndex = 2
         Me.btnDownload.Text = "Download"
+        '
+        'Guna2GroupBox2
+        '
+        Me.Guna2GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Guna2GroupBox2.BackColor = System.Drawing.Color.Transparent
+        Me.Guna2GroupBox2.BorderColor = System.Drawing.Color.Black
+        Me.Guna2GroupBox2.BorderRadius = 5
+        Me.Guna2GroupBox2.BorderThickness = 5
+        Me.Guna2GroupBox2.Controls.Add(Me.Label5)
+        Me.Guna2GroupBox2.Controls.Add(Me.Guna2CirclePictureBox3)
+        Me.Guna2GroupBox2.Controls.Add(Me.Label3)
+        Me.Guna2GroupBox2.Controls.Add(Me.Guna2CirclePictureBox1)
+        Me.Guna2GroupBox2.Controls.Add(Me.Label2)
+        Me.Guna2GroupBox2.Controls.Add(Me.Guna2CirclePictureBox2)
+        Me.Guna2GroupBox2.CustomBorderThickness = New System.Windows.Forms.Padding(0)
+        Me.Guna2GroupBox2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Guna2GroupBox2.ForeColor = System.Drawing.Color.Green
+        Me.Guna2GroupBox2.Location = New System.Drawing.Point(1025, 12)
+        Me.Guna2GroupBox2.Name = "Guna2GroupBox2"
+        Me.Guna2GroupBox2.Size = New System.Drawing.Size(183, 87)
+        Me.Guna2GroupBox2.TabIndex = 115
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Segoe UI", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+        Me.Label5.ForeColor = System.Drawing.Color.Black
+        Me.Label5.Location = New System.Drawing.Point(34, 61)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(44, 13)
+        Me.Label5.TabIndex = 7
+        Me.Label5.Text = "- Delay"
+        '
+        'Guna2CirclePictureBox3
+        '
+        Me.Guna2CirclePictureBox3.BackColor = System.Drawing.Color.Transparent
+        Me.Guna2CirclePictureBox3.FillColor = System.Drawing.Color.Red
+        Me.Guna2CirclePictureBox3.ImageRotate = 0!
+        Me.Guna2CirclePictureBox3.Location = New System.Drawing.Point(13, 58)
+        Me.Guna2CirclePictureBox3.Name = "Guna2CirclePictureBox3"
+        Me.Guna2CirclePictureBox3.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle
+        Me.Guna2CirclePictureBox3.Size = New System.Drawing.Size(18, 18)
+        Me.Guna2CirclePictureBox3.TabIndex = 6
+        Me.Guna2CirclePictureBox3.TabStop = False
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Segoe UI", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+        Me.Label3.ForeColor = System.Drawing.Color.Black
+        Me.Label3.Location = New System.Drawing.Point(34, 37)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(41, 13)
+        Me.Label3.TabIndex = 5
+        Me.Label3.Text = "- Done"
+        '
+        'Guna2CirclePictureBox1
+        '
+        Me.Guna2CirclePictureBox1.BackColor = System.Drawing.Color.Transparent
+        Me.Guna2CirclePictureBox1.FillColor = System.Drawing.Color.MediumSeaGreen
+        Me.Guna2CirclePictureBox1.ImageRotate = 0!
+        Me.Guna2CirclePictureBox1.Location = New System.Drawing.Point(13, 34)
+        Me.Guna2CirclePictureBox1.Name = "Guna2CirclePictureBox1"
+        Me.Guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle
+        Me.Guna2CirclePictureBox1.Size = New System.Drawing.Size(18, 18)
+        Me.Guna2CirclePictureBox1.TabIndex = 4
+        Me.Guna2CirclePictureBox1.TabStop = False
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Segoe UI", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+        Me.Label2.ForeColor = System.Drawing.Color.Black
+        Me.Label2.Location = New System.Drawing.Point(34, 15)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(110, 13)
+        Me.Label2.TabIndex = 3
+        Me.Label2.Text = "- Details incomplete"
+        '
+        'Guna2CirclePictureBox2
+        '
+        Me.Guna2CirclePictureBox2.BackColor = System.Drawing.Color.Transparent
+        Me.Guna2CirclePictureBox2.FillColor = System.Drawing.Color.Gold
+        Me.Guna2CirclePictureBox2.ImageRotate = 0!
+        Me.Guna2CirclePictureBox2.Location = New System.Drawing.Point(13, 12)
+        Me.Guna2CirclePictureBox2.Name = "Guna2CirclePictureBox2"
+        Me.Guna2CirclePictureBox2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle
+        Me.Guna2CirclePictureBox2.Size = New System.Drawing.Size(18, 18)
+        Me.Guna2CirclePictureBox2.TabIndex = 1
+        Me.Guna2CirclePictureBox2.TabStop = False
         '
         'MyRequest_Form
         '
@@ -286,9 +391,9 @@ Partial Class MyRequest_Form
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.ClientSize = New System.Drawing.Size(1258, 847)
+        Me.Controls.Add(Me.Guna2GroupBox2)
         Me.Controls.Add(Me.Guna2GroupBox1)
         Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.txtSearch)
         Me.Controls.Add(Me.lblTitle)
         Me.Controls.Add(Me.DataGridView1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -297,6 +402,11 @@ Partial Class MyRequest_Form
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Guna2GroupBox1.ResumeLayout(False)
         Me.Guna2GroupBox1.PerformLayout()
+        Me.Guna2GroupBox2.ResumeLayout(False)
+        Me.Guna2GroupBox2.PerformLayout()
+        CType(Me.Guna2CirclePictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Guna2CirclePictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Guna2CirclePictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -314,4 +424,11 @@ Partial Class MyRequest_Form
     Friend WithEvents btnDownload As Guna.UI2.WinForms.Guna2Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents btnUpdate As Guna.UI2.WinForms.Guna2Button
+    Friend WithEvents Guna2GroupBox2 As Guna.UI2.WinForms.Guna2GroupBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Guna2CirclePictureBox2 As Guna.UI2.WinForms.Guna2CirclePictureBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Guna2CirclePictureBox3 As Guna.UI2.WinForms.Guna2CirclePictureBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Guna2CirclePictureBox1 As Guna.UI2.WinForms.Guna2CirclePictureBox
 End Class

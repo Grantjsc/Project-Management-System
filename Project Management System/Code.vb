@@ -179,6 +179,8 @@ Module AdminForm_Module
     Sub Clicked_AddProject()
         AdminProjectList_Form.Close()
         AdminDLA3_Form.Close()
+        AdminProdSupport_Form.Close()
+        AdminCanceled_Form.Close()
 
         With AdminAddProject_Form
             .TopLevel = False
@@ -191,11 +193,13 @@ Module AdminForm_Module
         Admin_Form.btnAddProject.BackColor = Color.WhiteSmoke
         Admin_Form.btnList.BackColor = Color.Transparent
         Admin_Form.btnDLA3.BackColor = Color.Transparent
+        Admin_Form.btnProdSupport.BackColor = Color.Transparent
         Admin_Form.btnCancel.BackColor = Color.Transparent
 
         Admin_Form.btnAddProject.ForeColor = Color.Orange
         Admin_Form.btnList.ForeColor = Color.White
         Admin_Form.btnDLA3.ForeColor = Color.White
+        Admin_Form.btnProdSupport.ForeColor = Color.White
         Admin_Form.btnCancel.ForeColor = Color.White
 
     End Sub
@@ -203,16 +207,19 @@ Module AdminForm_Module
     Sub Clicked_ProjectList()
         AdminAddProject_Form.Close()
         AdminDLA3_Form.Close()
-
+        AdminProdSupport_Form.Close()
+        AdminCanceled_Form.Close()
 
         Admin_Form.btnAddProject.BackColor = Color.Transparent
         Admin_Form.btnList.BackColor = Color.WhiteSmoke
         Admin_Form.btnDLA3.BackColor = Color.Transparent
+        Admin_Form.btnProdSupport.BackColor = Color.Transparent
         Admin_Form.btnCancel.BackColor = Color.Transparent
 
         Admin_Form.btnAddProject.ForeColor = Color.White
         Admin_Form.btnList.ForeColor = Color.Orange
         Admin_Form.btnDLA3.ForeColor = Color.White
+        Admin_Form.btnProdSupport.ForeColor = Color.White
         Admin_Form.btnCancel.ForeColor = Color.White
 
 
@@ -230,6 +237,8 @@ Module AdminForm_Module
     Sub Clicked_DownloadA3()
         AdminAddProject_Form.Close()
         AdminProjectList_Form.Close()
+        AdminProdSupport_Form.Close()
+        AdminCanceled_Form.Close()
 
         With AdminDLA3_Form
             .TopLevel = False
@@ -242,11 +251,40 @@ Module AdminForm_Module
         Admin_Form.btnAddProject.BackColor = Color.Transparent
         Admin_Form.btnList.BackColor = Color.Transparent
         Admin_Form.btnDLA3.BackColor = Color.WhiteSmoke
+        Admin_Form.btnProdSupport.BackColor = Color.Transparent
         Admin_Form.btnCancel.BackColor = Color.Transparent
 
         Admin_Form.btnAddProject.ForeColor = Color.White
         Admin_Form.btnList.ForeColor = Color.White
         Admin_Form.btnDLA3.ForeColor = Color.Orange
+        Admin_Form.btnProdSupport.ForeColor = Color.White
+        Admin_Form.btnCancel.ForeColor = Color.White
+    End Sub
+
+    Sub Clicked_ProductionSupport()
+        AdminAddProject_Form.Close()
+        AdminProjectList_Form.Close()
+        AdminDLA3_Form.Close()
+        AdminCanceled_Form.Close()
+
+        With AdminProdSupport_Form
+            .TopLevel = False
+            Admin_Form.Panel_Admin.Controls.Add(AdminProdSupport_Form)
+            .WindowState = FormWindowState.Maximized
+            .BringToFront()
+            .Show()
+        End With
+
+        Admin_Form.btnAddProject.BackColor = Color.Transparent
+        Admin_Form.btnList.BackColor = Color.Transparent
+        Admin_Form.btnDLA3.BackColor = Color.Transparent
+        Admin_Form.btnProdSupport.BackColor = Color.WhiteSmoke
+        Admin_Form.btnCancel.BackColor = Color.Transparent
+
+        Admin_Form.btnAddProject.ForeColor = Color.White
+        Admin_Form.btnList.ForeColor = Color.White
+        Admin_Form.btnDLA3.ForeColor = Color.White
+        Admin_Form.btnProdSupport.ForeColor = Color.Orange
         Admin_Form.btnCancel.ForeColor = Color.White
     End Sub
 
@@ -254,6 +292,7 @@ Module AdminForm_Module
         AdminAddProject_Form.Close()
         AdminProjectList_Form.Close()
         AdminDLA3_Form.Close()
+        AdminProdSupport_Form.Close()
 
         With AdminCanceled_Form
             .TopLevel = False
@@ -266,13 +305,16 @@ Module AdminForm_Module
         Admin_Form.btnAddProject.BackColor = Color.Transparent
         Admin_Form.btnList.BackColor = Color.Transparent
         Admin_Form.btnDLA3.BackColor = Color.Transparent
+        Admin_Form.btnProdSupport.BackColor = Color.Transparent
         Admin_Form.btnCancel.BackColor = Color.WhiteSmoke
 
         Admin_Form.btnAddProject.ForeColor = Color.White
         Admin_Form.btnList.ForeColor = Color.White
         Admin_Form.btnDLA3.ForeColor = Color.White
+        Admin_Form.btnProdSupport.ForeColor = Color.White
         Admin_Form.btnCancel.ForeColor = Color.Orange
     End Sub
+
 End Module
 
 Module AppConfig_Module

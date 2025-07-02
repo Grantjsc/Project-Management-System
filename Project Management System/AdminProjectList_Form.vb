@@ -14,11 +14,11 @@ Public Class AdminProjectList_Form
         Get_Support_AddminProject()
 
         cboTSG_Support.SelectedItem = "All"
-        cboStatus.SelectedItem = "All"
+        cboDept.SelectedItem = "All"
 
         Load_Trig = True
 
-        cboDept.SelectedItem = "All"
+        cboStatus.SelectedItem = "Open Status"
     End Sub
 
     'Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
@@ -200,6 +200,30 @@ Public Class AdminProjectList_Form
                 Aadmin_Count_TotalPro()
             End If
 
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "Open Status" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '20) ===< Support Open Status Department >===
+                Show_Projects_ByTwoCbo_Function_OpenStatus(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+                Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+            End If
+
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "Open Status" AndAlso cboDept.Text = "All" Then
+                '19)
+                Show_SupportProjects_OpenStatus()
+                Admin_Count_Projects_Support()
+            End If
+
+            If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "Open Status" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '21) ===< All Open Status Department >===
+                Show_Projects_ByCbo_Function_OpenStatus(cboDept.Text, "Department")
+                Admin_Count_Projects_ByCbo_Funtion(cboDept.Text, "Department")
+            End If
+
+            If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "Open Status" AndAlso cboDept.Text = "All" Then
+                '18) 
+                Show_AdminProjectList_OpenStatus()
+                Aadmin_Count_TotalPro()
+            End If
+
             If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then
                 '9) ===< All All All >===
                 Show_AdminProjectList()
@@ -315,6 +339,30 @@ Public Class AdminProjectList_Form
                 Aadmin_Count_TotalPro()
             End If
 
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "Open Status" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '20) ===< Support Open Status Department >===
+                Show_Projects_ByTwoCbo_Function_OpenStatus(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+                Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+            End If
+
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "Open Status" AndAlso cboDept.Text = "All" Then
+                '19)
+                Show_SupportProjects_OpenStatus()
+                Admin_Count_Projects_Support()
+            End If
+
+            If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "Open Status" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '21) ===< All Open Status Department >===
+                Show_Projects_ByCbo_Function_OpenStatus(cboDept.Text, "Department")
+                Admin_Count_Projects_ByCbo_Funtion(cboDept.Text, "Department")
+            End If
+
+            If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "Open Status" AndAlso cboDept.Text = "All" Then
+                '18)
+                Show_AdminProjectList_OpenStatus()
+                Aadmin_Count_TotalPro()
+            End If
+
             If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then
                 '9) ===< All All All >===
                 Show_AdminProjectList()
@@ -329,109 +377,134 @@ Public Class AdminProjectList_Form
     End Sub
 
     Private Sub cboDept_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboDept.SelectedValueChanged
-        If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso String.IsNullOrEmpty(cboDept.Text) Then
-            '1) ===< Department only >===
-            Show_Projects_ByCbo_Function(cboDept.Text, "Department")
-            Admin_Count_Projects_ByCbo_Funtion(cboDept.Text, "Department")
-        End If
+        If Not Load_Trig = False Then
+            If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso String.IsNullOrEmpty(cboDept.Text) Then
+                '1) ===< Department only >===
+                Show_Projects_ByCbo_Function(cboDept.Text, "Department")
+                Admin_Count_Projects_ByCbo_Funtion(cboDept.Text, "Department")
+            End If
 
-        If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
-            '2) ===< Department and Status only >===
-            Show_Projects_ByTwoCbo_Function(cboDept.Text, "Department", cboStatus.Text, "Status")
-            Admin_Count_Projects_ByTwoCbo_Funtion(cboDept.Text, "Department", cboStatus.Text, "Status")
-        End If
+            If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '2) ===< Department and Status only >===
+                Show_Projects_ByTwoCbo_Function(cboDept.Text, "Department", cboStatus.Text, "Status")
+                Admin_Count_Projects_ByTwoCbo_Funtion(cboDept.Text, "Department", cboStatus.Text, "Status")
+            End If
 
-        If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso String.IsNullOrEmpty(cboStatus.Text) AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
-            '3) ===< Department and Support only >===
-            Show_Projects_ByTwoCbo_Function(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
-            Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
-        End If
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso String.IsNullOrEmpty(cboStatus.Text) AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '3) ===< Department and Support only >===
+                Show_Projects_ByTwoCbo_Function(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+                Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+            End If
 
-        If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
-            '4) ===< Support Status Department  >===
-            Show_Projects_ByThreeCbo_Function(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status", cboDept.Text, "Department")
-            Admin_Count_Projects_ByThreeCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status", cboDept.Text, "Department")
-        End If
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '4) ===< Support Status Department  >===
+                Show_Projects_ByThreeCbo_Function(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status", cboDept.Text, "Department")
+                Admin_Count_Projects_ByThreeCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status", cboDept.Text, "Department")
+            End If
 
-        If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
-            '5) ===< Blank Blank All  >===
-            Show_AdminProjectList()
-            Aadmin_Count_TotalPro()
-        End If
+            If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
+                '5) ===< Blank Blank All  >===
+                Show_AdminProjectList()
+                Aadmin_Count_TotalPro()
+            End If
 
-        If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
-            '6) ===< Support All Department >===
-            Show_Projects_ByTwoCbo_Function(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
-            Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
-        End If
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '6) ===< Support All Department >===
+                Show_Projects_ByTwoCbo_Function(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+                Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+            End If
 
-        If cboTSG_Support.Text = "All" AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
-            '7) ===< All Status Department >===
-            Show_Projects_ByTwoCbo_Function(cboStatus.Text, "Status", cboDept.Text, "Department")
-            Admin_Count_Projects_ByTwoCbo_Funtion(cboStatus.Text, "Status", cboDept.Text, "Department")
-        End If
+            If cboTSG_Support.Text = "All" AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '7) ===< All Status Department >===
+                Show_Projects_ByTwoCbo_Function(cboStatus.Text, "Status", cboDept.Text, "Department")
+                Admin_Count_Projects_ByTwoCbo_Funtion(cboStatus.Text, "Status", cboDept.Text, "Department")
+            End If
 
-        If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "All" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
-            '8) ===< All All Department >===
-            Show_Projects_ByCbo_Function(cboDept.Text, "Department")
-            Admin_Count_Projects_ByCbo_Funtion(cboDept.Text, "Department")
-        End If
+            If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "All" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '8) ===< All All Department >===
+                Show_Projects_ByCbo_Function(cboDept.Text, "Department")
+                Admin_Count_Projects_ByCbo_Funtion(cboDept.Text, "Department")
+            End If
 
-        If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
-            '10) ===< Blank Status All >===
-            Show_Projects_ByCbo_Function(cboStatus.Text, "Status")
-            Admin_Count_Projects_ByCbo_Funtion(cboStatus.Text, "Status")
-        End If
+            If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
+                '10) ===< Blank Status All >===
+                Show_Projects_ByCbo_Function(cboStatus.Text, "Status")
+                Admin_Count_Projects_ByCbo_Funtion(cboStatus.Text, "Status")
+            End If
 
-        If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
-            '11) ===< Support Blank All >===
-            Show_SupportProjects()
-            Admin_Count_Projects_Support()
-        End If
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
+                '11) ===< Support Blank All >===
+                Show_SupportProjects()
+                Admin_Count_Projects_Support()
+            End If
 
-        If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
-            '12) ===< Support Status All >===
-            Show_Projects_ByTwoCbo_Function(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
-            Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
-        End If
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
+                '12) ===< Support Status All >===
+                Show_Projects_ByTwoCbo_Function(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
+                Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
+            End If
 
-        If cboTSG_Support.Text = "All" AndAlso String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
-            '14) ===< All Blank All >===
-            Show_AdminProjectList()
-            Aadmin_Count_TotalPro()
-        End If
+            If cboTSG_Support.Text = "All" AndAlso String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
+                '14) ===< All Blank All >===
+                Show_AdminProjectList()
+                Aadmin_Count_TotalPro()
+            End If
 
-        If cboTSG_Support.Text = "All" AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
-            '15) ===< All Status All >===
-            Show_Projects_ByCbo_Function(cboStatus.Text, "Status")
-            Admin_Count_Projects_ByCbo_Funtion(cboStatus.Text, "Status")
-        End If
+            If cboTSG_Support.Text = "All" AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
+                '15) ===< All Status All >===
+                Show_Projects_ByCbo_Function(cboStatus.Text, "Status")
+                Admin_Count_Projects_ByCbo_Funtion(cboStatus.Text, "Status")
+            End If
 
-        If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then
-            '16) ===< Support All All >===
-            Show_SupportProjects()
-            Admin_Count_Projects_Support()
-        End If
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then
+                '16) ===< Support All All >===
+                Show_SupportProjects()
+                Admin_Count_Projects_Support()
+            End If
 
-        If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
-            '17) ===< Blank All Department >===
-            Show_Projects_ByCbo_Function(cboDept.Text, "Department")
-            Admin_Count_Projects_ByCbo_Funtion(cboDept.Text, "Department")
-        End If
-
-
-        If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then
-            '13) ===< Blank All All >===
-            Show_AdminProjectList()
-            Aadmin_Count_TotalPro()
-        End If
+            If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '17) ===< Blank All Department >===
+                Show_Projects_ByCbo_Function(cboDept.Text, "Department")
+                Admin_Count_Projects_ByCbo_Funtion(cboDept.Text, "Department")
+            End If
 
 
-        If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then
-            '9) ===< All All All >===
-            Show_AdminProjectList()
-            Aadmin_Count_TotalPro()
+            If String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then
+                '13) ===< Blank All All >===
+                Show_AdminProjectList()
+                Aadmin_Count_TotalPro()
+            End If
+
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "Open Status" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '20) ===< Support Open Status Department >===
+                Show_Projects_ByTwoCbo_Function_OpenStatus(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+                Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboDept.Text, "Department")
+            End If
+
+            If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "Open Status" AndAlso cboDept.Text = "All" Then
+                '19)
+                Show_SupportProjects_OpenStatus()
+                Admin_Count_Projects_Support()
+            End If
+
+            If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "Open Status" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
+                '21) ===< All Open Status Department >===
+                Show_Projects_ByCbo_Function_OpenStatus(cboDept.Text, "Department")
+                Admin_Count_Projects_ByCbo_Funtion(cboDept.Text, "Department")
+            End If
+
+            If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "Open Status" AndAlso cboDept.Text = "All" Then
+                '18)
+                Show_AdminProjectList_OpenStatus()
+                Aadmin_Count_TotalPro()
+            End If
+
+
+            If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then
+                '9) ===< All All All >===
+                Show_AdminProjectList()
+                Aadmin_Count_TotalPro()
+            End If
         End If
     End Sub
-
 End Class

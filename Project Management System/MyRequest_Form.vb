@@ -4,8 +4,13 @@
     End Sub
 
     Private Sub DataGridView1_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellDoubleClick
-        MyRequest_cell2click()
-        Task_Form.ShowDialog()
+        'MyRequest_cell2click()
+        'Task_Form.ShowDialog()
+
+        'Activity_Show_User()
+        'Activity_Form.ShowDialog()
+
+        MyRequest_Get_TokenStatus()
     End Sub
 
     Private Sub txtSearch_Enter(sender As Object, e As EventArgs) Handles txtSearch.Enter
@@ -30,9 +35,9 @@
         End If
     End Sub
 
-    Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
-        MyRequest_TextSearch()
-    End Sub
+    'Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
+    '    MyRequest_TextSearch()
+    'End Sub
 
     Private Sub btmBrowse_Click(sender As Object, e As EventArgs) Handles btmBrowse.Click
         FolderBrowserDialog1.Description = "Select download location"

@@ -17,6 +17,7 @@
 
     Private Sub AdminAddProject_Form_Load(sender As Object, e As EventArgs) Handles Me.Load
         SetUniqueToken()
+        dtpCompletion.Text = Date.Now
     End Sub
 
     Private Sub cboTSG_Support_MouseClick(sender As Object, e As MouseEventArgs) Handles cboTSG_Support.MouseClick
