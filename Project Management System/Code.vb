@@ -358,3 +358,158 @@ Module AppConfig_Module
     End Sub
 
 End Module
+
+Module DTP_AdminActivty_Module
+    ' Put this below your form code or in a module
+    Public Class DataGridViewCalendarColumn
+        Inherits DataGridViewColumn
+
+        Public Sub New()
+            MyBase.New(New DataGridViewCalendarCell())
+        End Sub
+
+        Public Overrides Property CellTemplate As DataGridViewCell
+            Get
+                Return MyBase.CellTemplate
+            End Get
+            Set(value As DataGridViewCell)
+                If Not (TypeOf value Is DataGridViewCalendarCell) Then
+                    Throw New InvalidCastException("Must be a DataGridViewCalendarCell")
+                End If
+                MyBase.CellTemplate = value
+            End Set
+        End Property
+    End Class
+
+    Public Class DataGridViewCalendarCell
+        Inherits DataGridViewTextBoxCell
+
+        Public Sub New()
+            Me.Style.Format = "MM/dd/yyyy"
+        End Sub
+
+        Public Overrides Sub InitializeEditingControl(rowIndex As Integer, initialFormattedValue As Object, dataGridViewCellStyle As DataGridViewCellStyle)
+            MyBase.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle)
+            Dim ctl As DateTimePickerEditingControl = CType(DataGridView.EditingControl, DateTimePickerEditingControl)
+
+            Try
+                If Me.Value Is Nothing OrElse IsDBNull(Me.Value) Then
+                    ctl.Value = Date.Now
+                Else
+                    ctl.Value = Convert.ToDateTime(Me.Value)
+                End If
+            Catch
+                ctl.Value = Date.Now
+            End Try
+        End Sub
+
+        Public Overrides ReadOnly Property EditType As Type
+            Get
+                Return GetType(DateTimePickerEditingControl)
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property ValueType As Type
+            Get
+                Return GetType(DateTime)
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property DefaultNewRowValue As Object
+            Get
+                Return DBNull.Value
+            End Get
+        End Property
+    End Class
+
+    Public Class DateTimePickerEditingControl
+        Inherits DateTimePicker
+        Implements IDataGridViewEditingControl
+
+        Private dataGridViewControl As DataGridView
+        Private valueChanged As Boolean = False
+        Private rowIndexNum As Integer
+
+        Public Sub New()
+            Me.Format = DateTimePickerFormat.Short
+        End Sub
+
+        Public Property EditingControlFormattedValue As Object Implements IDataGridViewEditingControl.EditingControlFormattedValue
+            Get
+                Return Me.Value.ToShortDateString()
+            End Get
+            Set(value As Object)
+                Try
+                    Me.Value = DateTime.Parse(value.ToString())
+                Catch
+                    Me.Value = Date.Now
+                End Try
+            End Set
+        End Property
+
+        Public Function GetEditingControlFormattedValue(context As DataGridViewDataErrorContexts) As Object Implements IDataGridViewEditingControl.GetEditingControlFormattedValue
+            Return Me.Value.ToShortDateString()
+        End Function
+
+        Public Sub ApplyCellStyleToEditingControl(cellStyle As DataGridViewCellStyle) Implements IDataGridViewEditingControl.ApplyCellStyleToEditingControl
+            Me.Font = cellStyle.Font
+            Me.CalendarForeColor = cellStyle.ForeColor
+            Me.CalendarMonthBackground = cellStyle.BackColor
+        End Sub
+
+        Public Property EditingControlRowIndex As Integer Implements IDataGridViewEditingControl.EditingControlRowIndex
+            Get
+                Return rowIndexNum
+            End Get
+            Set(value As Integer)
+                rowIndexNum = value
+            End Set
+        End Property
+
+        Public Function EditingControlWantsInputKey(keyData As Keys, dataGridViewWantsInputKey As Boolean) As Boolean Implements IDataGridViewEditingControl.EditingControlWantsInputKey
+            Return True
+        End Function
+
+        Public Sub PrepareEditingControlForEdit(selectAll As Boolean) Implements IDataGridViewEditingControl.PrepareEditingControlForEdit
+            ' No preparation needed
+        End Sub
+
+        Public Property RepositionEditingControlOnValueChange As Boolean Implements IDataGridViewEditingControl.RepositionEditingControlOnValueChange
+            Get
+                Return False
+            End Get
+            Set(value As Boolean)
+            End Set
+        End Property
+
+        Public Property EditingControlDataGridView As DataGridView Implements IDataGridViewEditingControl.EditingControlDataGridView
+            Get
+                Return dataGridViewControl
+            End Get
+            Set(value As DataGridView)
+                dataGridViewControl = value
+            End Set
+        End Property
+
+        Public Property EditingControlValueChanged As Boolean Implements IDataGridViewEditingControl.EditingControlValueChanged
+            Get
+                Return valueChanged
+            End Get
+            Set(value As Boolean)
+                valueChanged = value
+            End Set
+        End Property
+
+        Public ReadOnly Property EditingPanelCursor As Cursor Implements IDataGridViewEditingControl.EditingPanelCursor
+            Get
+                Return MyBase.Cursor
+            End Get
+        End Property
+
+        Protected Overrides Sub OnValueChanged(eventargs As EventArgs)
+            valueChanged = True
+            Me.EditingControlDataGridView.NotifyCurrentCellDirty(True)
+            MyBase.OnValueChanged(eventargs)
+        End Sub
+    End Class
+End Module

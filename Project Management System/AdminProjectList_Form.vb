@@ -19,6 +19,10 @@ Public Class AdminProjectList_Form
         Load_Trig = True
 
         cboStatus.SelectedItem = "Open Status"
+
+        For Each col As DataGridViewColumn In DataGridView1.Columns
+            col.SortMode = DataGridViewColumnSortMode.NotSortable
+        Next
     End Sub
 
     'Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
@@ -143,7 +147,7 @@ Public Class AdminProjectList_Form
             If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
                 '7) ===< Support Status All >===
                 Show_Projects_ByTwoCbo_Function(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
-                Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
+                Admin_Count_Projects_Support()
             End If
 
             If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then
@@ -179,7 +183,7 @@ Public Class AdminProjectList_Form
             If cboTSG_Support.Text = "All" AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
                 '15) ===< All Status All >===
                 Show_Projects_ByCbo_Function(cboStatus.Text, "Status")
-                Admin_Count_Projects_ByCbo_Funtion(cboStatus.Text, "Status")
+                Aadmin_Count_TotalPro()
             End If
 
             If cboTSG_Support.Text = "All" AndAlso cboStatus.Text = "All" AndAlso Not String.IsNullOrEmpty(cboDept.Text) Then
@@ -239,7 +243,7 @@ Public Class AdminProjectList_Form
 
     End Sub
 
-    Private Sub cboStatus_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboStatus.SelectedValueChanged
+    Public Sub cboStatus_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboStatus.SelectedValueChanged
 
         If Not Load_Trig = False Then
 
@@ -264,7 +268,7 @@ Public Class AdminProjectList_Form
             If cboTSG_Support.Text <> "" AndAlso cboStatus.Text <> "" AndAlso cboDept.Text <> "" Then
                 '4) ===< Support Status Department >===
                 Show_Projects_ByThreeCbo_Function(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status", cboDept.Text, "Department")
-                Admin_Count_Projects_ByThreeCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status", cboDept.Text, "Department")
+                Admin_Count_Projects_Support()
             End If
 
             If cboTSG_Support.Text = "" AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "" Then
@@ -282,13 +286,14 @@ Public Class AdminProjectList_Form
             If cboTSG_Support.Text <> "" AndAlso cboStatus.Text <> "" AndAlso cboDept.Text = "All" Then
                 '7) ===< Support Status All >===
                 Show_Projects_ByTwoCbo_Function(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
-                Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
+                Admin_Count_Projects_Support()
             End If
 
             If cboTSG_Support.Text = "All" AndAlso cboStatus.Text <> "" AndAlso cboDept.Text = "All" Then
                 '8) ===< All Status All >===
                 Show_Projects_ByCbo_Function(cboStatus.Text, "Status")
-                Admin_Count_Projects_ByCbo_Funtion(cboStatus.Text, "Status")
+                'Admin_Count_Projects_ByCbo_Funtion(cboStatus.Text, "Status")
+                Aadmin_Count_TotalPro()
             End If
 
             If cboTSG_Support.Text <> "" AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "" Then
@@ -441,7 +446,8 @@ Public Class AdminProjectList_Form
             If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
                 '12) ===< Support Status All >===
                 Show_Projects_ByTwoCbo_Function(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
-                Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
+                'Admin_Count_Projects_ByTwoCbo_Funtion(cboTSG_Support.Text, "TSG_Support", cboStatus.Text, "Status")
+                Admin_Count_Projects_Support()
             End If
 
             If cboTSG_Support.Text = "All" AndAlso String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
@@ -453,7 +459,8 @@ Public Class AdminProjectList_Form
             If cboTSG_Support.Text = "All" AndAlso Not String.IsNullOrEmpty(cboStatus.Text) AndAlso cboDept.Text = "All" Then
                 '15) ===< All Status All >===
                 Show_Projects_ByCbo_Function(cboStatus.Text, "Status")
-                Admin_Count_Projects_ByCbo_Funtion(cboStatus.Text, "Status")
+                'Admin_Count_Projects_ByCbo_Funtion(cboStatus.Text, "Status")
+                Aadmin_Count_TotalPro()
             End If
 
             If Not String.IsNullOrEmpty(cboTSG_Support.Text) AndAlso cboStatus.Text = "All" AndAlso cboDept.Text = "All" Then

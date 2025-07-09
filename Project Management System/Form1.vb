@@ -2,8 +2,20 @@
 
 Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Me.WindowState = FormWindowState.Maximized
-        Bounds = Screen.PrimaryScreen.WorkingArea
+
+        Dim secondaryMonitor = Screen.AllScreens.FirstOrDefault(Function(x) Not x.Primary)
+
+        If secondaryMonitor IsNot Nothing Then
+            ' Set the form's start position to manual
+            Me.StartPosition = FormStartPosition.Manual
+            ' Set the location of the form to the top-left corner of the secondary monitor
+            Me.Location = secondaryMonitor.Bounds.Location
+            Me.WindowState = FormWindowState.Maximized
+            Me.Show()
+        Else
+            Me.WindowState = FormWindowState.Maximized
+            'Bounds = Screen.PrimaryScreen.WorkingArea
+        End If
 
         'User = "Grant Jonathan Catapang"
         Load_LogInForm()

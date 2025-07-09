@@ -135,6 +135,7 @@ Partial Class Request_Form
         Me.GroupBox3.Controls.Add(Me.txtProjTitle)
         Me.GroupBox3.Controls.Add(Me.Label7)
         Me.GroupBox3.Controls.Add(Me.Label6)
+        Me.GroupBox3.ForeColor = System.Drawing.Color.Black
         Me.GroupBox3.Location = New System.Drawing.Point(596, 64)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(499, 630)
@@ -147,7 +148,7 @@ Partial Class Request_Form
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label13.ForeColor = System.Drawing.Color.Black
-        Me.Label13.Location = New System.Drawing.Point(123, 311)
+        Me.Label13.Location = New System.Drawing.Point(123, 309)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(216, 20)
         Me.Label13.TabIndex = 46
@@ -307,6 +308,7 @@ Partial Class Request_Form
         Me.dtpStartDate.Enabled = False
         Me.dtpStartDate.FillColor = System.Drawing.Color.SeaGreen
         Me.dtpStartDate.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.dtpStartDate.ForeColor = System.Drawing.Color.White
         Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.dtpStartDate.Location = New System.Drawing.Point(47, 430)
         Me.dtpStartDate.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
@@ -334,6 +336,7 @@ Partial Class Request_Form
         Me.dtpCompletion.Enabled = False
         Me.dtpCompletion.FillColor = System.Drawing.Color.SeaGreen
         Me.dtpCompletion.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpCompletion.ForeColor = System.Drawing.Color.White
         Me.dtpCompletion.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.dtpCompletion.Location = New System.Drawing.Point(288, 430)
         Me.dtpCompletion.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
@@ -403,6 +406,7 @@ Partial Class Request_Form
         Me.GroupBox2.Controls.Add(Me.txtMember)
         Me.GroupBox2.Controls.Add(Me.Label3)
         Me.GroupBox2.Controls.Add(Me.Label4)
+        Me.GroupBox2.ForeColor = System.Drawing.Color.Black
         Me.GroupBox2.Location = New System.Drawing.Point(54, 266)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(486, 428)
@@ -500,6 +504,7 @@ Partial Class Request_Form
         Me.GroupBox1.Controls.Add(Me.txtName)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Label1)
+        Me.GroupBox1.ForeColor = System.Drawing.Color.Black
         Me.GroupBox1.Location = New System.Drawing.Point(54, 64)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(486, 180)

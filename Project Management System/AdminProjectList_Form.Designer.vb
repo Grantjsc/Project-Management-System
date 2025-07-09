@@ -731,7 +731,7 @@ Partial Class AdminProjectList_Form
         Me.Label6.BackColor = System.Drawing.Color.Transparent
         Me.Label6.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.DimGray
-        Me.Label6.Location = New System.Drawing.Point(20, 94)
+        Me.Label6.Location = New System.Drawing.Point(290, 112)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(293, 17)
         Me.Label6.TabIndex = 16
@@ -753,7 +753,7 @@ Partial Class AdminProjectList_Form
         Me.txtSearch.HoverState.BorderColor = System.Drawing.Color.LightGray
         Me.txtSearch.IconLeft = CType(resources.GetObject("txtSearch.IconLeft"), System.Drawing.Image)
         Me.txtSearch.IconLeftOffset = New System.Drawing.Point(5, 0)
-        Me.txtSearch.Location = New System.Drawing.Point(23, 113)
+        Me.txtSearch.Location = New System.Drawing.Point(311, 9)
         Me.txtSearch.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -762,6 +762,7 @@ Partial Class AdminProjectList_Form
         Me.txtSearch.Size = New System.Drawing.Size(454, 28)
         Me.txtSearch.TabIndex = 1
         Me.txtSearch.TextOffset = New System.Drawing.Point(10, 0)
+        Me.txtSearch.Visible = False
         '
         'OpenFileDialog1
         '
@@ -1011,7 +1012,7 @@ Partial Class AdminProjectList_Form
         Me.Guna2GroupBox2.CustomBorderThickness = New System.Windows.Forms.Padding(0)
         Me.Guna2GroupBox2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Guna2GroupBox2.ForeColor = System.Drawing.Color.Green
-        Me.Guna2GroupBox2.Location = New System.Drawing.Point(490, 100)
+        Me.Guna2GroupBox2.Location = New System.Drawing.Point(23, 100)
         Me.Guna2GroupBox2.Name = "Guna2GroupBox2"
         Me.Guna2GroupBox2.Size = New System.Drawing.Size(257, 41)
         Me.Guna2GroupBox2.TabIndex = 201

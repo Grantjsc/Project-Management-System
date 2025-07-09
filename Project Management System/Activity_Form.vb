@@ -24,17 +24,29 @@
             GroupBoxProj.Text = MyReq_Title_val
         End If
 
-        DataGridView1.Controls.Add(dtp)
-        dtp.Format = DateTimePickerFormat.Custom
-        dtp.Visible = False
-        AddHandler dtp.TextChanged, AddressOf dtp_TextChange
+        'DataGridView1.Controls.Add(dtp)
+        'dtp.Format = DateTimePickerFormat.Custom
+        'dtp.Visible = False
+        'AddHandler dtp.TextChanged, AddressOf dtp_TextChange
 
-        Highligh_Activity()
+        'Highligh_Activity()
+
+        'For Each col As DataGridViewColumn In DataGridView1.Columns
+        '    col.SortMode = DataGridViewColumnSortMode.NotSortable
+        'Next
     End Sub
 
-    Private Sub dtp_TextChange(ByVal sender As Object, ByVal e As EventArgs)
-        DataGridView1.CurrentCell.Value = dtp.Text.ToString
-    End Sub
+    'Private Sub dtp_TextChange(ByVal sender As Object, ByVal e As EventArgs)
+    '    'DataGridView1.CurrentCell.Value = dtp.Text.ToString
+
+    '    If DataGridView1.CurrentCell IsNot Nothing Then
+    '        Try
+    '            DataGridView1.CurrentCell.Value = dtp.Value.Date
+    '        Catch ex As Exception
+    '            MessageBox.Show("Invalid date selected: " & ex.Message, "Date Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '        End Try
+    '    End If
+    'End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         If AccLevel = "Admin" Then
 
@@ -72,19 +84,25 @@
         Activity_Update()
     End Sub
 
-    Private Sub DataGridView1_CellClick_1(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+    'Private Sub DataGridView1_CellClick_1(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+    '    If AccLevel = "Admin" Then
+    '        Select Case DataGridView1.Columns(e.ColumnIndex).Name
+    '            Case "Start", "Due", "Completion"
+    '                rect = DataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, True)
+    '                dtp.Size = New Size(rect.Width, rect.Height)
+    '                dtp.Location = New Point(rect.X, rect.Y)
+    '                dtp.Visible = True
 
-        If AccLevel = "Admin" Then
-            Select Case DataGridView1.Columns(e.ColumnIndex).Name
-                Case "Start", "Due", "Completion"
-                    rect = DataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, True)
-                    dtp.Size = New Size(rect.Width, rect.Height)
-                    dtp.Location = New Point(rect.X, rect.Y)
-                    dtp.Visible = True
-                    dtp.Value = DateTime.Now
-            End Select
-        End If
-    End Sub
+    '                ' Check if cell has a valid date
+    '                Dim cellValue = DataGridView1.Rows(e.RowIndex).Cells(e.ColumnIndex).Value
+    '                If cellValue IsNot Nothing AndAlso IsDate(cellValue) Then
+    '                    dtp.Value = Convert.ToDateTime(cellValue)
+    '                Else
+    '                    dtp.Value = DateTime.Now
+    '                End If
+    '        End Select
+    '    End If
+    'End Sub
 
     Private Sub DataGridView1_KeyDown(sender As Object, e As KeyEventArgs) Handles DataGridView1.KeyDown
         If AccLevel = "Admin" Then

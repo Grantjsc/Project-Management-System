@@ -20,6 +20,10 @@
     End Sub
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
-        Add_ProdSupport_Action()
+        If String.IsNullOrEmpty(cboName.Text) Or String.IsNullOrEmpty(cboDepartments.Text) Or String.IsNullOrEmpty(txtAction.Text) Then
+            MsgBox("Kindly fill in all the fields before proceeding.", MsgBoxStyle.Critical)
+        Else
+            Add_ProdSupport_Action()
+        End If
     End Sub
 End Class

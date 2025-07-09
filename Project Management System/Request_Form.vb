@@ -2,16 +2,19 @@
 
 Public Class Request_Form
     Private Sub btnSend_Click(sender As Object, e As EventArgs) Handles btnSend.Click
-        If dtpCompletion.Value <= dtpStartDate.Value Then
-            MsgBox("Please select another due date! It overlaps with the last project due date.", MsgBoxStyle.Critical)
-        Else
+        'If dtpCompletion.Value <= dtpStartDate.Value Then
+        '    MsgBox("Please select another due date! It overlaps with the last project due date.", MsgBoxStyle.Critical)
+        'Else
 
-            'If Not String.IsNullOrEmpty(txtA3name.Text) Then
-            '    SaveA3()
-            'End If
+        '    'If Not String.IsNullOrEmpty(txtA3name.Text) Then
+        '    '    SaveA3()
+        '    'End If
 
-            Update_ProjectDetails()
-        End If
+        '    Update_ProjectDetails()
+        'End If
+
+
+        Update_ProjectDetails()
 
     End Sub
 

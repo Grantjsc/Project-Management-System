@@ -23,6 +23,8 @@ Partial Class AdminAddProject_Form
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Guna2GroupBox1 = New Guna.UI2.WinForms.Guna2GroupBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.dtpCompletion = New Guna.UI2.WinForms.Guna2DateTimePicker()
         Me.cboTSG_Support = New Guna.UI2.WinForms.Guna2ComboBox()
         Me.txtEmail = New Guna.UI2.WinForms.Guna2TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -35,8 +37,6 @@ Partial Class AdminAddProject_Form
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.lblTitle = New System.Windows.Forms.Label()
-        Me.dtpCompletion = New Guna.UI2.WinForms.Guna2DateTimePicker()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -70,17 +70,52 @@ Partial Class AdminAddProject_Form
         Me.Guna2GroupBox1.TabIndex = 4
         Me.Guna2GroupBox1.Text = "Input Token and Project Title"
         '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.Transparent
+        Me.Label5.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.SeaGreen
+        Me.Label5.Location = New System.Drawing.Point(544, 408)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(219, 36)
+        Me.Label5.TabIndex = 41
+        Me.Label5.Text = "Completion Date:"
+        '
+        'dtpCompletion
+        '
+        Me.dtpCompletion.BackColor = System.Drawing.Color.Transparent
+        Me.dtpCompletion.BorderRadius = 10
+        Me.dtpCompletion.Checked = True
+        Me.dtpCompletion.FillColor = System.Drawing.Color.SeaGreen
+        Me.dtpCompletion.Font = New System.Drawing.Font("Segoe UI", 20.0!, System.Drawing.FontStyle.Bold)
+        Me.dtpCompletion.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpCompletion.Location = New System.Drawing.Point(574, 455)
+        Me.dtpCompletion.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
+        Me.dtpCompletion.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpCompletion.Name = "dtpCompletion"
+        Me.dtpCompletion.ShadowDecoration.BorderRadius = 20
+        Me.dtpCompletion.ShadowDecoration.Depth = 15
+        Me.dtpCompletion.ShadowDecoration.Enabled = True
+        Me.dtpCompletion.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 15, 15)
+        Me.dtpCompletion.Size = New System.Drawing.Size(227, 51)
+        Me.dtpCompletion.TabIndex = 39
+        Me.dtpCompletion.Value = New Date(2024, 7, 18, 15, 24, 7, 891)
+        '
         'cboTSG_Support
         '
         Me.cboTSG_Support.BackColor = System.Drawing.Color.Transparent
         Me.cboTSG_Support.BorderRadius = 15
         Me.cboTSG_Support.BorderThickness = 3
         Me.cboTSG_Support.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboTSG_Support.DropDownHeight = 100
         Me.cboTSG_Support.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTSG_Support.FocusedColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.cboTSG_Support.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.cboTSG_Support.Font = New System.Drawing.Font("Segoe UI", 20.25!)
         Me.cboTSG_Support.ForeColor = System.Drawing.Color.FromArgb(CType(CType(125, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(149, Byte), Integer))
+        Me.cboTSG_Support.IntegralHeight = False
         Me.cboTSG_Support.ItemHeight = 30
         Me.cboTSG_Support.Location = New System.Drawing.Point(92, 486)
         Me.cboTSG_Support.Name = "cboTSG_Support"
@@ -296,39 +331,6 @@ Partial Class AdminAddProject_Form
         Me.lblTitle.Size = New System.Drawing.Size(87, 36)
         Me.lblTitle.TabIndex = 4
         Me.lblTitle.Text = "Token"
-        '
-        'dtpCompletion
-        '
-        Me.dtpCompletion.BackColor = System.Drawing.Color.Transparent
-        Me.dtpCompletion.BorderRadius = 10
-        Me.dtpCompletion.Checked = True
-        Me.dtpCompletion.FillColor = System.Drawing.Color.SeaGreen
-        Me.dtpCompletion.Font = New System.Drawing.Font("Segoe UI", 20.0!, System.Drawing.FontStyle.Bold)
-        Me.dtpCompletion.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpCompletion.Location = New System.Drawing.Point(574, 455)
-        Me.dtpCompletion.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
-        Me.dtpCompletion.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpCompletion.Name = "dtpCompletion"
-        Me.dtpCompletion.ShadowDecoration.BorderRadius = 20
-        Me.dtpCompletion.ShadowDecoration.Depth = 15
-        Me.dtpCompletion.ShadowDecoration.Enabled = True
-        Me.dtpCompletion.ShadowDecoration.Shadow = New System.Windows.Forms.Padding(0, 0, 15, 15)
-        Me.dtpCompletion.Size = New System.Drawing.Size(227, 51)
-        Me.dtpCompletion.TabIndex = 39
-        Me.dtpCompletion.Value = New Date(2024, 7, 18, 15, 24, 7, 891)
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.BackColor = System.Drawing.Color.Transparent
-        Me.Label5.Font = New System.Drawing.Font("Impact", 21.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label5.Location = New System.Drawing.Point(544, 408)
-        Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(219, 36)
-        Me.Label5.TabIndex = 41
-        Me.Label5.Text = "Completion Date:"
         '
         'AdminAddProject_Form
         '

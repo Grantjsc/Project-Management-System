@@ -18,6 +18,7 @@ Imports System.Net.Mail
 Imports System.Net.Mime
 Imports System.IO
 Imports System.Collections.ObjectModel
+Imports Org.BouncyCastle.Asn1.Cmp
 Module Query_Module
     'Data Source=BTMESSQLQA03;Initial Catalog=TSG_ProjectMonitoringSystem;Persist Security Info=True;User ID=mesph;Password=PHFuse;TrustServerCertificate=True
     'Data Source=BTMESSQLDEV03;Initial Catalog=TSG_ProjectMonitoringSystem;Persist Security Info=True;User ID=mesph;Password=PHFuse;TrustServerCertificate=True
@@ -227,7 +228,7 @@ Module Query_Module
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
             command.CommandText = "Select ID, Title, Owner, Department, TSG_Support, Status, Start_date, Due_Date, TokenStatus, 
-                                   Token, Remarks From Project_tb WHERE Email = '" & LFEmail & "' ORDER BY Due_Date DESC"
+                                   Token, Remarks, Percentage From Project_tb WHERE Email = '" & LFEmail & "' ORDER BY Due_Date DESC"
 
             Dim rdr As SqlDataReader = command.ExecuteReader
 
@@ -393,15 +394,26 @@ Module Query_Module
             Dim adap As New SqlDataAdapter
             Dim val As String
 
-            'SQLDbconnection.Open()
             ConOpen()
 
             val = MyReq_Support
 
-            mydata = "SELECT TSG_Support, MAX(Due_Date) AS MAX_DUE
-                   FROM Project_tb 
-                   WHERE TSG_Support = @val
-                    GROUP BY TSG_Support"
+            'mydata = "SELECT TSG_Support, MAX(Due_Date) AS MAX_DUE
+            '       FROM Project_tb 
+            '       WHERE TSG_Support = @val
+            '        GROUP BY TSG_Support"
+
+            mydata = "
+                    SELECT TOP 1 TSG_Support, Due_Date AS MAX_DUE
+                    FROM Project_tb 
+                    WHERE TSG_Support = @val 
+                      AND Due_Date < (
+                          SELECT MAX(Due_Date) 
+                          FROM Project_tb 
+                          WHERE TSG_Support = @val
+                      )
+                    ORDER BY Due_Date DESC"
+
             command.Connection = SQLDbconnection
             command.CommandText = mydata
             command.Parameters.AddWithValue("@val", val)
@@ -410,18 +422,16 @@ Module Query_Module
             adap.Fill(data)
 
             If data.Rows.Count > 0 Then
-
-                Dim maxDueDate As Date = Date.Parse(data.Rows(0).Item("MAX_DUE").ToString())
-                Project_StartDate = maxDueDate.ToString("MM/dd/yyyy")
-
+                Dim prevMaxDate As Date = Date.Parse(data.Rows(0).Item("MAX_DUE").ToString())
+                Project_StartDate = prevMaxDate.ToString("MM/dd/yyyy")
             End If
         Catch ex As Exception
-
+            MsgBox("Error: " & ex.Message)
         Finally
-            'SQLDbconnection.Close()
             ConClose()
         End Try
     End Sub
+
 
     Sub MyReq_SearchToken()
 
@@ -1186,7 +1196,11 @@ Module Query_Module
 
     ' Function to check if a token already exists
     Public Function IsTokenExists(token As String) As Boolean
-        Dim query As String = "SELECT COUNT(*) FROM Project_tb WHERE Token COLLATE Latin1_General_CS_AS = @Token"
+        Dim query As String = "SELECT COUNT(*) FROM (
+                                SELECT Token FROM Project_tb WHERE Token COLLATE Latin1_General_CS_AS = @Token
+                                UNION ALL
+                                SELECT Token FROM CanceledProject_tb WHERE Token COLLATE Latin1_General_CS_AS = @Token
+                            ) AS AllTokens"
         Dim cmd As New SqlCommand(query, SQLDbconnection)
         cmd.Parameters.AddWithValue("@Token", token)
 
@@ -1239,8 +1253,12 @@ Module Query_Module
                 'SQLDbconnection.Open()
                 ConOpen()
 
-                ' Define the SQL query with a parameter placeholder
-                MyData = "SELECT * From Project_tb WHERE Token LIKE @ProjectToken"
+
+                ' Check both Project_tb and CanceledProject_tb for the token
+                MyData = "SELECT Token FROM Project_tb WHERE Token LIKE @ProjectToken
+                          UNION
+                          SELECT Token FROM CanceledProject_tb WHERE Token LIKE @ProjectToken"
+
                 cmd.Connection = SQLDbconnection
                 cmd.CommandText = MyData
 
@@ -1282,10 +1300,13 @@ Module Query_Module
 
         Dim Due As String = AdminAddProject_Form.dtpCompletion.Text
 
+        Dim Percent As Integer = 0
+        Dim prio As Integer = 3
+
         Try
             'SQLDbconnection.Open()
-            mycommand = "INSERT INTO [Project_tb] ([Token],[Title], [TSG_Support], [Status], [TokenStatus], [Email], [Due_Date]) 
-                                VALUES (@Token, @ProjTitle, @Support, @Status, @TokenStat, @OwnEmail, @Due)"
+            mycommand = "INSERT INTO [Project_tb] ([Token],[Title], [TSG_Support], [Status], [TokenStatus], [Email], [Due_Date], [Percentage], [Priority]) 
+                                VALUES (@Token, @ProjTitle, @Support, @Status, @TokenStat, @OwnEmail, @Due, @percent, @prio)"
             Using command As New SqlCommand(mycommand, SQLDbconnection)
                 command.Parameters.AddWithValue("@Token", NewToken)
                 command.Parameters.AddWithValue("@ProjTitle", NewProject)
@@ -1294,6 +1315,8 @@ Module Query_Module
                 command.Parameters.AddWithValue("@TokenStat", TokenStatus)
                 command.Parameters.AddWithValue("@OwnEmail", owners_email)
                 command.Parameters.AddWithValue("@Due", Due)
+                command.Parameters.AddWithValue("@percent", Percent)
+                command.Parameters.AddWithValue("@prio", prio)
                 command.ExecuteNonQuery()
             End Using
             'SQLDbconnection.Close()
@@ -1389,8 +1412,8 @@ Module Query_Module
             Email.Body = "<div style='font-family: Arial, sans-serif; font-size: 12pt;'>Good day,<br><br>
                                         This email serves as a notification for your new project request. Kindly provide all the necessary details and documentation so we can initiate the project promptly. Your cooperation is appreciated. 
                                        <br><br> <b> Project ID: " & ProID &
-                                       "</b> <br><br>If you don't have Software Project Management System App, please open then link below and click launch.<br><br>
-                                        <b>Link:</b> <i> http://btwebdev01/TSGSoftwareProjectManagementSystem/Installer.htm</i> <br><br>
+                                       "</b> <br><br>If you don't have the <b>Software Project Management System</b> app, please open the link below for step-by-step installation.<br><br>
+                                        <b>Link:</b> <i>https://littelfuse-my.sharepoint.com/:b:/p/gcatapang/EXnhj0_laKNJpHWC03UgVoIBG2q-0CTQgjrlyHP3KANeRQ?e=xmV0v6</i> <br><br>
                                         If you don't have an account please sign up. <br>
                                         Thank you.</div>
                                         <br> <small style='color:Gray;'><i> This is a system generated mail. Please do not reply.</i></small>"
@@ -1430,6 +1453,59 @@ Module Query_Module
         Catch ex As Exception
             MsgBox(ex.Message, vbCritical)
 
+        End Try
+    End Sub
+
+    Sub AddProject_GetSupport_Last_Date()
+
+        Dim sprt As String = AdminAddProject_Form.cboTSG_Support.Text
+
+        Try
+            Dim mydata As String
+            Dim command As New SqlCommand
+            Dim data As New DataTable
+            Dim adap As New SqlDataAdapter
+            Dim val As String
+
+            ConOpen()
+
+            val = sprt
+
+            mydata = "SELECT TSG_Support, MAX(Due_Date) AS MAX_DUE
+                   FROM Project_tb 
+                   WHERE TSG_Support = @val
+                    GROUP BY TSG_Support"
+
+            'mydata = "
+            '        SELECT TOP 1 TSG_Support, Due_Date AS MAX_DUE
+            '        FROM Project_tb 
+            '        WHERE TSG_Support = @val 
+            '          AND Due_Date < (
+            '              SELECT MAX(Due_Date) 
+            '              FROM Project_tb 
+            '              WHERE TSG_Support = @val
+            '          )
+            '        ORDER BY Due_Date DESC"
+
+            command.Connection = SQLDbconnection
+            command.CommandText = mydata
+            command.Parameters.AddWithValue("@val", val)
+            adap.SelectCommand = command
+
+            adap.Fill(data)
+
+            If data.Rows.Count > 0 Then
+                Dim prevMaxDate As Date = Date.Parse(data.Rows(0).Item("MAX_DUE").ToString())
+
+                MsgBox(val & " last project's due date is: " & prevMaxDate, MsgBoxStyle.Information)
+
+                AdminAddProject_Form.dtpCompletion.Value = prevMaxDate.AddMonths(1)
+
+            End If
+        Catch ex As Exception
+            MsgBox("Error: " & ex.Message)
+        Finally
+            ConClose()
         End Try
     End Sub
 
@@ -1481,6 +1557,45 @@ Module Query_Module
         Next
     End Sub
 
+    Sub AdminProjectList_DataGrid_Design()
+
+        With AdminProjectList_Form
+            ' Adjust column widths
+            '.DataGridView1.Columns("ID").Width = 80
+            '.DataGridView1.Columns("Title").Width = 400
+            '.DataGridView1.Columns("Owner").Width = 200
+
+            '.DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
+
+            .DataGridView1.Columns("Title").DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            .DataGridView1.Columns("TSG_Support").DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            .DataGridView1.Columns("Category").DefaultCellStyle.WrapMode = DataGridViewTriState.True
+
+
+
+            .DataGridView1.Columns("Title").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            .DataGridView1.Columns("Department").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            .DataGridView1.Columns("TSG_Support").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            .DataGridView1.Columns("Category").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+
+            ' Rename column headers
+
+            .DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
+            .DataGridView1.Columns("Due_date").HeaderText = "Due Date"
+            .DataGridView1.Columns("Start_date").HeaderText = "Start Date"
+            .DataGridView1.Columns("TotalWeeks").HeaderText = "Timeline (Weeks)"
+            .DataGridView1.Columns("Done_date").HeaderText = "Done Date"
+
+            ' Style alternating row colors
+            .DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
+            '.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
+            .DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
+            .DataGridView1.EnableHeadersVisualStyles = False
+            .DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+        End With
+
+    End Sub
+
     Sub Show_AdminProjectList()
         Dim command As New SqlCommand("", SQLDbconnection)
         Dim table As New DataTable
@@ -1490,7 +1605,7 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
-            command.CommandText = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
+            command.CommandText = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                               "FROM Project_tb ORDER BY Due_Date DESC"
 
             Dim rdr As SqlDataReader = command.ExecuteReader()
@@ -1507,25 +1622,7 @@ Module Query_Module
                 column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
             Next
 
-            ' Adjust column widths
-            AdminProjectList_Form.DataGridView1.Columns("ID").Width = 80
-            AdminProjectList_Form.DataGridView1.Columns("Title").Width = 500
-            AdminProjectList_Form.DataGridView1.Columns("Owner").Width = 200
-
-            ' Rename column headers
-            AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-            AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-            AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-            AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-            AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-            AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
-
-            ' Style alternating row colors
-            AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-            'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-            AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-            AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-            AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+            AdminProjectList_DataGrid_Design()
 
             ' Apply overdue highlighting
             'HighlightDelayedProjects()
@@ -1546,7 +1643,18 @@ Module Query_Module
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
 
-            command.CommandText = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date
+            'command.CommandText = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category 
+            '                        FROM Project_tb
+            '                        WHERE Status <> 'Done'
+            '                        ORDER BY 
+            '                            CASE 
+            '                                WHEN Status = 'On-going' THEN 0
+            '                                WHEN Status = 'On Hold' THEN 2
+            '                                ELSE 1
+            '                            END,
+            '                            Due_Date DESC;"
+
+            command.CommandText = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category 
                                     FROM Project_tb
                                     WHERE Status <> 'Done'
                                     ORDER BY 
@@ -1555,6 +1663,7 @@ Module Query_Module
                                             WHEN Status = 'On Hold' THEN 2
                                             ELSE 1
                                         END,
+                                        Priority ASC,  -- Higher priority first
                                         Due_Date DESC;"
 
             Dim rdr As SqlDataReader = command.ExecuteReader()
@@ -1571,25 +1680,7 @@ Module Query_Module
                 column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
             Next
 
-            ' Adjust column widths
-            AdminProjectList_Form.DataGridView1.Columns("ID").Width = 80
-            AdminProjectList_Form.DataGridView1.Columns("Title").Width = 500
-            AdminProjectList_Form.DataGridView1.Columns("Owner").Width = 200
-
-            ' Rename column headers
-            AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-            AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-            AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-            AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-            AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-            AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
-
-            ' Style alternating row colors
-            AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-            'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-            AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-            AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-            AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+            AdminProjectList_DataGrid_Design()
 
             ' Apply overdue highlighting
             'HighlightDelayedProjects()
@@ -1606,7 +1697,7 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
+            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                                   "FROM Project_tb " &
                                   "WHERE TSG_Support LIKE @TSGSupport " &
                                   "ORDER BY Due_Date DESC"
@@ -1635,22 +1726,7 @@ Module Query_Module
                     column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
                 Next
 
-                ' Adjust specific column headers
-                AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-                AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-                AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-                AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-                AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-                AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
-
-                ' Set alternating row colors and selection styles
-                AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-                'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-                AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-
-                ' Disable default header styles and apply custom styles
-                AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-                AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+                AdminProjectList_DataGrid_Design()
             End Using
 
             HighlightDelayedProjects()
@@ -1667,7 +1743,18 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date 
+            'Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category  
+            '                        FROM Project_tb 
+            '                        WHERE TSG_Support LIKE @TSGSupport AND Status <> 'Done' 
+            '                        ORDER BY 
+            '                            CASE 
+            '                                WHEN Status = 'On-going' THEN 0 
+            '                                WHEN Status = 'On Hold' THEN 2 
+            '                                ELSE 1 
+            '                            END, 
+            '                            Due_Date DESC"
+
+            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category  
                                     FROM Project_tb 
                                     WHERE TSG_Support LIKE @TSGSupport AND Status <> 'Done' 
                                     ORDER BY 
@@ -1676,6 +1763,7 @@ Module Query_Module
                                             WHEN Status = 'On Hold' THEN 2 
                                             ELSE 1 
                                         END, 
+                                        Priority ASC, 
                                         Due_Date DESC"
 
             ' Declare and initialize the command
@@ -1701,23 +1789,7 @@ Module Query_Module
                     column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
                     column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
                 Next
-
-                ' Adjust specific column headers
-                AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-                AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-                AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-                AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-                AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-                AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
-
-                ' Set alternating row colors and selection styles
-                AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-                'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-                AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-
-                ' Disable default header styles and apply custom styles
-                AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-                AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+                AdminProjectList_DataGrid_Design()
             End Using
 
             HighlightDelayedProjects()
@@ -1807,7 +1879,7 @@ Module Query_Module
                 ' Ensure the row index is valid
                 If selectedRowIndex >= 0 Then
                     ' Assuming "Title" is in column index 1 (adjust if needed)
-                    Dim titleColumnIndex As Integer = 1
+                    Dim titleColumnIndex As Integer = 0
                     Dim selectedRow As DataGridViewRow = AdminProjectList_Form.DataGridView1.Rows(selectedRowIndex)
 
                     ' Get the title value from the specific column
@@ -1850,6 +1922,11 @@ Module Query_Module
                                 .cboTokenStat.Text = data.Rows(0).Item("TokenStatus").ToString()
                                 .txtRemarks.Text = data.Rows(0).Item("Remarks").ToString()
 
+                                .cboDepartments.SelectedItem = data.Rows(0).Item("Department").ToString()
+                                .cboPrioLvl.SelectedItem = data.Rows(0).Item("Priority").ToString()
+                                .cboCategory.SelectedItem = data.Rows(0).Item("Category").ToString()
+                                .txtPercent.Text = data.Rows(0).Item("Percentage").ToString()
+
                                 ' Handle Due Date formatting
                                 Dim due As Object = data.Rows(0).Item("Due_date")
                                 If due Is DBNull.Value OrElse String.IsNullOrWhiteSpace(due.ToString()) Then
@@ -1889,10 +1966,10 @@ Module Query_Module
             Dim query As String
 
             If AdminProjectList_Form.txtSearch.Text = "" Or AdminProjectList_Form.txtSearch.Text = "Search Project" Then
-                query = "Select ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date 
+                query = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category  
                         From Project_tb ORDER BY Due_Date DESC"
             Else
-                query = "Select ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date From Project_tb 
+                query = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category From Project_tb 
                          WHERE Title LIKE @searchText ORDER BY Due_Date DESC"
 
                 '"SELECT Part_Number, Qty FROM LineData_tb WHERE Part_Number LIKE @searchText"
@@ -1922,7 +1999,25 @@ Module Query_Module
                 column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
             Next
 
-            AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
+            ' Adjust column widths
+            'AdminProjectList_Form.DataGridView1.Columns("ID").Width = 80
+            'AdminProjectList_Form.DataGridView1.Columns("Title").Width = 400
+            'AdminProjectList_Form.DataGridView1.Columns("Owner").Width = 200
+
+            'AdminProjectList_Form.DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
+
+            AdminProjectList_Form.DataGridView1.Columns("Title").DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            AdminProjectList_Form.DataGridView1.Columns("TSG_Support").DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            AdminProjectList_Form.DataGridView1.Columns("Category").DefaultCellStyle.WrapMode = DataGridViewTriState.True
+
+
+
+            AdminProjectList_Form.DataGridView1.Columns("Title").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            AdminProjectList_Form.DataGridView1.Columns("Department").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            AdminProjectList_Form.DataGridView1.Columns("TSG_Support").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            AdminProjectList_Form.DataGridView1.Columns("Category").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+
+
             AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
             AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
             AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
@@ -2264,257 +2359,47 @@ Module Query_Module
     End Sub
 
     Sub AdminProDetails_Form_Update()
-        If AdminProDetail_Form.txtTitle.Text = "" Then
-            MsgBox("Please the title of project!", MsgBoxStyle.Critical)
-            AdminProDetail_Form.txtTitle.Focus()
+        'If AdminProDetail_Form.txtTitle.Text = "" Then
+        '    MsgBox("Please the title of project!", MsgBoxStyle.Critical)
+        '    AdminProDetail_Form.txtTitle.Focus()
 
-        ElseIf AdminProDetail_Form.txtDescr.Text = "" Then
-            MsgBox("Please enter project description!", MsgBoxStyle.Critical)
-            AdminProDetail_Form.txtDescr.Focus()
+        'ElseIf AdminProDetail_Form.txtDescr.Text = "" Then
+        '    MsgBox("Please enter project description!", MsgBoxStyle.Critical)
+        '    AdminProDetail_Form.txtDescr.Focus()
 
-        ElseIf AdminProDetail_Form.txtOwner.Text = "" Then
-            MsgBox("Please enter the name of project owner!", MsgBoxStyle.Critical)
-            AdminProDetail_Form.txtOwner.Focus()
+        'ElseIf AdminProDetail_Form.txtOwner.Text = "" Then
+        '    MsgBox("Please enter the name of project owner!", MsgBoxStyle.Critical)
+        '    AdminProDetail_Form.txtOwner.Focus()
 
-        ElseIf AdminProDetail_Form.txtOwnersEmail.Text = "" Then
-            MsgBox("Please enter the email of project owner!", MsgBoxStyle.Critical)
-            AdminProDetail_Form.txtOwnersEmail.Focus()
+        'ElseIf AdminProDetail_Form.txtOwnersEmail.Text = "" Then
+        '    MsgBox("Please enter the email of project owner!", MsgBoxStyle.Critical)
+        '    AdminProDetail_Form.txtOwnersEmail.Focus()
 
-        ElseIf AdminProDetail_Form.txtMember.Text = "" Then
-            MsgBox("Please enter name of member!", MsgBoxStyle.Critical)
-            AdminProDetail_Form.txtMember.Focus()
+        'ElseIf AdminProDetail_Form.txtMember.Text = "" Then
+        '    MsgBox("Please enter name of member!", MsgBoxStyle.Critical)
+        '    AdminProDetail_Form.txtMember.Focus()
 
-        ElseIf AdminProDetail_Form.txtMemEmails.Text = "" Then
-            MsgBox("Please enter the email(s) of member!", MsgBoxStyle.Critical)
-            AdminProDetail_Form.txtMemEmails.Focus()
+        'ElseIf AdminProDetail_Form.txtMemEmails.Text = "" Then
+        '    MsgBox("Please enter the email(s) of member!", MsgBoxStyle.Critical)
+        '    AdminProDetail_Form.txtMemEmails.Focus()
 
-        ElseIf AdminProDetail_Form.txtDept.Text = "" Then
-            MsgBox("Please enter the department!", MsgBoxStyle.Critical)
-            AdminProDetail_Form.txtDept.Focus()
+        'ElseIf AdminProDetail_Form.txtDept.Text = "" Then
+        '    MsgBox("Please enter the department!", MsgBoxStyle.Critical)
+        '    AdminProDetail_Form.txtDept.Focus()
 
-        ElseIf AdminProDetail_Form.txtSupport.Text = "" Then
-            MsgBox("Please enter name of support!", MsgBoxStyle.Critical)
-            AdminProDetail_Form.txtSupport.Focus()
+        'ElseIf AdminProDetail_Form.txtSupport.Text = "" Then
+        '    MsgBox("Please enter name of support!", MsgBoxStyle.Critical)
+        '    AdminProDetail_Form.txtSupport.Focus()
 
-        Else
-            If AdminProDetail_Form.cboStat.Text = "Done" Then
+        'Else
+        If AdminProDetail_Form.cboStat.Text = "Done" Then
 
-                Get_ProjectStat_Done()
+            Get_ProjectStat_Done()
 
-                If String.IsNullOrEmpty(if_done) Then
-                    Try
-
-                        Dim done As Date = Date.Now.ToString("MM/dd/yyyy")
-
-                        Dim Token As String = AdminProDetail_Form.txtToken.Text
-
-                        Dim Title As String = AdminProDetail_Form.txtTitle.Text
-                        Dim Description As String = AdminProDetail_Form.txtDescr.Text
-                        Dim Project_Owner As String = AdminProDetail_Form.txtOwner.Text
-                        Dim Owners_Email As String = AdminProDetail_Form.txtOwnersEmail.Text
-                        Dim Member As String = AdminProDetail_Form.txtMember.Text
-                        Dim Member_Email As String = AdminProDetail_Form.txtMemEmails.Text
-                        Dim Department As String = AdminProDetail_Form.txtDept.Text
-                        Dim Support As String = AdminProDetail_Form.txtSupport.Text
-                        Dim Stats As String = AdminProDetail_Form.cboStat.Text
-                        Dim TokenStats As String = AdminProDetail_Form.cboTokenStat.Text
-                        Dim Start As String = AdminProDetail_Form.dtpStartDate.Text
-                        Dim Due As String = AdminProDetail_Form.dtpDue.Text
-                        Dim Remarks As String = AdminProDetail_Form.txtRemarks.Text
-
-                        Dim query As String = "UPDATE Project_tb 
-                                        SET Title = @Title, Description = @Desc, Owner = @Owner, Email = @ManEmail, Member = @Mem, 
-                                        Member_Emails = @MemEmails, Department = @Dept, TSG_Support = @Support, 
-                                        Status = @Stat, TokenStatus = @TokenStats, Start_date = @start, Due_date = @Duedate, Done_date = @Done, Remarks = @rem 
-                                        WHERE Token = @proTitle"
-
-                        '' Save File
-                        'If Not String.IsNullOrEmpty(AdminProDetail_Form.txtA3name.Text) Then
-                        '    Dim filePath As String = AdminProDetail_Form.txtA3name.Text
-                        '    Dim fileName As String = Path.GetFileName(filePath)
-                        '    Dim fileData As Byte() = File.ReadAllBytes(filePath)
-                        '    Try
-                        '        'SQLDbconnection.Open()
-                        '        ConOpen()
-
-                        '        Using command As New sqlCommand("UPDATE Project_tb SET FileName = @FileName, A3 = @FileData 
-                        '                                WHERE Token = @proToken", SQLDbconnection)
-                        '            command.Parameters.AddWithValue("@FileName", fileName)
-                        '            command.Parameters.AddWithValue("@FileData", fileData)
-                        '            command.Parameters.AddWithValue("@proToken", Token)
-                        '            command.ExecuteNonQuery()
-                        '        End Using
-                        '        'SQLDbconnection.Close()
-                        '        ConClose()
-
-                        '    Catch ex As Exception
-                        '        MsgBox(ex.Message, vbCritical)
-                        '    End Try
-                        'End If
-
-                        Using command As New SqlCommand(query, SQLDbconnection)
-                            command.Parameters.AddWithValue("@Title", Title)
-                            command.Parameters.AddWithValue("@Desc", Description)
-                            command.Parameters.AddWithValue("@Owner", Project_Owner)
-                            command.Parameters.AddWithValue("@ManEmail", Owners_Email)
-                            command.Parameters.AddWithValue("@Mem", Member)
-                            command.Parameters.AddWithValue("@MemEmails", Member_Email)
-                            command.Parameters.AddWithValue("@Dept", Department)
-                            command.Parameters.AddWithValue("@Support", Support)
-                            command.Parameters.AddWithValue("@Stat", Stats)
-                            command.Parameters.AddWithValue("@TokenStats", TokenStats)
-                            command.Parameters.AddWithValue("@start", Start)
-                            command.Parameters.AddWithValue("@DueDate", Due)
-                            command.Parameters.AddWithValue("@Done", done)
-                            command.Parameters.AddWithValue("@rem", Remarks)
-                            command.Parameters.AddWithValue("@proTitle", Token)
-                            'SQLDbconnection.Open()
-                            ConOpen()
-                            command.ExecuteNonQuery()
-                            'SQLDbconnection.Close()
-                        End Using
-
-                        Dim query2 As String = "UPDATE ProActivity_tb SET Title = @Project_Title WHERE Token = @proTitle"
-
-                        Using command2 As New SqlCommand(query2, SQLDbconnection)
-                            command2.Parameters.AddWithValue("@Project_Title", Title)
-                            command2.Parameters.AddWithValue("@proTitle", Token)
-                            'SQLDbconnection.Open()
-                            command2.ExecuteNonQuery()
-                            'SQLDbconnection.Close()
-                            ConClose()
-                        End Using
-
-                        If AdminProjectList_Form.cboTSG_Support.Text = Nothing Or AdminProjectList_Form.cboTSG_Support.Text = "All" Then
-                            Show_AdminProjectList()
-                            Aadmin_Count_TotalPro()
-                            'HighlightDelayedProjects()
-                            MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
-                            AdminProDetail_Form.Close()
-                        Else
-                            Show_SupportProjects()
-                            Admin_Count_Projects_Support()
-                            'HighlightDelayedProjects()'
-                            MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
-                            AdminProDetail_Form.Close()
-                        End If
-
-                    Catch ex As Exception
-                        MsgBox(ex.Message, vbCritical)
-                    End Try
-
-                Else
-                    Try
-                        Dim Token As String = AdminProDetail_Form.txtToken.Text
-
-                        Dim Title As String = AdminProDetail_Form.txtTitle.Text
-                        Dim Description As String = AdminProDetail_Form.txtDescr.Text
-                        Dim Project_Owner As String = AdminProDetail_Form.txtOwner.Text
-                        Dim Owners_Email As String = AdminProDetail_Form.txtOwnersEmail.Text
-                        Dim Member As String = AdminProDetail_Form.txtMember.Text
-                        Dim Member_Email As String = AdminProDetail_Form.txtMemEmails.Text
-                        Dim Department As String = AdminProDetail_Form.txtDept.Text
-                        Dim Support As String = AdminProDetail_Form.txtSupport.Text
-                        Dim Stats As String = AdminProDetail_Form.cboStat.Text
-                        Dim TokenStats As String = AdminProDetail_Form.cboTokenStat.Text
-                        Dim Start As String = AdminProDetail_Form.dtpStartDate.Text
-                        Dim Due As String = AdminProDetail_Form.dtpDue.Text
-                        Dim Remarks As String = AdminProDetail_Form.txtRemarks.Text
-
-                        Dim query As String = "UPDATE Project_tb 
-                                        SET Title = @Title, Description = @Desc, Owner = @Owner, Email = @ManEmail, Member = @Mem, 
-                                        Member_Emails = @MemEmails, Department = @Dept, TSG_Support = @Support,
-                                        Status = @Stat, TokenStatus = @TokenStats, Start_date = @start, Due_date = @Duedate, Remarks = @rem 
-                                        WHERE Token = @proTitle"
-
-                        '' Save File
-                        'If Not String.IsNullOrEmpty(AdminProDetail_Form.txtA3name.Text) Then
-                        '    Dim filePath As String = AdminProDetail_Form.txtA3name.Text
-                        '    Dim fileName As String = Path.GetFileName(filePath)
-                        '    Dim fileData As Byte() = File.ReadAllBytes(filePath)
-                        '    Try
-                        '        'SQLDbconnection.Open()
-                        '        ConOpen()
-
-                        '        Using command As New sqlCommand("UPDATE Project_tb SET FileName = @FileName, A3 = @FileData 
-                        '                                WHERE Token = @proToken", SQLDbconnection)
-                        '            command.Parameters.AddWithValue("@FileName", fileName)
-                        '            command.Parameters.AddWithValue("@FileData", fileData)
-                        '            command.Parameters.AddWithValue("@proToken", Token)
-                        '            command.ExecuteNonQuery()
-                        '        End Using
-                        '        'SQLDbconnection.Close()
-                        '        ConClose()
-
-                        '    Catch ex As Exception
-                        '        MsgBox(ex.Message, vbCritical)
-                        '    End Try
-                        'End If
-
-                        Using command As New SqlCommand(query, SQLDbconnection)
-                            command.Parameters.AddWithValue("@Title", Title)
-                            command.Parameters.AddWithValue("@Desc", Description)
-                            command.Parameters.AddWithValue("@Owner", Project_Owner)
-                            command.Parameters.AddWithValue("@ManEmail", Owners_Email)
-                            command.Parameters.AddWithValue("@Mem", Member)
-                            command.Parameters.AddWithValue("@MemEmails", Member_Email)
-                            command.Parameters.AddWithValue("@Dept", Department)
-                            command.Parameters.AddWithValue("@Support", Support)
-                            command.Parameters.AddWithValue("@Stat", Stats)
-                            command.Parameters.AddWithValue("@TokenStats", TokenStats)
-                            command.Parameters.AddWithValue("@start", Start)
-                            command.Parameters.AddWithValue("@DueDate", Due)
-                            command.Parameters.AddWithValue("@rem", Remarks)
-                            command.Parameters.AddWithValue("@proTitle", Token)
-                            'SQLDbconnection.Open()
-                            ConOpen()
-                            command.ExecuteNonQuery()
-                            'SQLDbconnection.Close()
-                        End Using
-
-                        Dim query2 As String = "UPDATE ProActivity_tb SET Title = @Project_Title WHERE Token = @proTitle"
-
-                        Using command2 As New SqlCommand(query2, SQLDbconnection)
-                            command2.Parameters.AddWithValue("@Project_Title", Title)
-                            command2.Parameters.AddWithValue("@proTitle", Token)
-                            'SQLDbconnection.Open()
-                            command2.ExecuteNonQuery()
-                            'SQLDbconnection.Close()
-                            ConClose()
-                        End Using
-
-
-                        If AdminProjectList_Form.cboTSG_Support.Text = Nothing Or AdminProjectList_Form.cboTSG_Support.Text = "All" Then
-                            Show_AdminProjectList()
-                            Aadmin_Count_TotalPro()
-                            'HighlightDelayedProjects()
-                            MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
-                            AdminProDetail_Form.Close()
-                        Else
-                            Show_SupportProjects()
-                            Admin_Count_Projects_Support()
-                            'HighlightDelayedProjects()'
-                            MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
-                            AdminProDetail_Form.Close()
-                        End If
-
-                    Catch ex As Exception
-                        MsgBox(ex.Message, vbCritical)
-                    End Try
-                End If
-
-
-            ElseIf AdminProDetail_Form.cboStat.Text = "Canceled" Then
-
-                Dim ProTok As String = AdminProDetail_Form.txtToken.Text
-                CopyData_to_Canceledtb(ProTok)
-                DeleteProject(ProTok)
-                DeleteProject_Task(ProTok)
-
-            Else
+            If String.IsNullOrEmpty(if_done) Then
                 Try
+                    Dim done As Date = Date.Now
                     Dim Token As String = AdminProDetail_Form.txtToken.Text
-
                     Dim Title As String = AdminProDetail_Form.txtTitle.Text
                     Dim Description As String = AdminProDetail_Form.txtDescr.Text
                     Dim Project_Owner As String = AdminProDetail_Form.txtOwner.Text
@@ -2528,36 +2413,36 @@ Module Query_Module
                     Dim Start As String = AdminProDetail_Form.dtpStartDate.Text
                     Dim Due As String = AdminProDetail_Form.dtpDue.Text
                     Dim Remarks As String = AdminProDetail_Form.txtRemarks.Text
+                    Dim Percent As Integer = CInt(AdminProDetail_Form.txtPercent.Text)
+                    Dim PrioLVL As Integer = CInt(AdminProDetail_Form.cboPrioLvl.Text)
+                    Dim Categ As String = AdminProDetail_Form.cboCategory.Text
 
-                    Dim query As String = "UPDATE Project_tb 
-                                        SET Title = @Title, Description = @Desc, Owner = @Owner, Email = @ManEmail, Member = @Mem, 
-                                        Member_Emails = @MemEmails, Department = @Dept, TSG_Support = @Support,
-                                        Status = @Stat, TokenStatus = @TokenStats, Start_date = @start, Due_date = @Duedate, Remarks = @rem 
-                                        WHERE Token = @proTitle"
+                    ' Calculate TotalWeeks
+                    Dim totalWeeks As Integer = 0
+                    If Not String.IsNullOrWhiteSpace(Start) AndAlso Not String.IsNullOrWhiteSpace(Due) Then
+                        Dim startDate As Date
+                        Dim dueDate As Date
 
-                    '' Save File
-                    'If Not String.IsNullOrEmpty(AdminProDetail_Form.txtA3name.Text) Then
-                    '    Dim filePath As String = AdminProDetail_Form.txtA3name.Text
-                    '    Dim fileName As String = Path.GetFileName(filePath)
-                    '    Dim fileData As Byte() = File.ReadAllBytes(filePath)
-                    '    Try
-                    '        'SQLDbconnection.Open()
-                    '        ConOpen()
+                        If Date.TryParse(Start, startDate) AndAlso Date.TryParse(Due, dueDate) Then
+                            Dim totalDays As Integer = (dueDate - startDate).Days
+                            totalWeeks = Math.Ceiling(totalDays / 7)
+                        End If
+                    End If
 
-                    '        Using command As New sqlCommand("UPDATE Project_tb SET FileName = @FileName, A3 = @FileData 
-                    '                                WHERE Token = @proToken", SQLDbconnection)
-                    '            command.Parameters.AddWithValue("@FileName", fileName)
-                    '            command.Parameters.AddWithValue("@FileData", fileData)
-                    '            command.Parameters.AddWithValue("@proToken", Token)
-                    '            command.ExecuteNonQuery()
-                    '        End Using
-                    '        'SQLDbconnection.Close()
-                    '        ConClose()
+                    ' Build query
+                    Dim query As String = "UPDATE Project_tb SET " &
+        "Title = @Title, Description = @Desc, Owner = @Owner, Email = @ManEmail, " &
+        "Member = @Mem, Member_Emails = @MemEmails, Department = @Dept, " &
+        "TSG_Support = @Support, Status = @Stat, TokenStatus = @TokenStats, "
 
-                    '    Catch ex As Exception
-                    '        MsgBox(ex.Message, vbCritical)
-                    '    End Try
-                    'End If
+                    If Not String.IsNullOrWhiteSpace(Start) Then
+                        query &= "Start_date = @start, "
+                    End If
+
+                    query &= "Due_date = @DueDate, Done_date = @Done, Remarks = @rem, " &
+        "Percentage = @percent, Priority = @Prio, Category = @categ, " &
+        "TotalWeeks = @weeks " &
+        "WHERE Token = @proTitle"
 
                     Using command As New SqlCommand(query, SQLDbconnection)
                         command.Parameters.AddWithValue("@Title", Title)
@@ -2570,38 +2455,141 @@ Module Query_Module
                         command.Parameters.AddWithValue("@Support", Support)
                         command.Parameters.AddWithValue("@Stat", Stats)
                         command.Parameters.AddWithValue("@TokenStats", TokenStats)
-                        command.Parameters.AddWithValue("@start", Start)
+
+                        If Not String.IsNullOrWhiteSpace(Start) Then
+                            command.Parameters.AddWithValue("@start", Start)
+                        End If
+
                         command.Parameters.AddWithValue("@DueDate", Due)
+                        command.Parameters.AddWithValue("@Done", done)
                         command.Parameters.AddWithValue("@rem", Remarks)
+                        command.Parameters.AddWithValue("@percent", Percent)
+                        command.Parameters.AddWithValue("@Prio", PrioLVL)
+                        command.Parameters.AddWithValue("@categ", Categ)
+                        command.Parameters.AddWithValue("@weeks", totalWeeks)
                         command.Parameters.AddWithValue("@proTitle", Token)
-                        'SQLDbconnection.Open()
+
                         ConOpen()
                         command.ExecuteNonQuery()
-                        'SQLDbconnection.Close()
                     End Using
 
-                    Dim query2 As String = "UPDATE ProActivity_tb SET Title = @Project_Title WHERE Token = @proTitle"
+                    ' Update title in ProjectTask_tb
+                    Dim query2 As String = "UPDATE ProjectTask_tb SET Title = @Project_Title WHERE Token = @proTitle"
 
                     Using command2 As New SqlCommand(query2, SQLDbconnection)
                         command2.Parameters.AddWithValue("@Project_Title", Title)
                         command2.Parameters.AddWithValue("@proTitle", Token)
-                        'SQLDbconnection.Open()
                         command2.ExecuteNonQuery()
-                        'SQLDbconnection.Close()
                         ConClose()
                     End Using
 
-
-                    If AdminProjectList_Form.cboTSG_Support.Text = Nothing Or AdminProjectList_Form.cboTSG_Support.Text = "All" Then
-                        Show_AdminProjectList()
-                        Aadmin_Count_TotalPro()
-                        'HighlightDelayedProjects()
+                    If String.IsNullOrWhiteSpace(AdminProjectList_Form.cboTSG_Support.Text) OrElse AdminProjectList_Form.cboTSG_Support.Text = "All" Then
+                        AdminProjectList_Form.cboStatus.SelectedItem = AdminProjectList_Form.cboStatus.Text
                         MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
                         AdminProDetail_Form.Close()
                     Else
-                        Show_SupportProjects()
-                        Admin_Count_Projects_Support()
-                        'HighlightDelayedProjects()'
+                        AdminProjectList_Form.cboStatus.SelectedItem = AdminProjectList_Form.cboStatus.Text
+                        MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
+                        AdminProDetail_Form.Close()
+                    End If
+
+                Catch ex As Exception
+                    MsgBox(ex.Message, vbCritical)
+                End Try
+
+            Else
+
+                Try
+                    Dim Token As String = AdminProDetail_Form.txtToken.Text
+                    Dim Title As String = AdminProDetail_Form.txtTitle.Text
+                    Dim Description As String = AdminProDetail_Form.txtDescr.Text
+                    Dim Project_Owner As String = AdminProDetail_Form.txtOwner.Text
+                    Dim Owners_Email As String = AdminProDetail_Form.txtOwnersEmail.Text
+                    Dim Member As String = AdminProDetail_Form.txtMember.Text
+                    Dim Member_Email As String = AdminProDetail_Form.txtMemEmails.Text
+                    Dim Department As String = AdminProDetail_Form.txtDept.Text
+                    Dim Support As String = AdminProDetail_Form.txtSupport.Text
+                    Dim Stats As String = AdminProDetail_Form.cboStat.Text
+                    Dim TokenStats As String = AdminProDetail_Form.cboTokenStat.Text
+                    Dim Start As String = AdminProDetail_Form.dtpStartDate.Text
+                    Dim Due As String = AdminProDetail_Form.dtpDue.Text
+                    Dim Remarks As String = AdminProDetail_Form.txtRemarks.Text
+                    Dim Percent As Integer = CInt(AdminProDetail_Form.txtPercent.Text)
+                    Dim PrioLVL As Integer = CInt(AdminProDetail_Form.cboPrioLvl.Text)
+                    Dim Categ As String = AdminProDetail_Form.cboCategory.Text
+
+                    ' Calculate TotalWeeks
+                    Dim totalWeeks As Integer = 0
+                    If Not String.IsNullOrWhiteSpace(Start) AndAlso Not String.IsNullOrWhiteSpace(Due) Then
+                        Dim startDate As Date
+                        Dim dueDate As Date
+
+                        If Date.TryParse(Start, startDate) AndAlso Date.TryParse(Due, dueDate) Then
+                            Dim totalDays As Integer = (dueDate - startDate).Days
+                            totalWeeks = Math.Ceiling(totalDays / 7)
+                        End If
+                    End If
+
+                    ' Build dynamic query based on whether Start is empty
+                    Dim query As String = "UPDATE Project_tb SET " &
+                        "Title = @Title, Description = @Desc, Owner = @Owner, Email = @ManEmail, " &
+                        "Member = @Mem, Member_Emails = @MemEmails, Department = @Dept, " &
+                        "TSG_Support = @Support, Status = @Stat, TokenStatus = @TokenStats, "
+
+                    If Not String.IsNullOrWhiteSpace(Start) Then
+                        query &= "Start_date = @start, TotalWeeks = @weeks, "
+                    Else
+                        query &= "TotalWeeks = @weeks, "
+                    End If
+
+                    query &= "Due_date = @Duedate, Remarks = @rem, Percentage = @percent, " &
+                        "Priority = @Prio, Category = @categ " &
+                        "WHERE Token = @proTitle"
+
+                    Using command As New SqlCommand(query, SQLDbconnection)
+                        command.Parameters.AddWithValue("@Title", Title)
+                        command.Parameters.AddWithValue("@Desc", Description)
+                        command.Parameters.AddWithValue("@Owner", Project_Owner)
+                        command.Parameters.AddWithValue("@ManEmail", Owners_Email)
+                        command.Parameters.AddWithValue("@Mem", Member)
+                        command.Parameters.AddWithValue("@MemEmails", Member_Email)
+                        command.Parameters.AddWithValue("@Dept", Department)
+                        command.Parameters.AddWithValue("@Support", Support)
+                        command.Parameters.AddWithValue("@Stat", Stats)
+                        command.Parameters.AddWithValue("@TokenStats", TokenStats)
+
+                        If Not String.IsNullOrWhiteSpace(Start) Then
+                            command.Parameters.AddWithValue("@start", Start)
+                        End If
+
+                        command.Parameters.AddWithValue("@weeks", totalWeeks)
+                        command.Parameters.AddWithValue("@Duedate", Due)
+                        command.Parameters.AddWithValue("@rem", Remarks)
+                        command.Parameters.AddWithValue("@percent", Percent)
+                        command.Parameters.AddWithValue("@Prio", PrioLVL)
+                        command.Parameters.AddWithValue("@categ", Categ)
+                        command.Parameters.AddWithValue("@proTitle", Token)
+
+                        ConOpen()
+                        command.ExecuteNonQuery()
+                    End Using
+
+                    ' Update ProjectTask_tb
+                    Dim query2 As String = "UPDATE ProjectTask_tb SET Title = @Project_Title WHERE Token = @proTitle"
+                    Using command2 As New SqlCommand(query2, SQLDbconnection)
+                        command2.Parameters.AddWithValue("@Project_Title", Title)
+                        command2.Parameters.AddWithValue("@proTitle", Token)
+                        command2.ExecuteNonQuery()
+                        ConClose()
+                    End Using
+
+                    ' UI Feedback
+                    If String.IsNullOrWhiteSpace(AdminProjectList_Form.cboTSG_Support.Text) OrElse AdminProjectList_Form.cboTSG_Support.Text = "All" Then
+                        AdminProjectList_Form.cboStatus.SelectedItem = AdminProjectList_Form.cboStatus.Text
+                        MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
+                        AdminProDetail_Form.Close()
+                    Else
+                        AdminProjectList_Form.cboStatus.SelectedItem = AdminProjectList_Form.cboStatus.Text
                         MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
                         AdminProDetail_Form.Close()
                     End If
@@ -2611,7 +2599,117 @@ Module Query_Module
                 End Try
 
             End If
+
+
+        ElseIf AdminProDetail_Form.cboStat.Text = "Cancelled" Then
+
+            Dim ProTok As String = AdminProDetail_Form.txtToken.Text
+            CopyData_to_Canceledtb(ProTok)
+            DeleteProject(ProTok)
+            'DeleteProject_Task(ProTok)
+
+        Else
+            Try
+                Dim Token As String = AdminProDetail_Form.txtToken.Text
+                Dim Title As String = AdminProDetail_Form.txtTitle.Text
+                Dim Description As String = AdminProDetail_Form.txtDescr.Text
+                Dim Project_Owner As String = AdminProDetail_Form.txtOwner.Text
+                Dim Owners_Email As String = AdminProDetail_Form.txtOwnersEmail.Text
+                Dim Member As String = AdminProDetail_Form.txtMember.Text
+                Dim Member_Email As String = AdminProDetail_Form.txtMemEmails.Text
+                Dim Department As String = AdminProDetail_Form.txtDept.Text
+                Dim Support As String = AdminProDetail_Form.txtSupport.Text
+                Dim Stats As String = AdminProDetail_Form.cboStat.Text
+                Dim TokenStats As String = AdminProDetail_Form.cboTokenStat.Text
+                Dim Start As String = AdminProDetail_Form.dtpStartDate.Text
+                Dim Due As String = AdminProDetail_Form.dtpDue.Text
+                Dim Remarks As String = AdminProDetail_Form.txtRemarks.Text
+                Dim Percent As Integer = CInt(AdminProDetail_Form.txtPercent.Text)
+                Dim PrioLVL As Integer = CInt(AdminProDetail_Form.cboPrioLvl.Text)
+                Dim Categ As String = AdminProDetail_Form.cboCategory.Text
+
+                ' Calculate TotalWeeks
+                Dim totalWeeks As Integer = 0
+                If Not String.IsNullOrWhiteSpace(Start) AndAlso Not String.IsNullOrWhiteSpace(Due) Then
+                    Dim startDate As Date
+                    Dim dueDate As Date
+                    If Date.TryParse(Start, startDate) AndAlso Date.TryParse(Due, dueDate) Then
+                        Dim totalDays As Integer = (dueDate - startDate).Days
+                        totalWeeks = Math.Ceiling(totalDays / 7)
+                    End If
+                End If
+
+                ' Build SQL query
+                Dim query As String = "UPDATE Project_tb SET " &
+                    "Title = @Title, Description = @Desc, Owner = @Owner, Email = @ManEmail, " &
+                    "Member = @Mem, Member_Emails = @MemEmails, Department = @Dept, " &
+                    "TSG_Support = @Support, Status = @Stat, TokenStatus = @TokenStats, "
+
+                If Not String.IsNullOrWhiteSpace(Start) Then
+                    query &= "Start_date = @start, TotalWeeks = @weeks, "
+                Else
+                    query &= "TotalWeeks = @weeks, "
+                End If
+
+                query &= "Due_date = @DueDate, Remarks = @rem, Percentage = @percent, " &
+                    "Priority = @Prio, Category = @categ " &
+                    "WHERE Token = @proTitle"
+
+                Using command As New SqlCommand(query, SQLDbconnection)
+                    command.Parameters.AddWithValue("@Title", Title)
+                    command.Parameters.AddWithValue("@Desc", Description)
+                    command.Parameters.AddWithValue("@Owner", Project_Owner)
+                    command.Parameters.AddWithValue("@ManEmail", Owners_Email)
+                    command.Parameters.AddWithValue("@Mem", Member)
+                    command.Parameters.AddWithValue("@MemEmails", Member_Email)
+                    command.Parameters.AddWithValue("@Dept", Department)
+                    command.Parameters.AddWithValue("@Support", Support)
+                    command.Parameters.AddWithValue("@Stat", Stats)
+                    command.Parameters.AddWithValue("@TokenStats", TokenStats)
+
+                    If Not String.IsNullOrWhiteSpace(Start) Then
+                        command.Parameters.AddWithValue("@start", Start)
+                    End If
+
+                    command.Parameters.AddWithValue("@weeks", totalWeeks)
+                    command.Parameters.AddWithValue("@DueDate", Due)
+                    command.Parameters.AddWithValue("@rem", Remarks)
+                    command.Parameters.AddWithValue("@percent", Percent)
+                    command.Parameters.AddWithValue("@Prio", PrioLVL)
+                    command.Parameters.AddWithValue("@categ", Categ)
+                    command.Parameters.AddWithValue("@proTitle", Token)
+
+                    ConOpen()
+                    command.ExecuteNonQuery()
+                End Using
+
+                ' Update project title in ProjectTask_tb
+                Dim query2 As String = "UPDATE ProjectTask_tb SET Title = @Project_Title WHERE Token = @proTitle"
+                Using command2 As New SqlCommand(query2, SQLDbconnection)
+                    command2.Parameters.AddWithValue("@Project_Title", Title)
+                    command2.Parameters.AddWithValue("@proTitle", Token)
+                    command2.ExecuteNonQuery()
+                    ConClose()
+                End Using
+
+                ' UI feedback and form close
+                If String.IsNullOrWhiteSpace(AdminProjectList_Form.cboTSG_Support.Text) OrElse AdminProjectList_Form.cboTSG_Support.Text = "All" Then
+                    AdminProjectList_Form.cboStatus.SelectedItem = AdminProjectList_Form.cboStatus.Text
+                    MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
+                    AdminProDetail_Form.Close()
+                Else
+                    AdminProjectList_Form.cboStatus.SelectedItem = AdminProjectList_Form.cboStatus.Text
+                    MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
+                    AdminProDetail_Form.Close()
+                End If
+
+            Catch ex As Exception
+                MsgBox(ex.Message, vbCritical)
+            End Try
+
         End If
+
+        'End If
 
     End Sub
 
@@ -2642,11 +2740,11 @@ Module Query_Module
 
             ' Explicitly specify all columns except ID
             Dim query As String = "INSERT INTO CanceledProject_tb (Token, Title, Description, Owner, Email, " &
-                              "Department, Member, Member_Emails, TSG_Support, Status, Start_date, Due_date, TokenStatus, " &
-                              "FileName, A3, Done_date, Remarks)" &
+                              "Department, Member, Member_Emails, TSG_Support, Status, Start_date, Due_date, TotalWeeks, TokenStatus, " &
+                              "FileName, A3, Done_date, Remarks, Percentage, Priority, Category)" &
                               "SELECT Token, Title, Description, Owner, Email, " &
-                              "Department, Member, Member_Emails, TSG_Support, Status, Start_date, Due_date, TokenStatus, " &
-                              "FileName, A3, Done_date, Remarks " &
+                              "Department, Member, Member_Emails, TSG_Support, Status, Start_date, Due_date, TotalWeeks, TokenStatus, " &
+                              "FileName, A3, Done_date, Remarks, Percentage, Priority, Category " &
                               "FROM Project_tb WHERE Token = @token"
 
             Using cmd As New SqlCommand(query, SQLDbconnection)
@@ -2681,6 +2779,16 @@ Module Query_Module
             End Using
 
             ConClose()
+
+            If AdminProjectList_Form.cboTSG_Support.Text = Nothing Or AdminProjectList_Form.cboTSG_Support.Text = "All" Then
+                Show_AdminProjectList()
+                MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
+                AdminProDetail_Form.Close()
+            Else
+                Show_SupportProjects()
+                MsgBox("Changes were successfully saved", MessageBoxIcon.Information)
+                AdminProDetail_Form.Close()
+            End If
 
         Catch ex As Exception
             MsgBox("Error: " & ex.Message, vbCritical, "Database Error")
@@ -2770,30 +2878,33 @@ Module Query_Module
 
     Sub Admin_Count_Projects_Support()
 
-        Dim selectedSupport As String = AdminProjectList_Form.cboTSG_Support.Text
+        Dim selectedSupport As String = AdminProjectList_Form.cboTSG_Support.Text.Trim()
 
-        Dim totalQuery As String = "SELECT COUNT(*) FROM Project_tb WHERE TSG_Support = @Support"
+        ' Add wildcards for partial matching
+        Dim likeSupport As String = "%" & selectedSupport & "%"
+
+        Dim totalQuery As String = "SELECT COUNT(*) FROM Project_tb WHERE TSG_Support LIKE @Support"
         Dim statusQuery As String = "
-        SELECT 
-            SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
-            SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
-            SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
-            SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
-        FROM Project_tb
-        WHERE TSG_Support = @Support"
+    SELECT 
+        SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
+        SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
+        SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
+        SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
+    FROM Project_tb
+    WHERE TSG_Support LIKE @Support"
 
         ConOpen()
 
         ' Get total count
         Using command As New SqlCommand(totalQuery, SQLDbconnection)
-            command.Parameters.AddWithValue("@Support", selectedSupport)
+            command.Parameters.AddWithValue("@Support", likeSupport)
             Dim rowCount As Integer = CInt(command.ExecuteScalar())
-            AdminProjectList_Form.lblTotal.Text = rowCount
+            AdminProjectList_Form.lblTotal.Text = rowCount.ToString()
         End Using
 
         ' Get status-wise count
         Using command As New SqlCommand(statusQuery, SQLDbconnection)
-            command.Parameters.AddWithValue("@Support", selectedSupport)
+            command.Parameters.AddWithValue("@Support", likeSupport)
             Using reader As SqlDataReader = command.ExecuteReader()
                 If reader.Read() Then
                     AdminProjectList_Form.lblDone.Text = reader("DoneCount").ToString()
@@ -2805,7 +2916,9 @@ Module Query_Module
         End Using
 
         ConClose()
+
     End Sub
+
 
     Sub Get_Support_AddminProject()
 
@@ -2827,7 +2940,28 @@ Module Query_Module
 
         End Try
 
-        AdminProjectList_Form.cboTSG_Support.Items.Add("All")
+        'AdminProjectList_Form.cboTSG_Support.Items.Add("All")
+    End Sub
+
+    Sub Get_CategoryList()
+
+        ConOpen()
+        Dim df As String = "SELECT CategoryList FROM CategoryList_tb ORDER BY ID ASC"
+        Dim cmd As New SqlCommand(df, SQLDbconnection)
+        Dim dr As SqlDataReader
+        dr = cmd.ExecuteReader
+        Try
+
+            While dr.Read
+                AdminProDetail_Form.cboCategory.Items.Add(dr("CategoryList").ToString)
+            End While
+
+            ConClose()
+
+        Catch ex As Exception
+            MsgBox(ex.Message, vbCritical)
+
+        End Try
     End Sub
 
 
@@ -2835,17 +2969,18 @@ Module Query_Module
 
     Sub Admin_Count_Projects_ByCbo_Funtion(cbo_Data As String, TableName As String)
 
-        Dim selectedData As String = cbo_Data
+        Dim selectedData As String = "%" & cbo_Data.Trim() & "%"
 
-        Dim totalQuery As String = "SELECT COUNT(*) FROM Project_tb WHERE " & TableName & " = @data"
+        ' Use LIKE for partial match
+        Dim totalQuery As String = "SELECT COUNT(*) FROM Project_tb WHERE " & TableName & " LIKE @data"
         Dim statusQuery As String = "
         SELECT 
-            SUM(CASE WHEN " & TableName & " = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
-            SUM(CASE WHEN " & TableName & " = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
-            SUM(CASE WHEN " & TableName & " = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
-            SUM(CASE WHEN " & TableName & " = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
+            SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
+            SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
+            SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
+            SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
         FROM Project_tb
-        WHERE " & TableName & " = @data"
+        WHERE " & TableName & " LIKE @data"
 
         ConOpen()
 
@@ -2853,7 +2988,7 @@ Module Query_Module
         Using command As New SqlCommand(totalQuery, SQLDbconnection)
             command.Parameters.AddWithValue("@data", selectedData)
             Dim rowCount As Integer = CInt(command.ExecuteScalar())
-            AdminProjectList_Form.lblTotal.Text = rowCount
+            AdminProjectList_Form.lblTotal.Text = rowCount.ToString()
         End Using
 
         ' Get status-wise count
@@ -2861,10 +2996,10 @@ Module Query_Module
             command.Parameters.AddWithValue("@data", selectedData)
             Using reader As SqlDataReader = command.ExecuteReader()
                 If reader.Read() Then
-                    AdminProjectList_Form.lblDone.Text = reader("DoneCount").ToString()
-                    AdminProjectList_Form.lblOnHold.Text = reader("OnHoldCount").ToString()
-                    AdminProjectList_Form.lblOnGoing.Text = reader("OnGoingCount").ToString()
-                    AdminProjectList_Form.lblNotStarted.Text = reader("NotStartedCount").ToString()
+                    AdminProjectList_Form.lblDone.Text = If(IsDBNull(reader("DoneCount")), "0", reader("DoneCount").ToString())
+                    AdminProjectList_Form.lblOnHold.Text = If(IsDBNull(reader("OnHoldCount")), "0", reader("OnHoldCount").ToString())
+                    AdminProjectList_Form.lblOnGoing.Text = If(IsDBNull(reader("OnGoingCount")), "0", reader("OnGoingCount").ToString())
+                    AdminProjectList_Form.lblNotStarted.Text = If(IsDBNull(reader("NotStartedCount")), "0", reader("NotStartedCount").ToString())
                 End If
             End Using
         End Using
@@ -2872,13 +3007,14 @@ Module Query_Module
         ConClose()
     End Sub
 
+
     Sub Show_Projects_ByCbo_Function(cbo_Data As String, TableName As String)
         ' Open the database connection
         ConOpen()
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
+            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                                   "FROM Project_tb " &
                                   "WHERE " & TableName & " LIKE @data " &
                                   "ORDER BY Due_Date DESC"
@@ -2907,22 +3043,8 @@ Module Query_Module
                     column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
                 Next
 
-                ' Adjust specific column headers
-                AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-                AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-                AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-                AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-                AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-                AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
+                AdminProjectList_DataGrid_Design()
 
-                ' Set alternating row colors and selection styles
-                AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-                'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-                AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-
-                ' Disable default header styles and apply custom styles
-                AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-                AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
             End Using
 
             HighlightDelayedProjects()
@@ -2939,16 +3061,28 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
-                                  "FROM Project_tb " &
-                                  "WHERE " & TableName & " LIKE @data AND Status <> 'Done' " &
-                                  "ORDER BY " &
-                                  "CASE " &
-                                      "WHEN Status = 'On-going' THEN 0 " &
-                                      "WHEN Status = 'On Hold' THEN 2 " &
-                                      "ELSE 1 " &
-                                  "END, " &
-                                  "Due_Date DESC"
+            'Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+            '                      "FROM Project_tb " &
+            '                      "WHERE " & TableName & " LIKE @data AND Status <> 'Done' " &
+            '                      "ORDER BY " &
+            '                      "CASE " &
+            '                          "WHEN Status = 'On-going' THEN 0 " &
+            '                          "WHEN Status = 'On Hold' THEN 2 " &
+            '                          "ELSE 1 " &
+            '                      "END, " &
+            '                      "Due_Date DESC"
+
+            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+                                    "FROM Project_tb " &
+                                    "WHERE " & TableName & " LIKE @data AND Status <> 'Done' " &
+                                    "ORDER BY " &
+                                    "CASE " &
+                                        "WHEN Status = 'On-going' THEN 0 " &
+                                        "WHEN Status = 'On Hold' THEN 2 " &
+                                        "ELSE 1 " &
+                                    "END, " &
+                                    "Priority ASC, " &
+                                    "Due_Date DESC"
 
             ' Declare and initialize the command
             Using command As New SqlCommand(query, SQLDbconnection)
@@ -2974,22 +3108,8 @@ Module Query_Module
                     column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
                 Next
 
-                ' Adjust specific column headers
-                AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-                AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-                AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-                AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-                AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-                AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
+                AdminProjectList_DataGrid_Design()
 
-                ' Set alternating row colors and selection styles
-                AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-                'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-                AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-
-                ' Disable default header styles and apply custom styles
-                AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-                AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
             End Using
 
             HighlightDelayedProjects()
@@ -3007,31 +3127,35 @@ Module Query_Module
         Dim selectedData As String = cbo_Data.Trim()
         Dim selectedData2 As String = cbo_Data2.Trim()
 
-        Dim totalQuery As String = "SELECT COUNT(*) FROM Project_tb WHERE " & TableName & " = @data AND " & TableName2 & " = @data2"
+        ' Add wildcards for LIKE matching
+        Dim likeData As String = "%" & selectedData & "%"
+        Dim likeData2 As String = "%" & selectedData2 & "%"
+
+        Dim totalQuery As String = "SELECT COUNT(*) FROM Project_tb WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2"
 
         Dim statusQuery As String = "
-                                    SELECT 
-                                        SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
-                                        SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
-                                        SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
-                                        SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
-                                    FROM Project_tb
-                                    WHERE " & TableName & " = @data AND " & TableName2 & " = @data2"
+        SELECT 
+            SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
+            SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
+            SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
+            SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
+        FROM Project_tb
+        WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2"
 
         ConOpen()
 
         ' Get total count
         Using command As New SqlCommand(totalQuery, SQLDbconnection)
-            command.Parameters.AddWithValue("@data", selectedData)
-            command.Parameters.AddWithValue("@data2", selectedData2)
+            command.Parameters.AddWithValue("@data", likeData)
+            command.Parameters.AddWithValue("@data2", likeData2)
             Dim rowCount As Integer = CInt(command.ExecuteScalar())
             AdminProjectList_Form.lblTotal.Text = rowCount.ToString()
         End Using
 
         ' Get status-wise count
         Using command As New SqlCommand(statusQuery, SQLDbconnection)
-            command.Parameters.AddWithValue("@data", selectedData)
-            command.Parameters.AddWithValue("@data2", selectedData2)
+            command.Parameters.AddWithValue("@data", likeData)
+            command.Parameters.AddWithValue("@data2", likeData2)
             Using reader As SqlDataReader = command.ExecuteReader()
                 If reader.Read() Then
                     AdminProjectList_Form.lblDone.Text = If(IsDBNull(reader("DoneCount")), "0", reader("DoneCount").ToString())
@@ -3047,13 +3171,14 @@ Module Query_Module
     End Sub
 
 
+
     Sub Show_Projects_ByTwoCbo_Function(cbo_Data As String, TableName As String, cbo_Data2 As String, TableName2 As String)
         ' Open the database connection
         ConOpen()
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
+            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                                   "FROM Project_tb " &
                                   "WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2 " &
                                   "ORDER BY Due_Date DESC"
@@ -3083,22 +3208,8 @@ Module Query_Module
                     column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
                 Next
 
-                ' Adjust specific column headers
-                AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-                AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-                AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-                AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-                AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-                AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
+                AdminProjectList_DataGrid_Design()
 
-                ' Set alternating row colors and selection styles
-                AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-                'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-                AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-
-                ' Disable default header styles and apply custom styles
-                AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-                AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
             End Using
 
             HighlightDelayedProjects()
@@ -3115,7 +3226,7 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
+            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                       "FROM Project_tb " &
                       "WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2 AND Status <> 'Done' " &
                       "ORDER BY " &
@@ -3124,6 +3235,7 @@ Module Query_Module
                           "WHEN Status = 'On Hold' THEN 2 " &
                           "ELSE 1 " &
                       "END, " &
+                      "Priority ASC, " &
                       "Due_Date DESC"
 
             ' Declare and initialize the command
@@ -3151,22 +3263,8 @@ Module Query_Module
                     column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
                 Next
 
-                ' Adjust specific column headers
-                AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-                AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-                AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-                AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-                AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-                AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
+                AdminProjectList_DataGrid_Design()
 
-                ' Set alternating row colors and selection styles
-                AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-                'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-                AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-
-                ' Disable default header styles and apply custom styles
-                AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-                AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
             End Using
 
             HighlightDelayedProjects()
@@ -3185,7 +3283,7 @@ Module Query_Module
         Dim selectedData2 As String = cbo_Data2.Trim()
         Dim selectedData3 As String = cbo_Data3.Trim()
 
-        Dim totalQuery As String = "SELECT COUNT(*) FROM Project_tb WHERE " & TableName & " = @data AND " & TableName2 & " = @data2 AND " & TableName3 & " = @data3"
+        Dim totalQuery As String = "SELECT COUNT(*) FROM Project_tb WHERE " & TableName & " LIKE @data AND " & TableName2 & " = @data2 AND " & TableName3 & " = @data3"
 
         Dim statusQuery As String = "
                                     SELECT 
@@ -3194,7 +3292,7 @@ Module Query_Module
                                         SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
                                         SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
                                     FROM Project_tb
-                                    WHERE " & TableName & " = @data AND " & TableName2 & " = @data2 AND " & TableName3 & " = @data3"
+                                    WHERE " & TableName & " LIKE @data AND " & TableName2 & " = @data2 AND " & TableName3 & " = @data3"
 
         ConOpen()
 
@@ -3214,10 +3312,16 @@ Module Query_Module
             command.Parameters.AddWithValue("@data3", selectedData3)
             Using reader As SqlDataReader = command.ExecuteReader()
                 If reader.Read() Then
-                    AdminProjectList_Form.lblDone.Text = If(IsDBNull(reader("DoneCount")), "0", reader("DoneCount").ToString())
-                    AdminProjectList_Form.lblOnHold.Text = If(IsDBNull(reader("OnHoldCount")), "0", reader("OnHoldCount").ToString())
-                    AdminProjectList_Form.lblOnGoing.Text = If(IsDBNull(reader("OnGoingCount")), "0", reader("OnGoingCount").ToString())
-                    AdminProjectList_Form.lblNotStarted.Text = If(IsDBNull(reader("NotStartedCount")), "0", reader("NotStartedCount").ToString())
+
+                    AdminProjectList_Form.lblDone.Text = reader("DoneCount").ToString()
+                    AdminProjectList_Form.lblOnHold.Text = reader("OnHoldCount").ToString()
+                    AdminProjectList_Form.lblOnGoing.Text = reader("OnGoingCount").ToString()
+                    AdminProjectList_Form.lblNotStarted.Text = reader("NotStartedCount").ToString()
+
+                    'AdminProjectList_Form.lblDone.Text = If(IsDBNull(reader("DoneCount")), "0", reader("DoneCount").ToString())
+                    'AdminProjectList_Form.lblOnHold.Text = If(IsDBNull(reader("OnHoldCount")), "0", reader("OnHoldCount").ToString())
+                    'AdminProjectList_Form.lblOnGoing.Text = If(IsDBNull(reader("OnGoingCount")), "0", reader("OnGoingCount").ToString())
+                    'AdminProjectList_Form.lblNotStarted.Text = If(IsDBNull(reader("NotStartedCount")), "0", reader("NotStartedCount").ToString())
                 End If
             End Using
         End Using
@@ -3231,31 +3335,33 @@ Module Query_Module
         ConOpen()
 
         If SQLDbconnection.State = ConnectionState.Open Then
-            ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
-                                  "FROM Project_tb " &
-                                  "WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2 AND " & TableName3 & " LIKE @data3 " &
-                                  "ORDER BY Due_Date DESC"
+            ' Prepare trimmed data with wildcards for partial matching
+            Dim likeData As String = "%" & cbo_Data.Trim() & "%"
+            Dim likeData2 As String = "%" & cbo_Data2.Trim() & "%"
+            Dim likeData3 As String = "%" & cbo_Data3.Trim() & "%"
+
+            ' SQL query with parameterized LIKEs
+            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+                              "FROM Project_tb " &
+                              "WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2 AND " & TableName3 & " LIKE @data3 " &
+                              "ORDER BY Due_Date DESC"
 
             ' Declare and initialize the command
             Using command As New SqlCommand(query, SQLDbconnection)
-                ' Add the parameter
-                command.Parameters.AddWithValue("@data", "%" & cbo_Data & "%")
-                command.Parameters.AddWithValue("@data2", "%" & cbo_Data2 & "%")
-                command.Parameters.AddWithValue("@data3", "%" & cbo_Data3 & "%")
+                command.Parameters.AddWithValue("@data", likeData)
+                command.Parameters.AddWithValue("@data2", likeData2)
+                command.Parameters.AddWithValue("@data3", likeData3)
 
-                ' Declare a DataTable to hold query results
+                ' Load results into a DataTable
                 Dim table As New DataTable()
-
-                ' Execute the query and load the results
                 Using rdr As SqlDataReader = command.ExecuteReader()
                     table.Load(rdr)
                 End Using
 
-                ' Bind the results to the DataGridView
+                ' Bind to DataGridView
                 AdminProjectList_Form.DataGridView1.DataSource = table
 
-                ' Format the DataGridView
+                ' Format DataGridView columns
                 For Each column As DataGridViewColumn In AdminProjectList_Form.DataGridView1.Columns
                     column.HeaderCell.Style.Font = New Font("MS Reference Sans Serif", 11, FontStyle.Bold)
                     column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
@@ -3263,22 +3369,7 @@ Module Query_Module
                     column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
                 Next
 
-                ' Adjust specific column headers
-                AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-                AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-                AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-                AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-                AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-                AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
-
-                ' Set alternating row colors and selection styles
-                AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-                'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-                AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-
-                ' Disable default header styles and apply custom styles
-                AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-                AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+                AdminProjectList_DataGrid_Design()
             End Using
 
             HighlightDelayedProjects()
@@ -3286,8 +3377,8 @@ Module Query_Module
 
         ' Close the database connection
         ConClose()
-
     End Sub
+
 
     '======================< Filtered by Combo box WHERE text is All >====================
     '===< FOR Department >===
@@ -3300,7 +3391,7 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
-            command.CommandText = "SELECT ID, Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
+            command.CommandText = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                            "FROM Project_tb ORDER BY Due_Date DESC"
 
             Dim rdr As SqlDataReader = command.ExecuteReader()
@@ -3317,28 +3408,7 @@ Module Query_Module
                 column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
             Next
 
-            ' Adjust column widths
-            AdminProjectList_Form.DataGridView1.Columns("ID").Width = 80
-            AdminProjectList_Form.DataGridView1.Columns("Title").Width = 500
-            AdminProjectList_Form.DataGridView1.Columns("Owner").Width = 200
-
-            ' Rename column headers
-            AdminProjectList_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
-            AdminProjectList_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-            AdminProjectList_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-            AdminProjectList_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-            AdminProjectList_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-            AdminProjectList_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
-
-            ' Style alternating row colors
-            AdminProjectList_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
-            'AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionBackColor = Color.MediumSeaGreen
-            AdminProjectList_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
-            AdminProjectList_Form.DataGridView1.EnableHeadersVisualStyles = False
-            AdminProjectList_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
-
-            ' Apply overdue highlighting
-            HighlightDelayedProjects()
+            AdminProjectList_DataGrid_Design()
 
         End If
 
@@ -4094,8 +4164,8 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
-            command.CommandText = "SELECT Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
-                              "FROM CanceledProject_tb ORDER BY Due_Date DESC"
+            command.CommandText = "SELECT Title, Owner, Department, TSG_Support, Remarks " &
+                              "FROM CanceledProject_tb ORDER BY ID DESC"
 
             Dim rdr As SqlDataReader = command.ExecuteReader()
             table.Load(rdr)
@@ -4119,10 +4189,10 @@ Module Query_Module
             ' Rename column headers
             'AdminCanceled_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
             AdminCanceled_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-            AdminCanceled_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-            AdminCanceled_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-            AdminCanceled_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-            AdminCanceled_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
+            'AdminCanceled_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
+            'AdminCanceled_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
+            'AdminCanceled_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
+            'AdminCanceled_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
 
             ' Style alternating row colors
             AdminCanceled_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
@@ -4143,10 +4213,10 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT Title, Owner, Department, Start_date, Due_Date, TSG_Support, Status, TokenStatus, Done_date " &
+            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Remarks " &
                                   "FROM CanceledProject_tb " &
                                   "WHERE TSG_Support LIKE @TSGSupport " &
-                                  "ORDER BY Due_Date DESC"
+                                  "ORDER BY ID DESC"
 
             ' Declare and initialize the command
             Using command As New SqlCommand(query, SQLDbconnection)
@@ -4175,10 +4245,10 @@ Module Query_Module
                 ' Adjust specific column headers
                 'AdminCanceled_Form.DataGridView1.Columns("ID").HeaderText = "Project ID"
                 AdminCanceled_Form.DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
-                AdminCanceled_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
-                AdminCanceled_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
-                AdminCanceled_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
-                AdminCanceled_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
+                'AdminCanceled_Form.DataGridView1.Columns("Due_date").HeaderText = "Due Date"
+                'AdminCanceled_Form.DataGridView1.Columns("Start_date").HeaderText = "Start Date"
+                'AdminCanceled_Form.DataGridView1.Columns("TokenStatus").HeaderText = "Token Status"
+                'AdminCanceled_Form.DataGridView1.Columns("Done_date").HeaderText = "Done Date"
 
                 ' Set alternating row colors and selection styles
                 AdminCanceled_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
@@ -4255,54 +4325,134 @@ Module Query_Module
         End Try
     End Sub
 
+    'Sub Activity_LoadTasks()
+    '    Dim command As New SqlCommand("", SQLDbconnection)
+    '    Dim table As New DataTable
+
+    '    'Dim tokn As String = AdminProDetail_Form.txtToken.Text
+    '    'Dim tit As String = AdminProDetail_Form.txtTitle.Text
+
+
+    '    ' Open SQL connection
+    '    ConOpen()
+
+    '    If SQLDbconnection.State = ConnectionState.Open Then
+    '        command.Connection = SQLDbconnection
+    '        command.CommandText = "SELECT ID, Task, Owner, Start, Due, Status, Completion, Remarks FROM ProjectTask_tb 
+    '                               WHERE Token = '" + AdminProDetail_Form.txtToken.Text + "' AND Title = '" + AdminProDetail_Form.txtTitle.Text + "' ORDER BY ID ASC"
+
+    '        Dim rdr As SqlDataReader = command.ExecuteReader()
+    '        table.Load(rdr)
+
+    '        ' Bind data to DataGridView
+    '        Activity_Form.DataGridView1.DataSource = table
+
+    '        ' Replace the Status column with a ComboBox column
+    '        If Activity_Form.DataGridView1.Columns.Contains("Status") Then
+    '            Dim statusColIndex As Integer = Activity_Form.DataGridView1.Columns("Status").Index
+
+    '            ' Remove the existing Status column
+    '            Activity_Form.DataGridView1.Columns.Remove("Status")
+
+
+    '            ' Create new ComboBox column
+    '            Dim comboCol As New DataGridViewComboBoxColumn()
+    '            comboCol.Name = "Status"
+    '            comboCol.HeaderText = "Status"
+    '            comboCol.Items.AddRange("Not Started", "On-going", "Done", "On Hold", "Cancelled")
+    '            comboCol.DataPropertyName = "Status" ' important for data binding
+    '            comboCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton
+
+    '            ' ✅ Set dropdown font color to black
+    '            comboCol.DefaultCellStyle.ForeColor = Color.Black
+
+    '            ' Optional: you can also set the font if needed
+    '            comboCol.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
+
+    '            Activity_Form.DataGridView1.Columns.Insert(statusColIndex, comboCol)
+    '        End If
+
+    '        ' Style DataGridView
+    '        For Each column As DataGridViewColumn In Activity_Form.DataGridView1.Columns
+    '            column.HeaderCell.Style.Font = New Font("MS Reference Sans Serif", 11, FontStyle.Bold)
+    '            column.HeaderCell.Style.ForeColor = Color.White
+    '            column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '            column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '            column.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 10)
+    '        Next
+
+    '        Activity_Form.DataGridView1.ReadOnly = False
+
+    '        Activity_Form.DataGridView1.Columns("ID").Visible = False
+
+    '        Activity_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
+    '        Activity_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
+    '        Activity_Form.DataGridView1.EnableHeadersVisualStyles = False
+    '        Activity_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
+    '        Activity_Form.DataGridView1.DefaultCellStyle.ForeColor = Color.Black
+
+    '    End If
+
+    '    ' Close connection
+    '    ConClose()
+
+    '    Highligh_Activity()
+    'End Sub
+
     Sub Activity_LoadTasks()
         Dim command As New SqlCommand("", SQLDbconnection)
         Dim table As New DataTable
 
-        'Dim tokn As String = AdminProDetail_Form.txtToken.Text
-        'Dim tit As String = AdminProDetail_Form.txtTitle.Text
-
-
-        ' Open SQL connection
         ConOpen()
 
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
             command.CommandText = "SELECT ID, Task, Owner, Start, Due, Status, Completion, Remarks FROM ProjectTask_tb 
-                                   WHERE Token = '" + AdminProDetail_Form.txtToken.Text + "' AND Title = '" + AdminProDetail_Form.txtTitle.Text + "' ORDER BY ID ASC"
+                               WHERE Token = @token AND Title = @title ORDER BY ID ASC"
+            command.Parameters.AddWithValue("@token", AdminProDetail_Form.txtToken.Text)
+            command.Parameters.AddWithValue("@title", AdminProDetail_Form.txtTitle.Text)
 
             Dim rdr As SqlDataReader = command.ExecuteReader()
             table.Load(rdr)
 
-            ' Bind data to DataGridView
             Activity_Form.DataGridView1.DataSource = table
 
-            ' Replace the Status column with a ComboBox column
+            ' Replace Status with ComboBox
             If Activity_Form.DataGridView1.Columns.Contains("Status") Then
                 Dim statusColIndex As Integer = Activity_Form.DataGridView1.Columns("Status").Index
-
-                ' Remove the existing Status column
                 Activity_Form.DataGridView1.Columns.Remove("Status")
 
-
-                ' Create new ComboBox column
                 Dim comboCol As New DataGridViewComboBoxColumn()
                 comboCol.Name = "Status"
                 comboCol.HeaderText = "Status"
                 comboCol.Items.AddRange("Not Started", "On-going", "Done", "On Hold", "Cancelled")
-                comboCol.DataPropertyName = "Status" ' important for data binding
+                comboCol.DataPropertyName = "Status"
                 comboCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton
-
-                ' ✅ Set dropdown font color to black
                 comboCol.DefaultCellStyle.ForeColor = Color.Black
-
-                ' Optional: you can also set the font if needed
                 comboCol.DefaultCellStyle.Font = New Font("MS Reference Sans Serif", 9)
 
                 Activity_Form.DataGridView1.Columns.Insert(statusColIndex, comboCol)
             End If
 
-            ' Style DataGridView
+            ' Replace Start, Due, Completion with DateTimePicker columns
+            For Each colName In {"Start", "Due", "Completion"}
+                If Activity_Form.DataGridView1.Columns.Contains(colName) Then
+                    Dim colIndex As Integer = Activity_Form.DataGridView1.Columns(colName).Index
+                    Activity_Form.DataGridView1.Columns.Remove(colName)
+
+                    Dim calCol As New DataGridViewCalendarColumn()
+                    calCol.Name = colName
+                    calCol.HeaderText = colName
+                    calCol.DataPropertyName = colName
+                    calCol.DefaultCellStyle.Format = "MM/dd/yyyy"
+                    calCol.DefaultCellStyle.NullValue = ""
+                    calCol.DefaultCellStyle.ForeColor = Color.Black
+
+                    Activity_Form.DataGridView1.Columns.Insert(colIndex, calCol)
+                End If
+            Next
+
+            ' Style grid
             For Each column As DataGridViewColumn In Activity_Form.DataGridView1.Columns
                 column.HeaderCell.Style.Font = New Font("MS Reference Sans Serif", 11, FontStyle.Bold)
                 column.HeaderCell.Style.ForeColor = Color.White
@@ -4312,22 +4462,21 @@ Module Query_Module
             Next
 
             Activity_Form.DataGridView1.ReadOnly = False
-
             Activity_Form.DataGridView1.Columns("ID").Visible = False
-
             Activity_Form.DataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(223, 228, 234)
             Activity_Form.DataGridView1.DefaultCellStyle.SelectionForeColor = Color.White
             Activity_Form.DataGridView1.EnableHeadersVisualStyles = False
             Activity_Form.DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkGreen
             Activity_Form.DataGridView1.DefaultCellStyle.ForeColor = Color.Black
-
         End If
 
-        ' Close connection
         ConClose()
 
         Highligh_Activity()
     End Sub
+
+
+
 
     Public MyReq_Title_val As String
 
@@ -4576,7 +4725,7 @@ Module Query_Module
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
             command.CommandText = "SELECT SupportName, Action, Department, Date, StartTime, EndTime, Duration " &
-                              "FROM ProdSupportList_tb ORDER BY ID DESC"
+                              "FROM ProdSupportList_tb ORDER BY Date DESC"
 
             Dim rdr As SqlDataReader = command.ExecuteReader()
             table.Load(rdr)
