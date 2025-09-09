@@ -81,6 +81,7 @@ Partial Class AdminProjectList_Form
         Me.Guna2CirclePictureBox1 = New Guna.UI2.WinForms.Guna2CirclePictureBox()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.Guna2CirclePictureBox2 = New Guna.UI2.WinForms.Guna2CirclePictureBox()
+        Me.btmExport = New Guna.UI2.WinForms.Guna2Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Guna2GroupBox1.SuspendLayout()
         Me.Guna2GroupBox2.SuspendLayout()
@@ -108,7 +109,7 @@ Partial Class AdminProjectList_Form
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(20, 147)
+        Me.DataGridView1.Location = New System.Drawing.Point(20, 186)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
@@ -121,7 +122,7 @@ Partial Class AdminProjectList_Form
         Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DataGridView1.RowHeadersVisible = False
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1123, 581)
+        Me.DataGridView1.Size = New System.Drawing.Size(1123, 542)
         Me.DataGridView1.TabIndex = 0
         '
         'Guna2GroupBox1
@@ -162,7 +163,7 @@ Partial Class AdminProjectList_Form
         Me.Guna2GroupBox1.CustomBorderThickness = New System.Windows.Forms.Padding(3)
         Me.Guna2GroupBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Guna2GroupBox1.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Guna2GroupBox1.Location = New System.Drawing.Point(23, 159)
+        Me.Guna2GroupBox1.Location = New System.Drawing.Point(23, 199)
         Me.Guna2GroupBox1.Name = "Guna2GroupBox1"
         Me.Guna2GroupBox1.ShadowDecoration.BorderRadius = 20
         Me.Guna2GroupBox1.Size = New System.Drawing.Size(1093, 513)
@@ -731,7 +732,7 @@ Partial Class AdminProjectList_Form
         Me.Label6.BackColor = System.Drawing.Color.Transparent
         Me.Label6.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.DimGray
-        Me.Label6.Location = New System.Drawing.Point(291, 112)
+        Me.Label6.Location = New System.Drawing.Point(291, 151)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(293, 17)
         Me.Label6.TabIndex = 16
@@ -1012,7 +1013,7 @@ Partial Class AdminProjectList_Form
         Me.Guna2GroupBox2.CustomBorderThickness = New System.Windows.Forms.Padding(0)
         Me.Guna2GroupBox2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Guna2GroupBox2.ForeColor = System.Drawing.Color.Green
-        Me.Guna2GroupBox2.Location = New System.Drawing.Point(23, 100)
+        Me.Guna2GroupBox2.Location = New System.Drawing.Point(23, 139)
         Me.Guna2GroupBox2.Name = "Guna2GroupBox2"
         Me.Guna2GroupBox2.Size = New System.Drawing.Size(262, 41)
         Me.Guna2GroupBox2.TabIndex = 201
@@ -1086,12 +1087,38 @@ Partial Class AdminProjectList_Form
         Me.Guna2CirclePictureBox2.TabIndex = 1
         Me.Guna2CirclePictureBox2.TabStop = False
         '
+        'btmExport
+        '
+        Me.btmExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btmExport.BackColor = System.Drawing.Color.Transparent
+        Me.btmExport.BorderRadius = 5
+        Me.btmExport.BorderThickness = 2
+        Me.btmExport.DisabledState.BorderColor = System.Drawing.Color.DarkGray
+        Me.btmExport.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray
+        Me.btmExport.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer), CType(CType(169, Byte), Integer))
+        Me.btmExport.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer), CType(CType(141, Byte), Integer))
+        Me.btmExport.FillColor = System.Drawing.SystemColors.Control
+        Me.btmExport.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btmExport.ForeColor = System.Drawing.Color.Black
+        Me.btmExport.HoverState.ForeColor = System.Drawing.Color.Green
+        Me.btmExport.HoverState.Image = CType(resources.GetObject("resource.Image"), System.Drawing.Image)
+        Me.btmExport.Image = CType(resources.GetObject("btmExport.Image"), System.Drawing.Image)
+        Me.btmExport.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left
+        Me.btmExport.ImageSize = New System.Drawing.Size(25, 25)
+        Me.btmExport.Location = New System.Drawing.Point(1002, 147)
+        Me.btmExport.Name = "btmExport"
+        Me.btmExport.Size = New System.Drawing.Size(141, 33)
+        Me.btmExport.TabIndex = 224
+        Me.btmExport.Text = "Export"
+        Me.btmExport.TextOffset = New System.Drawing.Point(5, 0)
+        '
         'AdminProjectList_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.ClientSize = New System.Drawing.Size(1155, 740)
+        Me.Controls.Add(Me.btmExport)
         Me.Controls.Add(Me.Guna2GroupBox2)
         Me.Controls.Add(Me.cboDept)
         Me.Controls.Add(Me.Label18)
@@ -1184,4 +1211,5 @@ Partial Class AdminProjectList_Form
     Friend WithEvents Guna2CirclePictureBox1 As Guna.UI2.WinForms.Guna2CirclePictureBox
     Friend WithEvents Label23 As Label
     Friend WithEvents Guna2CirclePictureBox2 As Guna.UI2.WinForms.Guna2CirclePictureBox
+    Friend WithEvents btmExport As Guna.UI2.WinForms.Guna2Button
 End Class
