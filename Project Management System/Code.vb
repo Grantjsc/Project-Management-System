@@ -170,7 +170,7 @@ Module MainForm_Module
             Main_Form.btnAdmin.BackColor = Color.Orange
         End With
 
-        Clicked_AddProject()
+        Clicked_ProjectList()
     End Sub
 
 End Module

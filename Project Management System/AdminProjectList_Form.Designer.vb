@@ -731,7 +731,7 @@ Partial Class AdminProjectList_Form
         Me.Label6.BackColor = System.Drawing.Color.Transparent
         Me.Label6.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.DimGray
-        Me.Label6.Location = New System.Drawing.Point(290, 112)
+        Me.Label6.Location = New System.Drawing.Point(291, 112)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(293, 17)
         Me.Label6.TabIndex = 16
@@ -820,11 +820,11 @@ Partial Class AdminProjectList_Form
         Me.Label16.BackColor = System.Drawing.Color.Transparent
         Me.Label16.Font = New System.Drawing.Font("Impact", 15.0!)
         Me.Label16.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label16.Location = New System.Drawing.Point(384, 49)
+        Me.Label16.Location = New System.Drawing.Point(409, 48)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(119, 32)
+        Me.Label16.Size = New System.Drawing.Size(154, 32)
         Me.Label16.TabIndex = 188
-        Me.Label16.Text = "Not started:"
+        Me.Label16.Text = "To be started:"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblTotal
@@ -844,7 +844,7 @@ Partial Class AdminProjectList_Form
         Me.lblNotStarted.BackColor = System.Drawing.Color.Transparent
         Me.lblNotStarted.Font = New System.Drawing.Font("Impact", 18.0!)
         Me.lblNotStarted.ForeColor = System.Drawing.Color.DimGray
-        Me.lblNotStarted.Location = New System.Drawing.Point(485, 50)
+        Me.lblNotStarted.Location = New System.Drawing.Point(531, 49)
         Me.lblNotStarted.Name = "lblNotStarted"
         Me.lblNotStarted.Size = New System.Drawing.Size(98, 31)
         Me.lblNotStarted.TabIndex = 190
@@ -856,7 +856,7 @@ Partial Class AdminProjectList_Form
         Me.lblOnGoing.BackColor = System.Drawing.Color.Transparent
         Me.lblOnGoing.Font = New System.Drawing.Font("Impact", 18.0!)
         Me.lblOnGoing.ForeColor = System.Drawing.Color.DimGray
-        Me.lblOnGoing.Location = New System.Drawing.Point(281, 50)
+        Me.lblOnGoing.Location = New System.Drawing.Point(304, 51)
         Me.lblOnGoing.Name = "lblOnGoing"
         Me.lblOnGoing.Size = New System.Drawing.Size(102, 31)
         Me.lblOnGoing.TabIndex = 192
@@ -868,11 +868,11 @@ Partial Class AdminProjectList_Form
         Me.Label20.BackColor = System.Drawing.Color.Transparent
         Me.Label20.Font = New System.Drawing.Font("Impact", 15.0!)
         Me.Label20.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label20.Location = New System.Drawing.Point(198, 49)
+        Me.Label20.Location = New System.Drawing.Point(195, 48)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(104, 32)
+        Me.Label20.Size = New System.Drawing.Size(137, 32)
         Me.Label20.TabIndex = 191
-        Me.Label20.Text = "On-going:"
+        Me.Label20.Text = "In Progress:"
         Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDone
@@ -904,9 +904,9 @@ Partial Class AdminProjectList_Form
         Me.lblOnHold.BackColor = System.Drawing.Color.Transparent
         Me.lblOnHold.Font = New System.Drawing.Font("Impact", 18.0!)
         Me.lblOnHold.ForeColor = System.Drawing.Color.DimGray
-        Me.lblOnHold.Location = New System.Drawing.Point(664, 50)
+        Me.lblOnHold.Location = New System.Drawing.Point(709, 49)
         Me.lblOnHold.Name = "lblOnHold"
-        Me.lblOnHold.Size = New System.Drawing.Size(101, 31)
+        Me.lblOnHold.Size = New System.Drawing.Size(99, 31)
         Me.lblOnHold.TabIndex = 196
         Me.lblOnHold.Text = "0"
         Me.lblOnHold.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -916,7 +916,7 @@ Partial Class AdminProjectList_Form
         Me.Label24.BackColor = System.Drawing.Color.Transparent
         Me.Label24.Font = New System.Drawing.Font("Impact", 15.0!)
         Me.Label24.ForeColor = System.Drawing.Color.SeaGreen
-        Me.Label24.Location = New System.Drawing.Point(591, 49)
+        Me.Label24.Location = New System.Drawing.Point(631, 48)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(123, 32)
         Me.Label24.TabIndex = 195
@@ -936,7 +936,7 @@ Partial Class AdminProjectList_Form
         Me.cboStatus.Font = New System.Drawing.Font("Segoe UI", 12.0!)
         Me.cboStatus.ForeColor = System.Drawing.Color.DimGray
         Me.cboStatus.ItemHeight = 30
-        Me.cboStatus.Items.AddRange(New Object() {"Open Status", "Not Started", "On-going", "Done", "On Hold", "All"})
+        Me.cboStatus.Items.AddRange(New Object() {"Open Status", "To be started", "In Progress", "Done", "On Hold", "All"})
         Me.cboStatus.Location = New System.Drawing.Point(891, 48)
         Me.cboStatus.Name = "cboStatus"
         Me.cboStatus.ShadowDecoration.BorderRadius = 20
@@ -1014,7 +1014,7 @@ Partial Class AdminProjectList_Form
         Me.Guna2GroupBox2.ForeColor = System.Drawing.Color.Green
         Me.Guna2GroupBox2.Location = New System.Drawing.Point(23, 100)
         Me.Guna2GroupBox2.Name = "Guna2GroupBox2"
-        Me.Guna2GroupBox2.Size = New System.Drawing.Size(257, 41)
+        Me.Guna2GroupBox2.Size = New System.Drawing.Size(262, 41)
         Me.Guna2GroupBox2.TabIndex = 201
         '
         'Label19
@@ -1022,7 +1022,7 @@ Partial Class AdminProjectList_Form
         Me.Label19.AutoSize = True
         Me.Label19.Font = New System.Drawing.Font("Segoe UI", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
         Me.Label19.ForeColor = System.Drawing.Color.Black
-        Me.Label19.Location = New System.Drawing.Point(192, 15)
+        Me.Label19.Location = New System.Drawing.Point(200, 15)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(44, 13)
         Me.Label19.TabIndex = 7
@@ -1033,7 +1033,7 @@ Partial Class AdminProjectList_Form
         Me.Guna2CirclePictureBox3.BackColor = System.Drawing.Color.Transparent
         Me.Guna2CirclePictureBox3.FillColor = System.Drawing.Color.Red
         Me.Guna2CirclePictureBox3.ImageRotate = 0!
-        Me.Guna2CirclePictureBox3.Location = New System.Drawing.Point(171, 12)
+        Me.Guna2CirclePictureBox3.Location = New System.Drawing.Point(179, 12)
         Me.Guna2CirclePictureBox3.Name = "Guna2CirclePictureBox3"
         Me.Guna2CirclePictureBox3.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle
         Me.Guna2CirclePictureBox3.Size = New System.Drawing.Size(18, 18)
@@ -1045,7 +1045,7 @@ Partial Class AdminProjectList_Form
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Segoe UI", 8.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
         Me.Label21.ForeColor = System.Drawing.Color.Black
-        Me.Label21.Location = New System.Drawing.Point(124, 15)
+        Me.Label21.Location = New System.Drawing.Point(132, 15)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(41, 13)
         Me.Label21.TabIndex = 5
@@ -1056,7 +1056,7 @@ Partial Class AdminProjectList_Form
         Me.Guna2CirclePictureBox1.BackColor = System.Drawing.Color.Transparent
         Me.Guna2CirclePictureBox1.FillColor = System.Drawing.Color.MediumSeaGreen
         Me.Guna2CirclePictureBox1.ImageRotate = 0!
-        Me.Guna2CirclePictureBox1.Location = New System.Drawing.Point(103, 12)
+        Me.Guna2CirclePictureBox1.Location = New System.Drawing.Point(111, 12)
         Me.Guna2CirclePictureBox1.Name = "Guna2CirclePictureBox1"
         Me.Guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle
         Me.Guna2CirclePictureBox1.Size = New System.Drawing.Size(18, 18)
@@ -1070,9 +1070,9 @@ Partial Class AdminProjectList_Form
         Me.Label23.ForeColor = System.Drawing.Color.Black
         Me.Label23.Location = New System.Drawing.Point(34, 15)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(63, 13)
+        Me.Label23.Size = New System.Drawing.Size(71, 13)
         Me.Label23.TabIndex = 3
-        Me.Label23.Text = "- On-going"
+        Me.Label23.Text = "- In Progress"
         '
         'Guna2CirclePictureBox2
         '

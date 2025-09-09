@@ -296,8 +296,8 @@ Module Query_Module
                         'Parse Due_Date to ensure it's a valid date
                         If Date.TryParse(row.Cells("Due_Date").Value.ToString(), dueDate) Then
 
-                            ' 1) ===< Status is "On-going" and Due_Date is before today >===
-                            If status = "On-going" AndAlso dueDate < todayDate Then
+                            ' 1) ===< Status is "In Progress" and Due_Date is before today >===
+                            If status = "In Progress" AndAlso dueDate < todayDate Then
                                 row.Cells("Title").Style.BackColor = Color.Red
                                 row.Cells("Title").Style.ForeColor = Color.White
 
@@ -1296,18 +1296,21 @@ Module Query_Module
         Dim Support As String = AdminAddProject_Form.cboTSG_Support.Text
         Dim owners_email As String = AdminAddProject_Form.txtEmail.Text
         Dim TokenStatus As String = "Unused"
-        Dim ProjectStatus As String = "Not Started"
+        Dim ProjectStatus As String = "To be started"
 
         Dim Due As String = AdminAddProject_Form.dtpCompletion.Text
 
         Dim Percent As Integer = 0
         Dim prio As Integer = 3
 
+        Dim dt As String = Date.Now.ToString("MM/dd/yyyy hh:mm tt")
+
         Try
             'SQLDbconnection.Open()
-            mycommand = "INSERT INTO [Project_tb] ([Token],[Title], [TSG_Support], [Status], [TokenStatus], [Email], [Due_Date], [Percentage], [Priority]) 
-                                VALUES (@Token, @ProjTitle, @Support, @Status, @TokenStat, @OwnEmail, @Due, @percent, @prio)"
+            mycommand = "INSERT INTO [Project_tb] ([Enrollment_dt],[Token],[Title], [TSG_Support], [Status], [TokenStatus], [Email], [Due_Date], [Percentage], [Priority]) 
+                                VALUES (@datetime, @Token, @ProjTitle, @Support, @Status, @TokenStat, @OwnEmail, @Due, @percent, @prio)"
             Using command As New SqlCommand(mycommand, SQLDbconnection)
+                command.Parameters.AddWithValue("@datetime", dt)
                 command.Parameters.AddWithValue("@Token", NewToken)
                 command.Parameters.AddWithValue("@ProjTitle", NewProject)
                 command.Parameters.AddWithValue("@Support", Support)
@@ -1533,13 +1536,13 @@ Module Query_Module
                             ' Debugging Output
                             Debug.Print("Status: " & status & " | Due Date: " & dueDate.ToString("MM/dd/yyyy") & " | Today: " & todayDate.ToString("MM/dd/yyyy"))
 
-                            ' 1) ===< Status is "On-going" and Due_Date is before today >===
-                            If status = "On-going" AndAlso dueDate < todayDate Then
+                            ' 1) ===< Status is "In Progress" and Due_Date is before today >===
+                            If status = "In Progress" AndAlso dueDate < todayDate Then
                                 row.Cells("Title").Style.BackColor = Color.Red
                                 row.Cells("Title").Style.ForeColor = Color.White
 
-                                ' 2) ===< Status is "On-going" >===
-                            ElseIf status = "On-going" Then
+                                ' 2) ===< Status is "In Progress" >===
+                            ElseIf status = "In Progress" Then
                                 row.Cells("Title").Style.BackColor = Color.Gold
                                 row.Cells("Title").Style.ForeColor = Color.Black
 
@@ -1573,6 +1576,7 @@ Module Query_Module
 
 
 
+            .DataGridView1.Columns("Enrollment_dt").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             .DataGridView1.Columns("Title").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             .DataGridView1.Columns("Department").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             .DataGridView1.Columns("TSG_Support").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
@@ -1580,6 +1584,7 @@ Module Query_Module
 
             ' Rename column headers
 
+            .DataGridView1.Columns("Enrollment_dt").HeaderText = "Project Entry Date"
             .DataGridView1.Columns("TSG_Support").HeaderText = "TSG Support"
             .DataGridView1.Columns("Due_date").HeaderText = "Due Date"
             .DataGridView1.Columns("Start_date").HeaderText = "Start Date"
@@ -1605,8 +1610,16 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
-            command.CommandText = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
-                              "FROM Project_tb ORDER BY Due_Date DESC"
+            command.CommandText = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+                              "FROM Project_tb  ORDER BY 
+                                        CASE 
+                                            WHEN Status = 'In Progress' THEN 0
+                                            WHEN Status = 'To be started' THEN 1
+                                            WHEN Status = 'On Hold' THEN 2
+                                            WHEN Status = 'Done' THEN 3
+                                        END,
+                                        Priority ASC,  -- Higher priority first
+                                        Due_Date DESC;"
 
             Dim rdr As SqlDataReader = command.ExecuteReader()
             table.Load(rdr)
@@ -1633,6 +1646,7 @@ Module Query_Module
         ConClose()
     End Sub
 
+
     Sub Show_AdminProjectList_OpenStatus()
         Dim command As New SqlCommand("", SQLDbconnection)
         Dim table As New DataTable
@@ -1643,23 +1657,23 @@ Module Query_Module
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
 
-            'command.CommandText = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category 
+            'command.CommandText = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category 
             '                        FROM Project_tb
             '                        WHERE Status <> 'Done'
             '                        ORDER BY 
             '                            CASE 
-            '                                WHEN Status = 'On-going' THEN 0
+            '                                WHEN Status = 'In Progress' THEN 0
             '                                WHEN Status = 'On Hold' THEN 2
             '                                ELSE 1
             '                            END,
             '                            Due_Date DESC;"
 
-            command.CommandText = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category 
+            command.CommandText = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category 
                                     FROM Project_tb
                                     WHERE Status <> 'Done'
                                     ORDER BY 
                                         CASE 
-                                            WHEN Status = 'On-going' THEN 0
+                                            WHEN Status = 'In Progress' THEN 0
                                             WHEN Status = 'On Hold' THEN 2
                                             ELSE 1
                                         END,
@@ -1697,10 +1711,18 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+            Dim query As String = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                                   "FROM Project_tb " &
                                   "WHERE TSG_Support LIKE @TSGSupport " &
-                                  "ORDER BY Due_Date DESC"
+                                  "ORDER BY 
+                                        CASE 
+                                            WHEN Status = 'In Progress' THEN 0
+                                            WHEN Status = 'To be started' THEN 1
+                                            WHEN Status = 'On Hold' THEN 2
+                                            WHEN Status = 'Done' THEN 3
+                                        END, 
+                                        Priority ASC, 
+                                        Due_Date DESC"
 
             ' Declare and initialize the command
             Using command As New SqlCommand(query, SQLDbconnection)
@@ -1743,23 +1765,23 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            'Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category  
+            'Dim query As String = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category  
             '                        FROM Project_tb 
             '                        WHERE TSG_Support LIKE @TSGSupport AND Status <> 'Done' 
             '                        ORDER BY 
             '                            CASE 
-            '                                WHEN Status = 'On-going' THEN 0 
+            '                                WHEN Status = 'In Progress' THEN 0 
             '                                WHEN Status = 'On Hold' THEN 2 
             '                                ELSE 1 
             '                            END, 
             '                            Due_Date DESC"
 
-            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category  
+            Dim query As String = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category  
                                     FROM Project_tb 
                                     WHERE TSG_Support LIKE @TSGSupport AND Status <> 'Done' 
                                     ORDER BY 
                                         CASE 
-                                            WHEN Status = 'On-going' THEN 0 
+                                            WHEN Status = 'In Progress' THEN 0 
                                             WHEN Status = 'On Hold' THEN 2 
                                             ELSE 1 
                                         END, 
@@ -1879,7 +1901,7 @@ Module Query_Module
                 ' Ensure the row index is valid
                 If selectedRowIndex >= 0 Then
                     ' Assuming "Title" is in column index 1 (adjust if needed)
-                    Dim titleColumnIndex As Integer = 0
+                    Dim titleColumnIndex As Integer = 1
                     Dim selectedRow As DataGridViewRow = AdminProjectList_Form.DataGridView1.Rows(selectedRowIndex)
 
                     ' Get the title value from the specific column
@@ -1966,10 +1988,10 @@ Module Query_Module
             Dim query As String
 
             If AdminProjectList_Form.txtSearch.Text = "" Or AdminProjectList_Form.txtSearch.Text = "Search Project" Then
-                query = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category  
+                query = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category  
                         From Project_tb ORDER BY Due_Date DESC"
             Else
-                query = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category From Project_tb 
+                query = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category From Project_tb 
                          WHERE Title LIKE @searchText ORDER BY Due_Date DESC"
 
                 '"SELECT Part_Number, Qty FROM LineData_tb WHERE Part_Number LIKE @searchText"
@@ -2398,7 +2420,7 @@ Module Query_Module
 
             If String.IsNullOrEmpty(if_done) Then
                 Try
-                    Dim done As Date = Date.Now
+                    Dim done As Date = Date.Now.ToString("MM/dd/yyyy")
                     Dim Token As String = AdminProDetail_Form.txtToken.Text
                     Dim Title As String = AdminProDetail_Form.txtTitle.Text
                     Dim Description As String = AdminProDetail_Form.txtDescr.Text
@@ -2833,8 +2855,8 @@ Module Query_Module
         SELECT 
             SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
             SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
-            SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
-            SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
+            SUM(CASE WHEN Status = 'In Progress' THEN 1 ELSE 0 END) AS OnGoingCount,
+            SUM(CASE WHEN Status = 'To be started' THEN 1 ELSE 0 END) AS NotStartedCount
         FROM Project_tb"
 
         ConOpen()
@@ -2888,8 +2910,8 @@ Module Query_Module
     SELECT 
         SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
         SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
-        SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
-        SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
+        SUM(CASE WHEN Status = 'In Progress' THEN 1 ELSE 0 END) AS OnGoingCount,
+        SUM(CASE WHEN Status = 'To be started' THEN 1 ELSE 0 END) AS NotStartedCount
     FROM Project_tb
     WHERE TSG_Support LIKE @Support"
 
@@ -2977,8 +2999,8 @@ Module Query_Module
         SELECT 
             SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
             SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
-            SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
-            SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
+            SUM(CASE WHEN Status = 'In Progress' THEN 1 ELSE 0 END) AS OnGoingCount,
+            SUM(CASE WHEN Status = 'To be started' THEN 1 ELSE 0 END) AS NotStartedCount
         FROM Project_tb
         WHERE " & TableName & " LIKE @data"
 
@@ -3014,10 +3036,18 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+            Dim query As String = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                                   "FROM Project_tb " &
                                   "WHERE " & TableName & " LIKE @data " &
-                                  "ORDER BY Due_Date DESC"
+                                  "ORDER BY 
+                                        CASE 
+                                            WHEN Status = 'In Progress' THEN 0
+                                            WHEN Status = 'To be started' THEN 1
+                                            WHEN Status = 'On Hold' THEN 2
+                                            WHEN Status = 'Done' THEN 3
+                                        END, 
+                                        Priority ASC, 
+                                        Due_Date DESC"
 
             ' Declare and initialize the command
             Using command As New SqlCommand(query, SQLDbconnection)
@@ -3061,23 +3091,23 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            'Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+            'Dim query As String = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
             '                      "FROM Project_tb " &
             '                      "WHERE " & TableName & " LIKE @data AND Status <> 'Done' " &
             '                      "ORDER BY " &
             '                      "CASE " &
-            '                          "WHEN Status = 'On-going' THEN 0 " &
+            '                          "WHEN Status = 'In Progress' THEN 0 " &
             '                          "WHEN Status = 'On Hold' THEN 2 " &
             '                          "ELSE 1 " &
             '                      "END, " &
             '                      "Due_Date DESC"
 
-            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+            Dim query As String = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                                     "FROM Project_tb " &
                                     "WHERE " & TableName & " LIKE @data AND Status <> 'Done' " &
                                     "ORDER BY " &
                                     "CASE " &
-                                        "WHEN Status = 'On-going' THEN 0 " &
+                                        "WHEN Status = 'In Progress' THEN 0 " &
                                         "WHEN Status = 'On Hold' THEN 2 " &
                                         "ELSE 1 " &
                                     "END, " &
@@ -3137,8 +3167,8 @@ Module Query_Module
         SELECT 
             SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
             SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
-            SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
-            SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
+            SUM(CASE WHEN Status = 'In Progress' THEN 1 ELSE 0 END) AS OnGoingCount,
+            SUM(CASE WHEN Status = 'To be started' THEN 1 ELSE 0 END) AS NotStartedCount
         FROM Project_tb
         WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2"
 
@@ -3178,10 +3208,18 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+            Dim query As String = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                                   "FROM Project_tb " &
                                   "WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2 " &
-                                  "ORDER BY Due_Date DESC"
+                                  "ORDER BY 
+                                        CASE 
+                                            WHEN Status = 'In Progress' THEN 0
+                                            WHEN Status = 'To be started' THEN 1
+                                            WHEN Status = 'On Hold' THEN 2
+                                            WHEN Status = 'Done' THEN 3
+                                        END, 
+                                        Priority ASC, 
+                                        Due_Date DESC"
 
             ' Declare and initialize the command
             Using command As New SqlCommand(query, SQLDbconnection)
@@ -3226,12 +3264,12 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             ' Use a parameterized query to prevent SQL injection
-            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+            Dim query As String = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                       "FROM Project_tb " &
                       "WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2 AND Status <> 'Done' " &
                       "ORDER BY " &
                       "CASE " &
-                          "WHEN Status = 'On-going' THEN 0 " &
+                          "WHEN Status = 'In Progress' THEN 0 " &
                           "WHEN Status = 'On Hold' THEN 2 " &
                           "ELSE 1 " &
                       "END, " &
@@ -3289,8 +3327,8 @@ Module Query_Module
                                     SELECT 
                                         SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
                                         SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
-                                        SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
-                                        SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
+                                        SUM(CASE WHEN Status = 'In Progress' THEN 1 ELSE 0 END) AS OnGoingCount,
+                                        SUM(CASE WHEN Status = 'To be started' THEN 1 ELSE 0 END) AS NotStartedCount
                                     FROM Project_tb
                                     WHERE " & TableName & " LIKE @data AND " & TableName2 & " = @data2 AND " & TableName3 & " = @data3"
 
@@ -3341,10 +3379,18 @@ Module Query_Module
             Dim likeData3 As String = "%" & cbo_Data3.Trim() & "%"
 
             ' SQL query with parameterized LIKEs
-            Dim query As String = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+            Dim query As String = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                               "FROM Project_tb " &
                               "WHERE " & TableName & " LIKE @data AND " & TableName2 & " LIKE @data2 AND " & TableName3 & " LIKE @data3 " &
-                              "ORDER BY Due_Date DESC"
+                              "ORDER BY 
+                                        CASE 
+                                            WHEN Status = 'In Progress' THEN 0
+                                            WHEN Status = 'To be started' THEN 1
+                                            WHEN Status = 'On Hold' THEN 2
+                                            WHEN Status = 'Done' THEN 3
+                                        END, 
+                                        Priority ASC, 
+                                        Due_Date DESC"
 
             ' Declare and initialize the command
             Using command As New SqlCommand(query, SQLDbconnection)
@@ -3391,7 +3437,7 @@ Module Query_Module
 
         If SQLDbconnection.State = ConnectionState.Open Then
             command.Connection = SQLDbconnection
-            command.CommandText = "SELECT Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
+            command.CommandText = "SELECT Enrollment_dt, Title, Owner, Department, TSG_Support, Start_date, Due_Date, TotalWeeks, Status, Done_date, Percentage, Priority, Category " &
                            "FROM Project_tb ORDER BY Due_Date DESC"
 
             Dim rdr As SqlDataReader = command.ExecuteReader()
@@ -3423,8 +3469,8 @@ Module Query_Module
      SELECT 
          SUM(CASE WHEN Status = 'Done' THEN 1 ELSE 0 END) AS DoneCount,
          SUM(CASE WHEN Status = 'On Hold' THEN 1 ELSE 0 END) AS OnHoldCount,
-         SUM(CASE WHEN Status = 'On-going' THEN 1 ELSE 0 END) AS OnGoingCount,
-         SUM(CASE WHEN Status = 'Not Started' THEN 1 ELSE 0 END) AS NotStartedCount
+         SUM(CASE WHEN Status = 'In Progress' THEN 1 ELSE 0 END) AS OnGoingCount,
+         SUM(CASE WHEN Status = 'To be started' THEN 1 ELSE 0 END) AS NotStartedCount
      FROM Project_tb"
 
         ConOpen()
@@ -4359,7 +4405,7 @@ Module Query_Module
     '            Dim comboCol As New DataGridViewComboBoxColumn()
     '            comboCol.Name = "Status"
     '            comboCol.HeaderText = "Status"
-    '            comboCol.Items.AddRange("Not Started", "On-going", "Done", "On Hold", "Cancelled")
+    '            comboCol.Items.AddRange("To be started", "In Progress", "Done", "On Hold", "Cancelled")
     '            comboCol.DataPropertyName = "Status" ' important for data binding
     '            comboCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton
 
@@ -4425,7 +4471,7 @@ Module Query_Module
                 Dim comboCol As New DataGridViewComboBoxColumn()
                 comboCol.Name = "Status"
                 comboCol.HeaderText = "Status"
-                comboCol.Items.AddRange("Not Started", "On-going", "Done", "On Hold", "Cancelled")
+                comboCol.Items.AddRange("To be started", "In Progress", "Done", "On Hold", "Cancelled")
                 comboCol.DataPropertyName = "Status"
                 comboCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton
                 comboCol.DefaultCellStyle.ForeColor = Color.Black
@@ -4688,13 +4734,13 @@ Module Query_Module
                         ' Parse Due_Date to ensure it's a valid date
                         If Date.TryParse(row.Cells("Due").Value.ToString(), dueDate) Then
 
-                            ' 1) ===< Status is "On-going" and Due_Date is before today >===
-                            If status = "On-going" AndAlso dueDate < todayDate Then
+                            ' 1) ===< Status is "In Progress" and Due_Date is before today >===
+                            If status = "In Progress" AndAlso dueDate < todayDate Then
                                 row.Cells("Task").Style.BackColor = Color.Red
                                 row.Cells("Task").Style.ForeColor = Color.White
 
-                                ' 3) ===< Status is "On-going" >===
-                            ElseIf status = "On-going" Then
+                                ' 3) ===< Status is "In Progress" >===
+                            ElseIf status = "In Progress" Then
                                 row.Cells("Task").Style.BackColor = Color.Orange
                                 row.Cells("Task").Style.ForeColor = Color.White
 

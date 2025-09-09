@@ -320,6 +320,7 @@ Partial Class AdminDLA3_Form
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
+        Me.AutoScrollMargin = New System.Drawing.Size(0, 50)
         Me.ClientSize = New System.Drawing.Size(1155, 740)
         Me.Controls.Add(Me.cboTSG_Support)
         Me.Controls.Add(Me.Label15)

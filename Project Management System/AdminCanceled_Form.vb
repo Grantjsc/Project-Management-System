@@ -1,6 +1,10 @@
 ﻿Public Class AdminCanceled_Form
     Private Sub AdminCanceled_Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Show_AdminCanceledList()
+
+        For Each col As DataGridViewColumn In DataGridView1.Columns
+            col.SortMode = DataGridViewColumnSortMode.NotSortable
+        Next
     End Sub
 
     Private Sub cboTSG_Support_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTSG_Support.SelectedIndexChanged

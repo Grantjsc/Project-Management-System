@@ -1,6 +1,10 @@
 ﻿Public Class AdminDLA3_Form
     Private Sub AdminDLA3_Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Show_A3List()
+
+        For Each col As DataGridViewColumn In DataGridView1.Columns
+            col.SortMode = DataGridViewColumnSortMode.NotSortable
+        Next
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick

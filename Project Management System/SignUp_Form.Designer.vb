@@ -27,13 +27,13 @@ Partial Class SignUp_Form
         Me.txtUsername = New Guna.UI2.WinForms.Guna2TextBox()
         Me.btnCancel = New Guna.UI2.WinForms.Guna2Button()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.txtConfirmPass = New Guna.UI2.WinForms.Guna2TextBox()
         Me.txtLastName = New Guna.UI2.WinForms.Guna2TextBox()
         Me.txtLFEmail = New Guna.UI2.WinForms.Guna2TextBox()
         Me.btnSignUp = New Guna.UI2.WinForms.Guna2Button()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.txtSignUpPass = New Guna.UI2.WinForms.Guna2TextBox()
         Me.txtFirstName = New Guna.UI2.WinForms.Guna2TextBox()
+        Me.txtConfirmPass = New Guna.UI2.WinForms.Guna2TextBox()
+        Me.txtSignUpPass = New Guna.UI2.WinForms.Guna2TextBox()
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
         Me.PanelSignUp.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -127,33 +127,6 @@ Partial Class SignUp_Form
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox1.TabIndex = 9
         Me.PictureBox1.TabStop = False
-        '
-        'txtConfirmPass
-        '
-        Me.txtConfirmPass.BackColor = System.Drawing.Color.Transparent
-        Me.txtConfirmPass.BorderRadius = 15
-        Me.txtConfirmPass.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtConfirmPass.DefaultText = "Confirm Password"
-        Me.txtConfirmPass.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
-        Me.txtConfirmPass.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
-        Me.txtConfirmPass.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtConfirmPass.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtConfirmPass.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtConfirmPass.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtConfirmPass.ForeColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
-        Me.txtConfirmPass.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtConfirmPass.IconLeft = CType(resources.GetObject("txtConfirmPass.IconLeft"), System.Drawing.Image)
-        Me.txtConfirmPass.IconLeftOffset = New System.Drawing.Point(10, 0)
-        Me.txtConfirmPass.Location = New System.Drawing.Point(41, 764)
-        Me.txtConfirmPass.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
-        Me.txtConfirmPass.Name = "txtConfirmPass"
-        Me.txtConfirmPass.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.txtConfirmPass.PlaceholderText = ""
-        Me.txtConfirmPass.SelectedText = ""
-        Me.txtConfirmPass.Size = New System.Drawing.Size(542, 58)
-        Me.txtConfirmPass.TabIndex = 5
-        Me.txtConfirmPass.TextOffset = New System.Drawing.Point(10, 0)
-        Me.txtConfirmPass.Visible = False
         '
         'txtLastName
         '
@@ -252,6 +225,58 @@ Partial Class SignUp_Form
         Me.Label3.TabIndex = 1
         Me.Label3.Text = "Sign Up"
         '
+        'txtFirstName
+        '
+        Me.txtFirstName.BackColor = System.Drawing.Color.Transparent
+        Me.txtFirstName.BorderRadius = 15
+        Me.txtFirstName.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtFirstName.DefaultText = "First name"
+        Me.txtFirstName.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
+        Me.txtFirstName.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
+        Me.txtFirstName.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtFirstName.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtFirstName.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtFirstName.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFirstName.ForeColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.txtFirstName.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtFirstName.IconLeftOffset = New System.Drawing.Point(10, 0)
+        Me.txtFirstName.Location = New System.Drawing.Point(22, 425)
+        Me.txtFirstName.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
+        Me.txtFirstName.Name = "txtFirstName"
+        Me.txtFirstName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.txtFirstName.PlaceholderText = ""
+        Me.txtFirstName.SelectedText = ""
+        Me.txtFirstName.Size = New System.Drawing.Size(274, 58)
+        Me.txtFirstName.TabIndex = 0
+        Me.txtFirstName.TextOffset = New System.Drawing.Point(10, 0)
+        '
+        'txtConfirmPass
+        '
+        Me.txtConfirmPass.BackColor = System.Drawing.Color.Transparent
+        Me.txtConfirmPass.BorderRadius = 15
+        Me.txtConfirmPass.Cursor = System.Windows.Forms.Cursors.IBeam
+        Me.txtConfirmPass.DefaultText = "Confirm Password"
+        Me.txtConfirmPass.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
+        Me.txtConfirmPass.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
+        Me.txtConfirmPass.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtConfirmPass.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
+        Me.txtConfirmPass.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtConfirmPass.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtConfirmPass.ForeColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.txtConfirmPass.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.txtConfirmPass.IconLeft = CType(resources.GetObject("txtConfirmPass.IconLeft"), System.Drawing.Image)
+        Me.txtConfirmPass.IconLeftOffset = New System.Drawing.Point(10, 0)
+        Me.txtConfirmPass.Location = New System.Drawing.Point(41, 764)
+        Me.txtConfirmPass.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
+        Me.txtConfirmPass.Name = "txtConfirmPass"
+        Me.txtConfirmPass.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.txtConfirmPass.PlaceholderText = ""
+        Me.txtConfirmPass.SelectedText = ""
+        Me.txtConfirmPass.Size = New System.Drawing.Size(542, 58)
+        Me.txtConfirmPass.TabIndex = 5
+        Me.txtConfirmPass.TextOffset = New System.Drawing.Point(10, 0)
+        Me.txtConfirmPass.Visible = False
+        '
         'txtSignUpPass
         '
         Me.txtSignUpPass.BackColor = System.Drawing.Color.Transparent
@@ -279,31 +304,6 @@ Partial Class SignUp_Form
         Me.txtSignUpPass.TextOffset = New System.Drawing.Point(10, 0)
         Me.txtSignUpPass.Visible = False
         '
-        'txtFirstName
-        '
-        Me.txtFirstName.BackColor = System.Drawing.Color.Transparent
-        Me.txtFirstName.BorderRadius = 15
-        Me.txtFirstName.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtFirstName.DefaultText = "First name"
-        Me.txtFirstName.DisabledState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(208, Byte), Integer))
-        Me.txtFirstName.DisabledState.FillColor = System.Drawing.Color.FromArgb(CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer), CType(CType(226, Byte), Integer))
-        Me.txtFirstName.DisabledState.ForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtFirstName.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.txtFirstName.FocusedState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtFirstName.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtFirstName.ForeColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
-        Me.txtFirstName.HoverState.BorderColor = System.Drawing.Color.FromArgb(CType(CType(94, Byte), Integer), CType(CType(148, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.txtFirstName.IconLeftOffset = New System.Drawing.Point(10, 0)
-        Me.txtFirstName.Location = New System.Drawing.Point(22, 425)
-        Me.txtFirstName.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
-        Me.txtFirstName.Name = "txtFirstName"
-        Me.txtFirstName.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.txtFirstName.PlaceholderText = ""
-        Me.txtFirstName.SelectedText = ""
-        Me.txtFirstName.Size = New System.Drawing.Size(274, 58)
-        Me.txtFirstName.TabIndex = 0
-        Me.txtFirstName.TextOffset = New System.Drawing.Point(10, 0)
-        '
         'PictureBox3
         '
         Me.PictureBox3.Anchor = System.Windows.Forms.AnchorStyles.Top
@@ -321,6 +321,7 @@ Partial Class SignUp_Form
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
+        Me.AutoScrollMargin = New System.Drawing.Size(0, 50)
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(1264, 985)

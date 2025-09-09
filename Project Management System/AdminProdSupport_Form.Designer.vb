@@ -355,6 +355,7 @@ Partial Class AdminProdSupport_Form
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
+        Me.AutoScrollMargin = New System.Drawing.Size(0, 20)
         Me.ClientSize = New System.Drawing.Size(1264, 834)
         Me.Controls.Add(Me.Guna2GroupBox1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None

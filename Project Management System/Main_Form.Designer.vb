@@ -214,9 +214,9 @@ Partial Class Main_Form
         Me.lblfooter2.Location = New System.Drawing.Point(7, 20)
         Me.lblfooter2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.lblfooter2.Name = "lblfooter2"
-        Me.lblfooter2.Size = New System.Drawing.Size(108, 12)
+        Me.lblfooter2.Size = New System.Drawing.Size(163, 12)
         Me.lblfooter2.TabIndex = 119
-        Me.lblfooter2.Text = "© LF Philipines - TSG 2024"
+        Me.lblfooter2.Text = "© LF Philipines - TSG 2024 (G.Catapang)"
         '
         'lblfooter1
         '

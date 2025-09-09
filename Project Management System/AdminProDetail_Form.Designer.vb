@@ -422,7 +422,7 @@ Partial Class AdminProDetail_Form
         Me.cboStat.Font = New System.Drawing.Font("Segoe UI", 12.0!)
         Me.cboStat.ForeColor = System.Drawing.Color.Black
         Me.cboStat.ItemHeight = 30
-        Me.cboStat.Items.AddRange(New Object() {"Not Started", "On-going", "Done", "On Hold", "Cancelled"})
+        Me.cboStat.Items.AddRange(New Object() {"To be started", "In Progress", "Done", "On Hold", "Cancelled"})
         Me.cboStat.Location = New System.Drawing.Point(600, 217)
         Me.cboStat.Name = "cboStat"
         Me.cboStat.ShadowDecoration.BorderRadius = 20

@@ -31,9 +31,9 @@
 
         'Highligh_Activity()
 
-        'For Each col As DataGridViewColumn In DataGridView1.Columns
-        '    col.SortMode = DataGridViewColumnSortMode.NotSortable
-        'Next
+        For Each col As DataGridViewColumn In DataGridView1.Columns
+            col.SortMode = DataGridViewColumnSortMode.NotSortable
+        Next
     End Sub
 
     'Private Sub dtp_TextChange(ByVal sender As Object, ByVal e As EventArgs)
@@ -116,4 +116,7 @@
         End If
     End Sub
 
+    Private Sub Activity_Form_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        Highligh_Activity()
+    End Sub
 End Class

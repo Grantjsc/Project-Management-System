@@ -12,6 +12,10 @@
         Show_Addmin_ProdSuppor()
 
         dtpSupportDate.Value = Date.Now
+
+        For Each col As DataGridViewColumn In DataGridView1.Columns
+            col.SortMode = DataGridViewColumnSortMode.NotSortable
+        Next
     End Sub
 
     Private Sub cboName_MouseClick(sender As Object, e As MouseEventArgs) Handles cboName.MouseClick

@@ -24,6 +24,7 @@ Partial Class LogIn_Form
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(LogIn_Form))
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.LinklblSignUp = New System.Windows.Forms.LinkLabel()
         Me.btnLogin = New Guna.UI2.WinForms.Guna2Button()
@@ -32,7 +33,8 @@ Partial Class LogIn_Form
         Me.txtPass = New Guna.UI2.WinForms.Guna2TextBox()
         Me.txtUser = New Guna.UI2.WinForms.Guna2TextBox()
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblfooter2 = New System.Windows.Forms.Label()
+        Me.lblfooter1 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -55,6 +57,18 @@ Partial Class LogIn_Form
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(590, 835)
         Me.Panel1.TabIndex = 0
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 14.25!)
+        Me.Label1.ForeColor = System.Drawing.Color.White
+        Me.Label1.Location = New System.Drawing.Point(107, 391)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(383, 25)
+        Me.Label1.TabIndex = 10
+        Me.Label1.Text = "Please log in with your Windows credentials"
         '
         'PictureBox1
         '
@@ -204,26 +218,45 @@ Partial Class LogIn_Form
         Me.PictureBox3.TabIndex = 3
         Me.PictureBox3.TabStop = False
         '
-        'Label1
+        'lblfooter2
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.BackColor = System.Drawing.Color.Transparent
-        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 14.25!)
-        Me.Label1.ForeColor = System.Drawing.Color.White
-        Me.Label1.Location = New System.Drawing.Point(107, 391)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(383, 25)
-        Me.Label1.TabIndex = 10
-        Me.Label1.Text = "Please log in with your Windows credentials"
+        Me.lblfooter2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblfooter2.AutoSize = True
+        Me.lblfooter2.BackColor = System.Drawing.Color.Transparent
+        Me.lblfooter2.Font = New System.Drawing.Font("Nirmala UI", 6.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblfooter2.ForeColor = System.Drawing.Color.White
+        Me.lblfooter2.Location = New System.Drawing.Point(8, 963)
+        Me.lblfooter2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblfooter2.Name = "lblfooter2"
+        Me.lblfooter2.Size = New System.Drawing.Size(163, 12)
+        Me.lblfooter2.TabIndex = 121
+        Me.lblfooter2.Text = "© LF Philipines - TSG 2024 (G.Catapang)"
+        '
+        'lblfooter1
+        '
+        Me.lblfooter1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblfooter1.AutoSize = True
+        Me.lblfooter1.BackColor = System.Drawing.Color.Transparent
+        Me.lblfooter1.Font = New System.Drawing.Font("Nirmala UI", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblfooter1.ForeColor = System.Drawing.Color.White
+        Me.lblfooter1.Location = New System.Drawing.Point(10, 952)
+        Me.lblfooter1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblfooter1.Name = "lblfooter1"
+        Me.lblfooter1.Size = New System.Drawing.Size(133, 12)
+        Me.lblfooter1.TabIndex = 120
+        Me.lblfooter1.Text = "LITTELFUSE PHILIPPINES INC." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
         'LogIn_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
+        Me.AutoScrollMargin = New System.Drawing.Size(0, 50)
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(1264, 985)
+        Me.Controls.Add(Me.lblfooter2)
+        Me.Controls.Add(Me.lblfooter1)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.PictureBox3)
         Me.DoubleBuffered = True
@@ -235,6 +268,7 @@ Partial Class LogIn_Form
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Panel1 As Panel
@@ -247,4 +281,6 @@ Partial Class LogIn_Form
     Friend WithEvents LinklblSignUp As LinkLabel
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents lblfooter2 As Label
+    Friend WithEvents lblfooter1 As Label
 End Class
